@@ -1,6 +1,6 @@
 (ns yes-she-codes.main
   (:use clojure.pprint)
-  (:require [yes-she-codes.db :as y.bd]))
+  (:require [yes-she-codes.db :as y.db]))
 
 (defn novo-cliente [nome cpf email]
   (let [clientes (y.bd/todos-clientes)]
@@ -24,14 +24,16 @@
 
 ;(novo-cartao 1234 21 "2026-08" 8.00 "034")
 
-(defn nova-compra []
+(defn nova-compra [data valor estabelecimento categoria cartao]
   (let [compras (y.bd/todas-compras)]
-  (def compra {:data ""
-               :valor ""
-               :estabelecimento ""
-               :categoria ""
-               :cartao ""
-               }))
+  (def compra {:data data
+               :valor valor
+               :estabelecimento estabelecimento
+               :categoria categoria
+               :cartao cartao
+               })
+  (conj compras compra)
+  )
   )
 
 (defn lista-clientes []
@@ -49,3 +51,4 @@
 ;(lista-clientes)
 ;(lista-cartoes)
 ;(lista-compras)
+
