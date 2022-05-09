@@ -1,4 +1,4 @@
-(ns yes-she-codes.bd)
+(ns yes-she-codes.db)
 
 (def cliente1 {:nome "Feiticeira Escarlate"
                :cpf "000.111.222-33"
@@ -23,3 +23,22 @@
 (defn todos-clientes []
   [cliente1 cliente2 cliente3 cliente4])
 
+(def cartao1 {:numero 1234123412341234
+              :cvv 111
+              :validade "2023-01"
+              :limite 1.000
+              :cliente "000.111.222-33"
+              })
+
+(def cartao2 {:numero 4321432143214321
+              :cvv 222
+              :validade "2024-02"
+              :limite 2.000
+              :cliente "333.444.555-66"
+              })
+
+(defn todos-cartoes[]
+  [cartao1 cartao2])
+
+(defn todas-compras[]
+  [])
