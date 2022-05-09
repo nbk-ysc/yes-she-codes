@@ -5,4 +5,4 @@
 Projeto bancário para mergulhar no mundo da **programação funcional** com Clojure + Datomic!
 
 
-Desenvolvido por *Camila Souza Costa* (*camila.costa*).
+Desenvolvido por *Camila Souza Costa*.
