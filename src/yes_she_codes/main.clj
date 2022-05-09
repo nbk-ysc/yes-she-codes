@@ -37,15 +37,13 @@
   )
 
 (defn lista-clientes []
-  (let [clientes (y.db/todos-clientes)]
-    (pprint clientes)))
+    (pprint (y.db/todos-clientes)))
 
 (defn lista-cartoes []
-  (let [cartoes (y.db/todos-cartoes)]
-    (pprint cartoes)))
+    (pprint (y.db/todos-cartoes)))
 
 (defn lista-compras []
-  (y.db/todas-compras))
+  (pprint (y.db/todas-compras)))
 
 ;(lista-clientes)
 ;(lista-cartoes)
@@ -56,4 +54,23 @@
 (defn total-gasto [lista-compras]
   (reduce + (map :valor lista-compras)))
 
-(pprint (total-gasto lista-compras))
+;(pprint (total-gasto lista-compras))
+
+(defn lista-compras-por-mes [mes lista-compras]
+  (map :data lista-compras)
+  )
+
+;(pprint (lista-compras-por-mes "10" lista-compras))
+
+(defn lista-compras-por-estabelecimento [estabelecimento lista-compras]
+  (filter (if = :estabelecimento lista-compras) lista-compras)
+  ;(map :estabelecimento lista-compras) estabelecimento
+  )
+
+
+(pprint (lista-compras-por-estabelecimento "Cinema" lista-compras))
+
+
+(defn total-gasto-no-mes [cartao]
+
+  )
