@@ -4,7 +4,7 @@
 
 (deftest novo-cliente-test
   (testing "Testando novo cliente multiplas vezes"
-    (are [nome cpf email expected] (= expected (novo-cliente nome cpf email))
+    (are [nome cpf email esperado] (= esperado (novo-cliente nome cpf email))
                                    "feiticeira escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"
                                    {:nome "feiticeira escarlate"
                                     :cpf "000.111.222-33"
