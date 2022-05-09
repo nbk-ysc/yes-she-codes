@@ -5,4 +5,4 @@
 Projeto bancário para mergulhar no mundo da **programação funcional** com Clojure + Datomic!
 
 
-Desenvolvido por [Giovanna Borges Bottino](giovannabbottino@gmail).
+Desenvolvido por [Giovanna Borges Bottino](giovannabbottino@gmail.com).
