@@ -1,6 +1,13 @@
 (ns yes-she-codes.core)
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn novo-client
+  [nome cpf email]
+  (let [client (conj {:nome nome :cpf cpf :email email})]
+    [client] ))
+
+(println (novo-client "Emillyn" "8239283298" "fulano@hotmail.com"))
+
+
+
+
+
