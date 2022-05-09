@@ -3,7 +3,7 @@
   (:require [yes-she-codes.db :as y.db]))
 
 (defn novo-cliente [nome cpf email]
-  (let [clientes (y.bd/todos-clientes)]
+  (let [clientes (y.db/todos-clientes)]
     (def cliente {:nome nome
                    :cpf cpf
                    :email email
@@ -13,7 +13,7 @@
 ;(novo-cliente "mariana" "034" "mari@")
 
 (defn novo-cartao [numero cvv validade limite cliente]
-  (let [cartoes (y.bd/todos-cartoes)]
+  (let [cartoes (y.db/todos-cartoes)]
     (def cartao {:numero numero
                   :cvv cvv
                   :validade validade
@@ -25,7 +25,7 @@
 ;(novo-cartao 1234 21 "2026-08" 8.00 "034")
 
 (defn nova-compra [data valor estabelecimento categoria cartao]
-  (let [compras (y.bd/todas-compras)]
+  (let [compras (y.db/todas-compras)]
   (def compra {:data data
                :valor valor
                :estabelecimento estabelecimento
@@ -37,18 +37,23 @@
   )
 
 (defn lista-clientes []
-  (let [clientes (y.bd/todos-clientes)]
+  (let [clientes (y.db/todos-clientes)]
     (pprint clientes)))
 
 (defn lista-cartoes []
-  (let [cartoes (y.bd/todos-cartoes)]
+  (let [cartoes (y.db/todos-cartoes)]
     (pprint cartoes)))
 
 (defn lista-compras []
-  (let [compras (y.bd/todas-compras)]
-    (pprint compras)))
+  (y.db/todas-compras))
 
 ;(lista-clientes)
 ;(lista-cartoes)
 ;(lista-compras)
 
+(def lista-compras (y.db/todas-compras))
+
+(defn total-gasto [lista-compras]
+  (reduce + (map :valor lista-compras)))
+
+(pprint (total-gasto lista-compras))

@@ -40,5 +40,25 @@
 (defn todos-cartoes[]
   [cartao1 cartao2])
 
+(def compra1 {:data "2022-01-01"
+             :valor 129.90
+             :estabelecimento "Outback"
+             :categoria "Alimentação"
+             :cartao 1234123412341234
+             })
+
+(def compra2 {:data "2022-01-02"
+              :valor 260.00
+              :estabelecimento "Dentista"
+              :categoria "Saúde"
+              :cartao 1234123412341234
+              })
+(def compra3 {:data "2022-02-01"
+              :valor 20.00
+              :estabelecimento "Cinema"
+              :categoria "Lazer"
+              :cartao 1234123412341234
+              })
+
 (defn todas-compras[]
-  [])
+  [compra1 compra2 compra3])
