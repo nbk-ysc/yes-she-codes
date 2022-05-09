@@ -1,6 +1,11 @@
 (ns yes-she-codes.core)
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn novo-cliente
+  "retorna um novo cliente com os dados informados"
+  [nome cpf email]
+  (let [cliente {:nome nome
+                 :cpf cpf
+                 :email email}]
+    (println "novo cliente ->" cliente)
+    cliente))
+
