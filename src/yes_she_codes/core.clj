@@ -6,6 +6,14 @@
   (let [cliente {:nome nome
                  :cpf cpf
                  :email email}]
-    (println "novo cliente ->" cliente)
     cliente))
 
+(defn novo-cartao
+  "retorna um cartão de crédito"
+  [numero cvv validade limite cpf-cliente]
+  (let [cartao {:numero numero
+                :cvv cvv
+                :validade validade
+                :limite limite
+                :cliente cpf-cliente}]
+    cartao))
