@@ -7,8 +7,8 @@
 (deftest novo-cliente-test
 
   (let [clientes [
-                  ["Daenerys Targaryen" "999.123.456-78" "mae.dos.dragoes@got.com"
-                   {:nome "Daenerys Targaryen" :cpf "999.123.456-78" :email "mae.dos.dragoes@got.com"}]
+                  ["Feiticeira Escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"
+                   {:nome "Feiticeira Escarlate" :cpf "000.111.222-33" :email "feiticeira.poderosa@vingadoras.com.br"}]
                   ["Viúva Negra" "333.444.555-66" "viuva.casca.grossa@vingadoras.com.br"
                    {:nome "Viúva Negra"  :cpf "333.444.555-66" :email "viuva.casca.grossa@vingadoras.com.br"}]
                   ["Hermione Granger" "666.777.888-99" "hermione.salvadora@hogwarts.com"
