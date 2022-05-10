@@ -4,25 +4,12 @@
   (:use [clojure.pprint])
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;Criar a função total-gasto, que recebe uma lista de compras e retorna a soma dos valores gastos.
-;
-;Exemplo:
-;
-;compra 1: R$ 100,00
-;compra 2: R$ 250,00
-;compra 3: R$ 400,00
-;TOTAL: R$ 750,00
 
 (defn total-gasto
+  "recebe uma lista de compras e retorna a soma dos valores gastos"
   [lista-compras]
   (reduce + (map :valor lista-compras)))
 
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;Criar uma função que, dado um mês e uma lista de compras, retorne uma lista de compras feitas somente naquele mês.
 
 (defn- mes-da-data
   [data]
@@ -30,36 +17,53 @@
   )
 
 (defn lista-de-compras-do-mes
+  "retorna a lista de compras feitas somente naquele mês"
   [mes lista-compras]
   (filter #(= mes (mes-da-data (:data %))) lista-compras)
   )
 
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;Criar uma função que, dado um estabelecimento e uma lista de compras, retorne uma lista de compras feitas somente naquele estabelecimento.
-
-
 (defn lista-de-compras-do-estabelecimento
+  "retorna uma lista de compras feitas somente naquele estabelecimento"
   [estabelecimento lista-compras]
   (filter #(= estabelecimento (:estabelecimento %)) lista-compras)
   )
 
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;Criar a função total-gasto-no-mes, que calcule a soma dos valores gastos num determinado cartão em um mês.
-;Para facilitar, considere que todas as compras consideradas sejam de um mesmo cartão.
-
-
 (defn total-gasto-no-mes
+  "calcule a soma dos valores gastos num determinado cartão em um mês
+  premissa: todas as compras consideradas são de um mesmo cartão"
   [mes lista-compras]
   (let [lista-compras-mes (lista-de-compras-do-mes mes lista-compras)]
     (total-gasto lista-compras-mes)
     )
   )
+
+
+(defn- pertence-ao-intevalo
+  "retorna se a data pertence ao intervalo de valores máximo e mínimo (inclusos)"
+  [tempo-max tempo-min data]
+  (and (>= (compare data tempo-max) 0) (<= (compare data tempo-min) 0))
+  )
+
+
+(defn lista-de-compras-por-intervalo
+  "retorna as compras que estão dentro de um intervalo dado."
+  [tempo-max tempo-min lista-compras]
+  (filter #(pertence-ao-intevalo tempo-max tempo-min (:data %)) lista-compras)
+  )
+
+
+(defn gasto-por-categoria
+  "retorna os totais gasto agrupados por categoria"
+  [lista-compras]
+  (->> lista-compras
+       (group-by :categoria)
+       (map (fn [[key vals]] [key (total-gasto vals)]))
+       (reduce conj {})
+       )
+  )
+
 
 
 

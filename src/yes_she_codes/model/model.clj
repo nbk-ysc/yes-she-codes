@@ -1,8 +1,6 @@
 (ns yes-she-codes.model.model)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Criar a função novo-cliente, que devolve uma estrutura de dados que represente os dados de um cliente.
-;
 ; Dados de um cliente:
 ; Nome (String)
 ; CPF (String)
@@ -16,9 +14,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Criar a função novo-cartao, que retorne uma estrutura de dados que represente um cartão de crédito.
-; O cartão deve estar relacionado a um cliente.
-;
 ; Dados de um cartão de crédito:
 ; Número (Long)
 ; CVV (Long)
@@ -37,8 +32,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Criar a função nova-compra, que retorne uma estrutura de dados que represente uma compra realizada em um determinado cartão.
-;
 ; Dados de uma compra:
 ; Data (String: yyyy-mm-dd)
 ; Valor (BigDecimal)
