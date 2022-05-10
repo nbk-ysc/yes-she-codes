@@ -5,7 +5,7 @@
 Projeto bancário para mergulhar no mundo da **programação funcional** com Clojure + Datomic!
 
 
-Desenvolvido por Vitória Galli (vitoria.galli@nubank.com.br).
+Desenvolvido por Vitória Galli.
 
 
 
