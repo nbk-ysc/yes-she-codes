@@ -86,6 +86,34 @@
 
 
 
+(defn compras-intervalo-de-valores
+  [valor-minimo valor-maximo lista-de-compras]
+  (filter #(and (<= valor-minimo (:valor %)) (>= valor-maximo (:valor %))) lista-de-compras))
+
+(println "Compras de valor maior ou igual a 100 e menor ou igual a 200:"
+         (compras-intervalo-de-valores 100 200 (y.db/lista-compras)))
+
+
+
+(defn valor-por-categoria
+  [[categoria lista-de-compras]]
+  {:categoria   categoria
+   :valor-total (total-gasto lista-de-compras)})
+
+(defn total-gasto-agrupado-por-categoria
+  [lista-de-compras]
+  (map valor-por-categoria (group-by :categoria lista-de-compras)))
+
+;(defn total-gasto-agrupado-por-categoria
+;  [lista-de-compras]
+;  (->> lista-de-compras
+;       (group-by :categoria)
+;       (map valor-por-categoria)))
+
+(println (total-gasto-agrupado-por-categoria (y.db/lista-compras)))
+
+
+
 
 
 
