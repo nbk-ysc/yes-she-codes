@@ -55,8 +55,7 @@
   (m/novo-cartao numero cvv validade limite cliente))
 
 (defn lista-cartoes []
-  (mapv criar-cartao massa-cartoes)
-  )
+  (mapv criar-cartao massa-cartoes))
 
 
 (defn- criar-compra
@@ -64,8 +63,7 @@
   (m/nova-compra data valor estabelecimento categoria cartao))
 
 (defn lista-compras []
-  (mapv criar-compra massa-compras )
-  )
+  (mapv criar-compra massa-compras ))
 
 
 
