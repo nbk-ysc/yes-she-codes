@@ -20,3 +20,7 @@
 (println "Filtrando as compras feitas no cartão 1598159815981598:" (ysc.logic/compras-por-cartao compras 1598159815981598))
 
 (println "Filtrando as compras feitas no cartão 1234123412341234 em janeiro:" (ysc.logic/total-gasto-no-mes compras 1234123412341234 "01"))
+
+(println "Filtrando as compras por valor no intervalo [10, 100]:" (ysc.logic/compras-por-intervalo-de-valor compras 10 100))
+
+(println "Calculando o total gasto na categoria Alimentação:" (ysc.logic/total-gasto-por-categoria compras "Alimentação"))

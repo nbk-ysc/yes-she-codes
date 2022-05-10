@@ -46,6 +46,10 @@
   [compras]
   (reduce + (map :valor compras)))
 
+; (println (total-gasto [{:valor 100.00},
+;                        {:valor 250.00},
+;                        {:valor 400.00}]))
+
 (defn compra-feita-no-estabelecimento?
   [compra estabelecimento]
   (= (get compra :estabelecimento) estabelecimento))
@@ -78,3 +82,34 @@
   [compras numero-cartao mes]
   (let [compras-do-cartao (compras-por-cartao compras numero-cartao)]
     (compras-por-mes compras-do-cartao mes)))
+
+(defn esta-no-intervalo?
+  [compra min max]
+  (let [valor (get compra :valor)]
+    (and (<= min valor) (<= valor max))))                   ; min <= valor <= max
+
+(defn compras-por-intervalo-de-valor
+  "Retorna as compras que estão dentro de um intervalo de valor máximo e mínimo."
+  [compras valor-min valor-max]
+  (vec (filter #(esta-no-intervalo? % valor-min valor-max) compras)))
+
+(defn compra-da-categoria?
+  [compra categoria]
+  (= (get compra :categoria) categoria))
+
+(defn compras-por-categoria
+  "Recebe uma lista de compras e uma categoria e retorna uma lista de compras feitas somente naquela categoria."
+  [compras categoria]
+  (vec (filter #(compra-da-categoria? % categoria) compras)))
+
+(defn total-gasto-por-categoria
+  "Calcula a soma dos valores gastos em uma única categoria."
+  [compras categoria]
+  (let [compras-da-categoria (compras-por-categoria compras categoria)]
+    (reduce + (map :valor compras-da-categoria))))
+
+; (println (ysc.logic/total-gasto-por-categoria [{:categoria "Educação" :valor 700.00},
+;                                                {:categoria "Saúde" :valor 1500.00},
+;                                                {:categoria "Educação" :valor 50.00},
+;                                                {:categoria "Alimentação" :valor 100.00},
+;                                                {:categoria "Alimentação" :valor 89.90}] "Saúde"))
