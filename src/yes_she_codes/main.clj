@@ -67,7 +67,17 @@
   (filter #(< (:valor %) valormax) (filter #(> (:valor %) valormin) lista-compras))
   )
 
-(pprint (filtro-maximo-minimo lista-compras 130.0 84.0))
+;(pprint (filtro-maximo-minimo lista-compras 130.0 84.0))
+
+(defn gastos-por-categoria [lista-compras]
+  ;(println "Todos os gastos por categoria")
+  ;(group-by :categoria lista-compras)
+  (get lista-compras :categoria)
+  )
+
+()
+
+(pprint (gastos-por-categoria lista-compras))
 
 ;FUNCTIONS TO DO
 (defn lista-compras-por-mes [mes lista-compras]
