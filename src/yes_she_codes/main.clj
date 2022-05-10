@@ -59,13 +59,24 @@
   (println "Todas as compras n@" estabelecimento)
   (get (group-by  :estabelecimento lista-compras) estabelecimento))
 
-(pprint (lista-compras-por-estabelecimento "Alura" lista-compras))
+;(pprint (lista-compras-por-estabelecimento "Alura" lista-compras))
 
-(defn lista-compras-por-mes [mes lista-compras]
-  (map :data lista-compras)
+
+(defn filtro-maximo-minimo [lista-compras valormax valormin]
+  (println "Compras realizadas entre R$" valormin "e R$" valormax)
+  (filter #(< (:valor %) valormax) (filter #(> (:valor %) valormin) lista-compras))
   )
-;(pprint (lista-compras-por-mes "10" lista-compras))
 
+(pprint (filtro-maximo-minimo lista-compras 130.0 84.0))
+
+;FUNCTIONS TO DO
+(defn lista-compras-por-mes [mes lista-compras]
+  (println "Todas as compras no mês" mes)
+  (group-by :data lista-compras)
+  ;(get (group-by :data lista-compras) mes)
+  )
+
+;(pprint (lista-compras-por-mes "2022-01-01" lista-compras))
 
 (defn total-gasto-no-mes [cartao]
   (reduce + (map :valor lista-compras)))
