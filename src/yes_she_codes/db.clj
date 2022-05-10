@@ -60,5 +60,18 @@
               :cartao 1234123412341234
               })
 
+(def compra7 {:data "2022-03-01"
+              :valor 85.00
+              :estabelecimento "Alura"
+              :categoria "Educação"
+              :cartao 4321432143214321
+              })
+(def compra8 {:data "2022-01-30"
+              :valor 85.00
+              :estabelecimento "Alura"
+              :categoria "Educação"
+              :cartao 1598159815981598
+              })
+
 (defn todas-compras[]
-  [compra1 compra2 compra3])
+  [compra1 compra2 compra3 compra7 compra8])

@@ -32,9 +32,7 @@
                :categoria categoria
                :cartao cartao
                })
-  (conj compras compra)
-  )
-  )
+  (conj compras compra)))
 
 (defn lista-clientes []
     (pprint (y.db/todos-clientes)))
@@ -56,21 +54,19 @@
 
 ;(pprint (total-gasto lista-compras))
 
+
+(defn lista-compras-por-estabelecimento [estabelecimento lista-compras]
+  (println "Todas as compras n@" estabelecimento)
+  (get (group-by  :estabelecimento lista-compras) estabelecimento))
+
+(pprint (lista-compras-por-estabelecimento "Alura" lista-compras))
+
 (defn lista-compras-por-mes [mes lista-compras]
   (map :data lista-compras)
   )
-
 ;(pprint (lista-compras-por-mes "10" lista-compras))
-
-(defn lista-compras-por-estabelecimento [estabelecimento lista-compras]
-  (filter (if = :estabelecimento lista-compras) lista-compras)
-  ;(map :estabelecimento lista-compras) estabelecimento
-  )
-
-
-(pprint (lista-compras-por-estabelecimento "Cinema" lista-compras))
 
 
 (defn total-gasto-no-mes [cartao]
+  (reduce + (map :valor lista-compras)))
 
-  )
