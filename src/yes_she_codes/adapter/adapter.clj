@@ -19,19 +19,19 @@
 
 
 (defn parse-input-cliente
-  "transforma os dados lidos em string para os tipos primitivos adequados ao model"
+  "retorna um vetor com os tipos primitivos adequados ao model a partir a partir dos elementos em string"
   [[nome cpf email]]
   [nome cpf email])
 
 
 (defn parse-input-cartao
-  "transforma os dados lidos em string para os tipos primitivos adequados ao model"
+  "retorna um vetor com os tipos primitivos adequados ao model a partir a partir dos elementos em string"
   [[numero                                        cvv                   validade  limite           cliente]]
    [(Long/parseLong (str/replace numero " " ""))  (Long/parseLong cvv)  validade  (bigdec limite)  cliente])
 
 
 (defn parse-input-compra
-  "transforma os dados lidos em string para os tipos primitivos adequados ao model"
+  "retorna um vetor com os tipos primitivos adequados ao model a partir a partir dos elementos em string"
   [[data  valor           estabelecimento  categoria   cartao]]
    [data  (bigdec valor)  estabelecimento  categoria   (Long/parseLong (str/replace cartao " " ""))])
 

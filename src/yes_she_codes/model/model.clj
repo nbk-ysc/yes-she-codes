@@ -17,7 +17,7 @@
 ; Dados de um cartão de crédito:
 ; Número (Long)
 ; CVV (Long)
-; Validade (String: yyyy-mm)
+; Validade (String: yyyy-mm)  => API Java Time
 ; Limite (BigDecimal)
 ; Cliente (String) = cpf
 
@@ -27,13 +27,12 @@
    :cvv cvv
    :validade validade
    :limite limite
-   :cliente cliente}
-  )
+   :cliente cliente})
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Dados de uma compra:
-; Data (String: yyyy-mm-dd)
+; Data (String: yyyy-mm-dd)  => API Java Time
 ; Valor (BigDecimal)
 ; Estabelecimento (String)
 ; Categoria (String)
@@ -45,5 +44,4 @@
    :valor valor
    :estabelecimento estabelecimento
    :categoria categoria
-   :cartão cartao}
-  )
+   :cartão cartao})
