@@ -1,50 +1,61 @@
-(ns yes-she-codes.core)
+(ns yes-she-codes.core
+  (:require [yes-she-codes.db :as l.db]))
 
-(def conta-clients
-  (atom {}))
+(def conta-clients {})
+
+(def cartoes-clients {})
+
+(def compras-clients {})
 
 (defn novo-cliente
   [[nome cpf email]]
   (let [client (conj {:nome nome :cpf cpf :email email})]
     client))
 
-(defn lista-clients []
-  (let [clients [["feiticeira escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"]
-                 ["Viúva Negra" "333.444.555-66" "viuva.casca.grossa@vingadoras.com.br"]
-                 ["Hermione Granger" "666.777.888-99" "hermione.salvadora@hogwarts.com"]
-                 ["Daenerys Targaryen" "999.123.456-78" "mae.dos.dragoes@got.com"]]]
-               (swap! conta-clients assoc-in [:clients] (vec (map novo-cliente clients)))))
-
-(lista-clients)
-(println  @conta-clients)
-
-(defn get-client
-  [field  value data]
-  (filter #(= value (field %)) data))
-
-(defn add-cartao [conta]
-  (swap! conta-clients update :clients conj conta))
-
 (defn novo-cartao
-  [numero cvv validate limite cpf]
-  (let [client (into {} (get-client :cpf cpf (:clients @conta-clients)))]
-  (let [cartao {:cartao {:numero numero, :cvv cvv, :validate validate :limite limite}}]
-  (let [conta (conj client cartao)]
-    (add-cartao conta)))))
+  [[numero cvv validate limite cpf]]
+  (let [client (conj {:numero numero, :cvv cvv, :validate validate :limite limite :cpf cpf})]
+    client))
 
 (defn nova-compra
-  [data valor estabelecimento categoria cartao]
-  (let [client (into {} (get-client #(:numero (:cartao %)) cartao (:clients @conta-clients)))]
-  (let [compra {:compras {:data data, :valor valor, :estabelecimento estabelecimento :categoria categoria}}]
-  (let [conta (assoc-in client [:cartao] (conj (:cartao client) compra))]
-    conta))))
+  [[data valor estabelecimento categoria cartao]]
+  (let [client (conj {:data data, :valor valor, :estabelecimento estabelecimento :categoria categoria :cartao cartao})]
+    client))
 
-(println (get-client :cpf "000.111.222-33" (:clients @conta-clients)))
 
-(println (novo-cartao 12819289182918 233 "2022/12" 1000.0 "000.111.222-33"))
+(defn parametros-clients []
+  (let [clients (l.db/param-clientes)]
+    (assoc-in conta-clients [:clients] (vec (map novo-cliente clients)))))
 
-(println (get-client (comp :numero :cartao) 12819289182918 (:clients @conta-clients)))
-(println (get-client #(:numero (:cartao %)) 12819289182918 (:clients @conta-clients)))
 
-(println (nova-compra "01/2012" 1000 "Americanas" "Alimentacao" 12819289182918))
-(println (nova-compra "01/2013" 1000 "Ifood" "Alimentacao" 12819289182918))
+(defn parametros-cartoes []
+  (let [cartoes (l.db/param-cartoes)]
+    (assoc-in cartoes-clients [:cartoes] (vec (map novo-cartao cartoes)))))
+
+(defn parametros-compras []
+  (let [compras (l.db/param-compras)]
+    (assoc-in compras-clients [:compras] (vec (map nova-compra compras)))))
+
+(defn lista-clientes []
+  (:clients (parametros-clients)))
+
+(defn lista-cartoes []
+  (:cartoes (parametros-cartoes)))
+
+(defn lista-compras []
+  (:compras (parametros-compras)))
+
+(println (lista-compras))
+
+(defn total-gasto [compras]
+  (reduce + (map #(:valor %) compras)))
+
+
+(println (total-gasto (:compras (parametros-compras))))
+
+
+
+
+
+
+
