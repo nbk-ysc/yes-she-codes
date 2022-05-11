@@ -51,22 +51,6 @@
     (def compras (conj compras nova-compra))
     nova-compra))
 
-(defn teste
-  ([arg1] arg1)
-  ([arg1 arg2] "socorro deus")
-  ([] "aaaaaaaaaa")
-  )
-
-(comment
-  (defn mes-igual
-    [compra]
-    (if (= (subs (:data compra) 5 7) "02")
-      compra))
-
-  (defn lista-compras
-    ([mes] (filter mes-igual compras))
-    ([] compras)))
-
 (defn lista-compras
   ([arg1] compras)
   ([] compras))
@@ -75,21 +59,46 @@
   [mes compras]
   (filter #(if (= (subs (:data %) 5 7) mes) true) compras))
 
-(defn total-gasto-errado [compras]
-  (let [soma 0]
-    (+ soma (:valor compras))))
-
-(defn total-gasto-anonima [compras]
-  (reduce #(+ %1 (:valor %2)) 0 compras))
+(defn lista-compras-por-estabelecimento
+  [estabelecimento compras]
+  (filter #(if (= (:estabelecimento %) estabelecimento) true) compras))
 
 (defn total-gasto [compras]
   (reduce (fn [soma compra]
             (+ soma (:valor compra)))
           0 compras))
 
-;(println (map total-gasto (lista-compras)))
-;(println (total-gasto (lista-compras)))
-
 (defn compras-mes
   [mes compras]
   (lista-compras-por-mes mes compras))
+
+(defn compras-estabelecimento
+  [estabelecimento compras]
+  (lista-compras-por-estabelecimento estabelecimento compras))
+
+(comment
+  (defn teste
+    ([arg1] arg1)
+    ([arg1 arg2] "socorro deus")
+    ([] "aaaaaaaaaa")
+    )
+
+  (defn mes-igual
+    [compra]
+    (if (= (subs (:data compra) 5 7) "02")
+      compra))
+
+  (defn lista-compras
+    ([mes] (filter mes-igual compras))
+    ([] compras))
+
+  (defn total-gasto-errado [compras]
+    (let [soma 0]
+      (+ soma (:valor compras))))
+
+  (defn total-gasto-anonima [compras]
+    (reduce #(+ %1 (:valor %2)) 0 compras))
+
+  ;(println (map total-gasto (lista-compras)))
+  ;(println (total-gasto (lista-compras)))
+  )
