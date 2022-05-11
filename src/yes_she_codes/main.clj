@@ -1,88 +1,57 @@
 (ns yes-she-codes.main
   (:use clojure.pprint)
-  (:require [yes-she-codes.db :as y.db]))
-
-(defn novo-cliente [nome cpf email]
-  (let [clientes (y.db/todos-clientes)]
-    (pprint (conj clientes {:nome nome
-                            :cpf cpf
-                            :email email
-                            }))))
-
-;(novo-cliente "mariana" "034" "mari@")
-
-(defn novo-cartao [numero cvv validade limite cliente]
-  (let [cartoes (y.db/todos-cartoes)]
-    (pprint (conj cartoes {:numero numero
-                           :cvv cvv
-                           :validade validade
-                           :limite limite
-                           :cliente cliente
-                           }))))
-
-;(novo-cartao 1234 21 "2026-08" 8.00 "034")
-
-(defn nova-compra [data valor estabelecimento categoria cartao]
-  (let [compras (y.db/todas-compras)]
-  (conj compras {:data data
-                 :valor valor
-                 :estabelecimento estabelecimento
-                 :categoria categoria
-                 :cartao cartao
-                 })))
-
-(defn lista-clientes []
-    (pprint (y.db/todos-clientes)))
-
-(defn lista-cartoes []
-    (pprint (y.db/todos-cartoes)))
-
-(defn lista-compras []
-  (pprint (y.db/todas-compras)))
-
-;(lista-clientes)
-;(lista-cartoes)
-;(lista-compras)
+  (:require [yes-she-codes.db :as y.db]
+            [clojure.string :as str]))
 
 (def lista-compras (y.db/todas-compras))
 
+;CALCULAR O TOTAL GASTO EM COMPRAS DE UMA LISTA DE COMPRAS
 (defn total-gasto [lista-compras]
   (reduce + (map :valor lista-compras)))
 
 ;(pprint (total-gasto lista-compras))
 
-
+;BUSCAR COMPRAS POR ESTABELECIMENTO
 (defn lista-compras-por-estabelecimento [estabelecimento lista-compras]
   (println "Todas as compras n@" estabelecimento)
   (get (group-by  :estabelecimento lista-compras) estabelecimento))
 
 ;(pprint (lista-compras-por-estabelecimento "Alura" lista-compras))
 
+;BUSCAR COMPRAS POR MES
+(defn get-moth [mes]
+  (get (str/split mes #"-") 1))
 
+(defn lista-compras-por-mes [mes lista-compras]
+  ;(println "Todas as compras no mês" mes)
+  (filter #(= (get-moth (:data %)) mes) lista-compras))
+
+;(pprint (lista-compras-por-mes "03" lista-compras))
+
+;CALCULAR O TOTAL DA FATURA DE UM MÊS
+(defn get-extrato-mes [cartao mes lista-compras]
+  (filter #(= (:cartao %) cartao) (lista-compras-por-mes mes lista-compras)))
+
+(defn total-gasto-no-mes [cartao mes lista-compras]
+  (print "Todas as compras do cartão" cartao "no mês" mes ": R$ ")
+  (reduce + (map :valor (get-extrato-mes cartao mes lista-compras))))
+
+;(pprint (total-gasto-no-mes 1234123412341234 "01" lista-compras))
+
+;FILTRAR COMPRAS NUM INTERVALO DE VALORES
 (defn filtro-maximo-minimo [lista-compras valormax valormin]
   (println "Compras realizadas entre R$" valormin "e R$" valormax)
-  (filter #(< (:valor %) valormax) (filter #(> (:valor %) valormin) lista-compras))
-  )
+  (filter #(< (:valor %) valormax) (filter #(> (:valor %) valormin) lista-compras)))
 
 ;(pprint (filtro-maximo-minimo lista-compras 130.0 84.0))
 
+;AGRUPAR GASTOS POR CATEGORIA (NOT DONE YET)
 (defn total-categoria [compra]
-  (get compra :valor 0)
-  )
+  (get compra :valor 0))
 
 (defn gastos-por-categoria [lista-compras]
-  ;(get compra :valor 0)
-  ; (reduce + :valor )
-  ;(map total-categoria lista-compras)
   (group-by :categoria lista-compras)
-  ;(reduce +(map total-categoria lista-compras))
-
-  ;(println "Todos os gastos por categoria")
-  ;(reduce + (group-by :categoria lista-compras))
-  ;(get lista-compras :categoria)
-  )
+  (map :valor (group-by :categoria lista-compras)) )
 
 ;(pprint (gastos-por-categoria lista-compras))
-
-
 

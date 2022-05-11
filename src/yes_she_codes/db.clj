@@ -26,14 +26,14 @@
 (def cartao1 {:numero 1234123412341234
               :cvv 111
               :validade "2023-01"
-              :limite 1.000
+              :limite 1000
               :cliente "000.111.222-33"
               })
 
 (def cartao2 {:numero 4321432143214321
               :cvv 222
               :validade "2024-02"
-              :limite 2.000
+              :limite 2000
               :cliente "333.444.555-66"
               })
 
