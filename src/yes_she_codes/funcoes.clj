@@ -31,3 +31,15 @@
   "Total de gastos em um mes"
   [mes compras]
   (total-gasto (busca-mes mes compras)))
+
+(defn busca-intervalo-valor
+  "Buscar uma lista de comprar por um mes especifico"
+  [valor-minimo valor-maximo compras]
+  (filter #(<= valor-minimo (get %1 :Valor) valor-maximo) compras))
+
+(defn agrupar-categoria
+  "Agrupar as comprar por gategoria"
+  [Compras]
+  (->> Compras
+       (group-by :Categoria)
+       (map (fn [[chave compras]] {chave (reduce + (map :Valor compras))}))))
