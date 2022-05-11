@@ -1,48 +1,10 @@
 (ns yes-she-codes.nubank
   (:require [yes-she-codes.db :as y.db]))
 
-(defn novo-cliente [nome, cpf, email]
-  {:nome  nome
-   :cpf   cpf
-   :email email})
 
-(defn novo-cartao [numero, cvv, validade, limite, cliente]
-  {:numero   numero
-   :cvv      cvv
-   :validade validade
-   :limite   limite
-   :cliente  cliente})
-
-(defn nova-compra [data, valor, estabelecimento, categoria, cartao]
-  {:data            data
-   :valor           valor
-   :estabelecimento estabelecimento
-   :categoria       categoria
-   :cartao          cartao})
-
-
-
-(println (novo-cliente "Feiticeira Escarlate"
-                       "000.111.222-33"
-                       "feiticeira.poderosa@vingadoras.com.br"))
-
-(println (novo-cartao 1234123412341234
-                      111
-                      "2023-01"
-                      1000
-                      "000.111.222-33"))
-
-(println (nova-compra "2022-01-01"
-                      129.90
-                      "Outback"
-                      "Alimentação"
-                      1234123412341234))
-
-
-
-(println (y.db/lista-clientes))
-(println (y.db/lista-cartoes))
-(println (y.db/lista-compras))
+(println "Lista de clientes:" (y.db/lista-clientes))
+(println "Lista de cartões:" (y.db/lista-cartoes))
+(println "Lista de compras:" (y.db/lista-compras))
 
 
 
@@ -110,13 +72,8 @@
 ;       (group-by :categoria)
 ;       (map valor-por-categoria)))
 
-(println (total-gasto-agrupado-por-categoria (y.db/lista-compras)))
-
-
-
-
-
-
+(println "Total gasto agrupado por categoria:"
+         (total-gasto-agrupado-por-categoria (y.db/lista-compras)))
 
 
 
