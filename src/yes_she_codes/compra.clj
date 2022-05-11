@@ -38,5 +38,3 @@
   "Lista os clientes"
   [dados]
   (map adiciona-compra dados))
-
-(println (lista-compras dados_compras))
