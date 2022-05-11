@@ -1,8 +1,9 @@
 (ns yes-she-codes.logic.logic-test
-  (:require [clojure.test :refer :all])
-  (:require [yes-she-codes.logic.logic :as l]))
+  (:require [clojure.test :as t]
+            [yes-she-codes.logic.logic :as l]))
 
-(deftest total-gasto-test
+
+(t/deftest total-gasto-test
   (let [lista-compras [{:data "2022-01-01",
                         :valor 129.90M,
                         :estabelecimento "Outback",
@@ -19,15 +20,11 @@
                         :categoria "Lazer",
                         :cartão 1234123412341234}]
         valor-esperado 409.9M]
-
-    (testing "soma dos valores de uma lista de compras"
-      (is (= (l/total-gasto lista-compras) valor-esperado))
-      )
-    )
-  )
+    (t/testing "soma dos valores de uma lista de compras"
+      (t/is (= (l/total-gasto lista-compras) valor-esperado)))))
 
 
-(deftest lista-de-compras-do-mes-test
+(t/deftest lista-de-compras-do-mes-test
   (let [lista-compras [{:data "2022-03-01",
                         :valor 129.90M,
                         :estabelecimento "Outback",
@@ -54,15 +51,11 @@
                                :estabelecimento "Cinema",
                                :categoria "Lazer",
                                :cartão 1234123412341234}]]
-
-    (testing "soma dos valores de uma lista de compras para um determinado mes"
-      (is (= (l/lista-de-compras-do-mes mes lista-compras) lista-esperada-do-mes))
-      )
-    )
-  )
+    (t/testing "soma dos valores de uma lista de compras para um determinado mes"
+      (t/is (= (l/lista-de-compras-do-mes mes lista-compras) lista-esperada-do-mes)))))
 
 
-(deftest lista-de-compras-do-estabelecimento-test
+(t/deftest lista-de-compras-do-estabelecimento-test
   (let [lista-compras [{:data "2022-03-01",
                         :valor 129.90M,
                         :estabelecimento "Outback",
@@ -88,17 +81,12 @@
                                              :valor 20.00M,
                                              :estabelecimento "Dentista",
                                              :categoria "Saúde",
-                                             :cartão 1234123412341234}]
-        ]
-
-    (testing "soma dos valores de uma lista de compras para um determinado mes"
-      (is (= (l/lista-de-compras-do-estabelecimento estabelecimento lista-compras) lista-esperada-do-estabelecimento))
-      )
-    )
-  )
+                                             :cartão 1234123412341234}]]
+    (t/testing "soma dos valores de uma lista de compras para um determinado mes"
+      (t/is (= (l/lista-de-compras-do-estabelecimento estabelecimento lista-compras) lista-esperada-do-estabelecimento)))))
 
 
-(deftest total-gasto-no-mes-test
+(t/deftest total-gasto-no-mes-test
   (let [lista-compras [{:data "2022-03-01",
                         :valor 129.90M,
                         :estabelecimento "Outback",
@@ -116,14 +104,11 @@
                         :cartão 1234123412341234}]
         mes            "03"
         valor-esperado 149.9M]
+    (t/testing "soma dos valores de uma lista de compras para um determinado mes"
+      (t/is (= (l/total-gasto-no-mes mes lista-compras) valor-esperado)))))
 
-    (testing "soma dos valores de uma lista de compras para um determinado mes"
-      (is (= (l/total-gasto-no-mes mes lista-compras) valor-esperado))
-      )
-    )
-  )
 
-(deftest lista-de-compras-por-intervalo-test
+(t/deftest lista-de-compras-por-intervalo-test
   (let [lista-compras [{:data "2022-03-28",
                         :valor 129.90M,
                         :estabelecimento "Outback",
@@ -151,18 +136,11 @@
                                       :estabelecimento "Cinema",
                                       :categoria "Lazer",
                                       :cartão 1234123412341234}]]
-
-    (testing "lista dentro de um intervalo dado"
-      (is (= (l/lista-de-compras-por-intervalo tempo-min tempo-max lista-compras) lista-esperada-no-intervalo))
-      )
-    )
-  )
+    (t/testing "lista dentro de um intervalo dado"
+      (t/is (= (l/lista-de-compras-por-intervalo tempo-min tempo-max lista-compras) lista-esperada-no-intervalo)))))
 
 
-
-
-
-(deftest gasto-por-categoria-test
+(t/deftest gasto-por-categoria-test
   (let [lista-compras [{:data "2022-01-01", :valor 129.90M, :estabelecimento "Outback", :categoria "Alimentação", :cartão 1234123412341234}
                        {:data "2022-01-02", :valor 260.00M, :estabelecimento "Dentista", :categoria "Saúde", :cartão 1234123412341234}
                        {:data "2022-02-01", :valor 20.00M, :estabelecimento "Cinema", :categoria "Lazer", :cartão 1234123412341234}
@@ -185,13 +163,9 @@
         gasto-alimentacao-esperado 285.70M
         gasto-lazer-esperado 555.87M
         gasto-saude-esperado 640.00M
-        gasto-por-categoria (l/gasto-por-categoria lista-compras)
-        ]
-
-    (testing "soma dos valores de uma lista de compras agrupado por categoria"
-      (is (= (get gasto-por-categoria "Alimentação") gasto-alimentacao-esperado))
-      (is (= (get gasto-por-categoria "Lazer") gasto-lazer-esperado))
-      (is (= (get gasto-por-categoria "Saúde") gasto-saude-esperado))
-      )
-    )
-  )
+        gasto-por-categoria (l/gasto-por-categoria lista-compras)]
+    (t/testing "soma dos valores de uma lista de compras agrupado por categoria"
+      (t/is (= (get gasto-por-categoria "Alimentação") gasto-alimentacao-esperado))
+      (t/is (= (get gasto-por-categoria "Lazer") gasto-lazer-esperado))
+      (t/is (= (get gasto-por-categoria "Saúde") gasto-saude-esperado))
+      )))

@@ -1,35 +1,35 @@
 (ns yes-she-codes.adatper.adapter-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :as t]
             [yes-she-codes.input.hard-code :as hc]
             [yes-she-codes.input.csv-reader :as r]))
 
 
-(deftest lista-clientes-test
+(t/deftest lista-clientes-test
   (let [lista-esperada
         [ {:nome "Feiticeira Escarlate" :cpf "000.111.222-33" :email "feiticeira.poderosa@vingadoras.com.br"}
          {:nome "Viúva Negra"  :cpf "333.444.555-66" :email "viuva.casca.grossa@vingadoras.com.br"}
          {:nome "Hermione Granger" :cpf "666.777.888-99" :email "hermione.salvadora@hogwarts.com"}
          {:nome "Daenerys Targaryen" :cpf "999.123.456-78" :email "mae.dos.dragoes@got.com"}]]
-    (testing "retorno da lista esperada"
-      (is (= (hc/lista-clientes) lista-esperada))
-      (is (= (r/lista-clientes) lista-esperada))
+    (t/testing "retorno da lista esperada"
+      (t/is (= (hc/lista-clientes) lista-esperada))
+      (t/is (= (r/lista-clientes) lista-esperada))
       )))
 
 
-(deftest lista-cartoes-test
+(t/deftest lista-cartoes-test
   (let [lista-esperada
         [{:numero 1234123412341234, :cvv 111, :validade "2023-01", :limite 1000M, :cliente "000.111.222-33"}
          {:numero 4321432143214321, :cvv 222, :validade "2024-02", :limite 2000M, :cliente "333.444.555-66"}
          {:numero 1598159815981598, :cvv 333, :validade "2021-03", :limite 3000M, :cliente "666.777.888-99"}
          {:numero 6655665566556655, :cvv 444, :validade "2025-04", :limite 4000M, :cliente "666.777.888-99"}
          {:numero 3939393939393939, :cvv 555, :validade "2026-05", :limite 5000M, :cliente "999.123.456-78"}]]
-    (testing "retorno da lista esperada"
-      (is (= (hc/lista-cartoes) lista-esperada))
-      (is (= (r/lista-cartoes) lista-esperada))
+    (t/testing "retorno da lista esperada"
+      (t/is (= (hc/lista-cartoes) lista-esperada))
+      (t/is (= (r/lista-cartoes) lista-esperada))
       )))
 
 
-(deftest lista-compras-test
+(t/deftest lista-compras-test
   (let [lista-esperada
         [{:data "2022-01-01", :valor 129.90M, :estabelecimento "Outback", :categoria "Alimentação", :cartão 1234123412341234}
          {:data "2022-01-02", :valor 260.00M, :estabelecimento "Dentista", :categoria "Saúde", :cartão 1234123412341234}
@@ -50,9 +50,9 @@
          {:data "2022-03-12", :valor 215.87M, :estabelecimento "Praia", :categoria "Lazer", :cartão 3939393939393939}
          {:data "2022-04-01", :valor 976.88M, :estabelecimento "Oficina", :categoria "Automóvel", :cartão 3939393939393939}
          {:data "2022-04-10", :valor 85.00M, :estabelecimento "Alura", :categoria "Educação", :cartão 3939393939393939}]]
-    (testing "retorno da lista esperada"
-      (is (= (hc/lista-compras) lista-esperada))
-      (is (= (r/lista-compras) lista-esperada))
+    (t/testing "retorno da lista esperada"
+      (t/is (= (hc/lista-compras) lista-esperada))
+      (t/is (= (r/lista-compras) lista-esperada))
       )))
 
 

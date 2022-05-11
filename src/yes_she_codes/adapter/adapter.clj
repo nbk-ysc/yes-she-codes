@@ -1,8 +1,7 @@
 (ns yes-she-codes.adapter.adapter
   (:require [yes-she-codes.model.model :as m]
             [clojure.string :as str]
-            [clojure.java.io :as io])
-  )
+            [clojure.java.io :as io]))
 
 (defn criar-cliente
   [[nome cpf email]]
@@ -22,22 +21,19 @@
 (defn parse-input-cliente
   "transforma os dados lidos em string para os tipos primitivos adequados ao model"
   [[nome cpf email]]
-  [nome cpf email]
-  )
+  [nome cpf email])
 
 
 (defn parse-input-cartao
   "transforma os dados lidos em string para os tipos primitivos adequados ao model"
   [[numero                                        cvv                   validade  limite           cliente]]
-   [(Long/parseLong (str/replace numero " " ""))  (Long/parseLong cvv)  validade  (bigdec limite)  cliente]
-  )
+   [(Long/parseLong (str/replace numero " " ""))  (Long/parseLong cvv)  validade  (bigdec limite)  cliente])
 
 
 (defn parse-input-compra
   "transforma os dados lidos em string para os tipos primitivos adequados ao model"
   [[data  valor           estabelecimento  categoria   cartao]]
-   [data  (bigdec valor)  estabelecimento  categoria   (Long/parseLong (str/replace cartao " " ""))]
-  )
+   [data  (bigdec valor)  estabelecimento  categoria   (Long/parseLong (str/replace cartao " " ""))])
 
 
 (defn arquivo->vetor [path-arquivo]
@@ -45,8 +41,7 @@
     (with-open [rdr (io/reader path-arquivo)]
       (into [] (line-seq rdr)))
     (catch Exception e
-      (println "Error:" (.getMessage e))))
-  )
+      (println "Error:" (.getMessage e)))))
 
 
 (defn transformar-dados-arquivo-em-model
@@ -56,6 +51,5 @@
          rest
          (map #(str/split % #","))
          (map fn-parse)
-         (mapv fn-model)))
-  )
+         (mapv fn-model))))
 
