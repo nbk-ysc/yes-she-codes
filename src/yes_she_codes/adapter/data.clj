@@ -1,4 +1,4 @@
-(ns yes-she-codes.model.data
+(ns yes-she-codes.adapter.data
   (:require [yes-she-codes.model.model :as m])
   )
 

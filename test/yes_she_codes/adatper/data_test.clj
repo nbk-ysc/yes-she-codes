@@ -1,6 +1,6 @@
-(ns yes-she-codes.model.data-test
+(ns yes-she-codes.adatper.data-test
   (:require [clojure.test :refer :all]
-            [yes-she-codes.model.data :as d]))
+            [yes-she-codes.adapter.data :as d]))
 
 
 (deftest lista-clientes-test
