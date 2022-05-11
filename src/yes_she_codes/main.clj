@@ -47,11 +47,11 @@
 
 ;AGRUPAR GASTOS POR CATEGORIA (NOT DONE YET)
 (defn total-categoria [compra]
-  (get compra :valor 0))
+  )
 
 (defn gastos-por-categoria [lista-compras]
-  (group-by :categoria lista-compras)
-  (map :valor (group-by :categoria lista-compras)) )
+  ((group-by :categoria lista-compras) 0)
+  )
 
-;(pprint (gastos-por-categoria lista-compras))
+(pprint (gastos-por-categoria lista-compras))
 
