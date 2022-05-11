@@ -14,5 +14,14 @@
   (->> lista-compras
       (filter #(= (:cartao %) cartao) ,,,)
       (busca-compras-mes mes ,,,)
-      (total-gasto ,,,)
-      ))
+      (total-gasto ,,,)))
+
+(defn intervalo-compras [minimo maximo lista-compras]
+  (filter #(and (<= minimo (:valor %) ) (>= maximo (:valor %))) lista-compras))
+
+(defn gasto-categoria [lista-compras]
+  (map
+    (fn [[grp-key values]]
+      {:categoria grp-key
+       :total (total-gasto values)})
+    (group-by :categoria lista-compras)))
