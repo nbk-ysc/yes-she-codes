@@ -1,5 +1,6 @@
 (ns yes-she-codes.logic
-  (:require [yes-she-codes.db :as ysc.db]))
+  (:require [yes-she-codes.db :as ysc.db]
+            [java-time :as jtime]))
 
 (def caminho-para-arquivo-clientes "")
 (def caminho-para-arquivo-cartoes "")
@@ -34,7 +35,7 @@
   (filter #(compra-feita-no-estabelecimento? % estabelecimento) compras))
 
 (defn compra-feita-no-mes? [compra mes]
-  (= (subs (get compra :data) 5 7) mes))
+  (= (jtime/month (get compra :data)) (jtime/month mes)))
 
 (defn compras-por-mes
   "Recebe uma lista de compras e um mês e retorna uma lista de compras feitas somente naquele mês."
