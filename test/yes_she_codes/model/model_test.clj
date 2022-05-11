@@ -1,7 +1,6 @@
 (ns yes-she-codes.model.model-test
   (:require [clojure.test :refer :all]
-            [yes-she-codes.model.model :as m]
-            ))
+            [yes-she-codes.model.model :as m]))
 
 
 (deftest novo-cliente-test

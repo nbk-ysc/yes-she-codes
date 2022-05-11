@@ -1,8 +1,5 @@
 (ns yes-she-codes.logic.logic
-  (:require [yes-she-codes.model.model :as m]
-            [yes-she-codes.model.data :as d])
-  (:use [clojure.pprint])
-  )
+  (:use [clojure.pprint]))
 
 
 (defn total-gasto
@@ -63,7 +60,4 @@
        (reduce conj {})
        )
   )
-
-
-
 
