@@ -8,7 +8,7 @@
 
 (defn compra-dentro-do-mes?
   [mes compra]
-  (= mes (subs (:data compra) 5 7)))
+  (= mes (.getMonth (:data compra))))
 
 (defn buscar-compras-mes
   [mes compras]
