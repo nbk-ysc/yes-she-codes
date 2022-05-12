@@ -1,77 +1,26 @@
 (ns yes-she-codes.db)
 
-(def cliente1 {:nome "Feiticeira Escarlate"
-               :cpf "000.111.222-33"
-               :email "feiticeira.poderosa@vingadoras.com.br"
-               })
+(def clientes [
+               {:nome "Feiticeira Escarlate" :cpf "000.111.222-33" :email "feiticeira.poderosa@vingadoras.com.br"}
+               {:nome "Viúva Negra" :cpf "333.444.555-66" :email "viuva.casca.grossa@vingadoras.com.br"}
+               {:nome "Hermione Granger" :cpf "666.777.888-99" :email "hermione.salvadora@hogwarts.com"}
+               {:nome "Daenerys Targaryen" :cpf "999.123.456-78" :email "mae.dos.dragoes@got.com"}])
 
-(def cliente2 {:nome "Viúva Negra"
-               :cpf "333.444.555-66"
-               :email "viuva.casca.grossa@vingadoras.com.br"
-               })
+(def cartoes [
+              {:numero 1234123412341234 :cvv 111 :validade "2023-01" :limite 1000 :cliente "000.111.222-33"}
+              {:numero 4321432143214321 :cvv 222 :validade "2024-02" :limite 2000 :cliente "333.444.555-66"}
+              {:numero 1598159815981598 :cvv 333 :validade "2021-03" :limite 3000 :cliente "666.777.888-99"}
+              {:numero 6655665566556655 :cvv 444 :validade "2025-04" :limite 4000 :cliente "666.777.888-99"}
+              {:numero 3939393939393939 :cvv 555 :validade "2026-05" :limite 5000 :cliente "999.123.456-78"}])
 
-(def cliente3 {:nome "Hermione Granger"
-               :cpf "666.777.888-99"
-               :email "hermione.salvadora@hogwarts.com"
-               })
+(def compras [
+              {:data "2022-01-01" :valor 129.90 :estabelecimento "Outback" :categoria "Alimentação" :cartao 1234123412341234}
+              {:data "2022-01-02" :valor 260.00 :estabelecimento "Dentista" :categoria "Saúde" :cartao 1234123412341234}
+              {:data "2022-02-01" :valor 20.00 :estabelecimento "Cinema" :categoria "Lazer" :cartao 1234123412341234}
+              {:data "2022-01-10" :valor 150.00 :estabelecimento "Show" :categoria "Lazer" :cartao 4321432143214321}
+              {:data "2022-02-10" :valor 289.99 :estabelecimento "Posto de gasolina" :categoria "Automóvel" :cartao 4321432143214321}
+              {:data "2022-02-20" :valor 79.90 :estabelecimento "iFood" :categoria "Alimentação" :cartao 4321432143214321}
+              {:data "2022-03-01" :valor 85.00 :estabelecimento "Alura" :categoria "Educação" :cartao 4321432143214321}
+              {:data "2022-01-30" :valor 85.00 :estabelecimento "Alura" :categoria "Educação" :cartao 1598159815981598}
+              ])
 
-(def cliente4 {:nome "Daenerys Targaryen"
-               :cpf "999.123.456-78"
-               :email "mae.dos.dragoes@got.com"
-               })
-
-(defn todos-clientes []
-  [cliente1 cliente2 cliente3 cliente4])
-
-(def cartao1 {:numero 1234123412341234
-              :cvv 111
-              :validade "2023-01"
-              :limite 1000
-              :cliente "000.111.222-33"
-              })
-
-(def cartao2 {:numero 4321432143214321
-              :cvv 222
-              :validade "2024-02"
-              :limite 2000
-              :cliente "333.444.555-66"
-              })
-
-(defn todos-cartoes[]
-  [cartao1 cartao2])
-
-(def compra1 {:data "2022-01-01"
-             :valor 129.90
-             :estabelecimento "Outback"
-             :categoria "Alimentação"
-             :cartao 1234123412341234
-             })
-
-(def compra2 {:data "2022-01-02"
-              :valor 260.00
-              :estabelecimento "Dentista"
-              :categoria "Saúde"
-              :cartao 1234123412341234
-              })
-(def compra3 {:data "2022-02-01"
-              :valor 20.00
-              :estabelecimento "Cinema"
-              :categoria "Lazer"
-              :cartao 1234123412341234
-              })
-
-(def compra7 {:data "2022-03-01"
-              :valor 85.00
-              :estabelecimento "Alura"
-              :categoria "Educação"
-              :cartao 4321432143214321
-              })
-(def compra8 {:data "2022-01-30"
-              :valor 85.00
-              :estabelecimento "Alura"
-              :categoria "Educação"
-              :cartao 1598159815981598
-              })
-
-(defn todas-compras[]
-  [compra1 compra2 compra3 compra7 compra8])

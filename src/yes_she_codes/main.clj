@@ -3,7 +3,7 @@
   (:require [yes-she-codes.db :as y.db]
             [clojure.string :as str]))
 
-(def lista-compras (y.db/todas-compras))
+(def lista-compras y.db/compras)
 
 ;CALCULAR O TOTAL GASTO EM COMPRAS DE UMA LISTA DE COMPRAS
 (defn total-gasto [lista-compras]
@@ -26,7 +26,7 @@
   ;(println "Todas as compras no mês" mes)
   (filter #(= (get-moth (:data %)) mes) lista-compras))
 
-;(pprint (lista-compras-por-mes "03" lista-compras))
+;(pprint (lista-compras-por-mes "02" lista-compras))
 
 ;CALCULAR O TOTAL DA FATURA DE UM MÊS
 (defn get-extrato-mes [cartao mes lista-compras]
@@ -53,5 +53,5 @@
   ((group-by :categoria lista-compras) 0)
   )
 
-(pprint (gastos-por-categoria lista-compras))
+;(pprint (gastos-por-categoria lista-compras))
 
