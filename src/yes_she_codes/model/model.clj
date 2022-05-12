@@ -1,5 +1,6 @@
 (ns yes-she-codes.model.model)
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Dados de um cliente:
 ; Nome (String)
@@ -17,7 +18,7 @@
 ; Dados de um cartão de crédito:
 ; Número (Long)
 ; CVV (Long)
-; Validade (String: yyyy-mm)  => API Java Time
+; Validade (String: yyyy-mm)  => (Obj: java.time.YearMonth)
 ; Limite (BigDecimal)
 ; Cliente (String) = cpf
 
@@ -32,7 +33,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Dados de uma compra:
-; Data (String: yyyy-mm-dd)  => API Java Time
+; Data (String: yyyy-mm-dd)  =>  (Obj: java.time.LocalDate)
 ; Valor (BigDecimal)
 ; Estabelecimento (String)
 ; Categoria (String)
