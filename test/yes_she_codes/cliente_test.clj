@@ -5,20 +5,20 @@
 (deftest novo-cliente-test
   (testing "Testando novo cliente multiplas vezes"
     (are [parametro-cliente esperado] (= esperado (novo-cliente parametro-cliente))
-                                   ["feiticeira escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"]
+                                   ["Feiticeira Escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"]
                                    {:nome "feiticeira escarlate"
                                     :cpf "000.111.222-33"
                                     :email "feiticeira.poderosa@vingadoras.com.br"}
                                    ["Viúva Negra" "333.444.555-66" "viuva.casca.grossa@vingadoras.com.br"]
-                                   {:nome "Viúva Negra"
+                                   {:nome "viúva negra"
                                     :cpf "333.444.555-66"
                                     :email "viuva.casca.grossa@vingadoras.com.br"}
                                    ["Hermione Granger" "666.777.888-99" "hermione.salvadora@hogwarts.com"]
-                                   {:nome "Hermione Granger"
+                                   {:nome "hermione granger"
                                     :cpf "666.777.888-99"
                                     :email "hermione.salvadora@hogwarts.com"}
                                    ["Daenerys Targaryen" "999.123.456-78" "mae.dos.dragoes@got.com"]
-                                   {:nome "Daenerys Targaryen"
+                                   {:nome "daenerys targaryen"
                                     :cpf "999.123.456-78"
                                     :email "mae.dos.dragoes@got.com"}))
   (testing "Testando com cliente invalido"
@@ -27,21 +27,16 @@
 
 (deftest lista-clientes-test
   (testing "Testando lista de clientes"
-    (is (= (lista-clientes [
-                            ["feiticeira escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"]
-                            ["Viúva Negra" "333.444.555-66" "viuva.casca.grossa@vingadoras.com.br"]
-                            ["Hermione Granger" "666.777.888-99" "hermione.salvadora@hogwarts.com"]
-                            ["Daenerys Targaryen" "999.123.456-78" "mae.dos.dragoes@got.com"]
-                            ]) [
+    (is (= (lista-clientes "arquivos/clientes.csv") [
                               {:nome "feiticeira escarlate"
                                :cpf "000.111.222-33"
                                :email "feiticeira.poderosa@vingadoras.com.br"}
-                              {:nome "Viúva Negra"
+                              {:nome "viúva negra"
                                :cpf "333.444.555-66"
                                :email "viuva.casca.grossa@vingadoras.com.br"}
-                              {:nome "Hermione Granger"
+                              {:nome "hermione granger"
                                :cpf "666.777.888-99"
                                :email "hermione.salvadora@hogwarts.com"}
-                              {:nome "Daenerys Targaryen"
+                              {:nome "daenerys targaryen"
                                :cpf "999.123.456-78"
                                :email "mae.dos.dragoes@got.com"}]))))

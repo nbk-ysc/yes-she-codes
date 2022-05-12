@@ -1,16 +1,32 @@
 (ns yes-she-codes.cartao
-  (:require [java-time :as t]) )
+  (:require [java-time :as t]
+            [yes-she-codes.cliente :refer :all]
+            [yes-she-codes.simulador :refer :all]
+            [clojure.string :as str]))
+
+(defn cartao? [parametro-cartao]
+  (if-let [[numero cvv validade limite cpf] parametro-cartao]
+    (let [cliente  (cliente-lista? cpf)]
+      (and
+        (not (nil? numero))
+        (not (nil? cvv))
+        (not (nil? validade))
+        (not (nil? limite))
+        (cliente? [:nome cliente :cpf cliente :email cliente])
+      ))))
 
 (defn novo-cartao [parametro-cartao]
-  (if-let [[numero cvv validade limite cliente] parametro-cartao]
-    (if-let [cpf (:cpf cliente)]
-      {:numero   numero
-       :cvv      cvv
+  (if (cartao? parametro-cartao)
+    (if-let [[numero cvv validade limite cpf] parametro-cartao]
+      {:numero   (Long/parseLong (str/replace numero " " ""))
+       :cvv      (Integer/parseInt cvv)
        :validade (t/year-month validade)
-       :limite   limite
-       :cliente  cpf}
-      (throw (ex-info "Cliente invalido" {:cliente cliente} )))
-    (throw (ex-info "Cartao invalido" {:cartao parametro-cartao} ))))
+       :limite   (Double/parseDouble (str/replace limite "." ""))
+       :cliente  cpf})
+    (throw (ex-info "Cartao invalido" {:cartao parametro-cartao}))))
 
-(defn lista-cartoes [parametros-cartoes]
-  (map novo-cartao parametros-cartoes))
+(defn lista-cartoes [caminho-arquivo]
+  (map novo-cartao (csv-data caminho-arquivo)))
+
+(defn cartao-lista? [numero]
+  (filter #(= (:numero %) numero) (lista-cartoes "arquivos/cartoes.csv")))
