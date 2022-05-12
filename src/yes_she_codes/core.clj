@@ -1,82 +1,14 @@
-(ns yes-she-codes.core)
-
-(def clientes [])
-
-(defn novo-cliente
-  "retorna um novo cliente com os dados informados"
-  [nome cpf email]
-  (let [novo-cliente {:nome  nome
-                      :cpf   cpf
-                      :email email}]
-    (def clientes (conj clientes novo-cliente))
-    novo-cliente))
-
-(defn lista-clientes
-  ([arg1] clientes)
-  ([] clientes))
-
-
-
-(def cartoes [])
-
-(defn novo-cartao
-  "retorna um cartão de crédito"
-  [numero cvv validade limite cpf-cliente]
-  (let [novo-cartao {:numero   numero
-                     :cvv      cvv
-                     :validade validade
-                     :limite   limite
-                     :cliente  cpf-cliente}]
-    (def cartoes (conj cartoes novo-cartao))
-    novo-cartao))
-
-(defn lista-cartoes
-  ([arg1] cartoes)
-  ([] cartoes))
-
-
-
-(def compras [{:data "2022-01-01", :valor 150, :estabelecimento "Outback", :categoria "Alimentação", :cartao 1234123412341234}
-              {:data "2022-01-01", :valor 150, :estabelecimento "Outback", :categoria "Alimentação", :cartao 1234123412341235}
-              {:data "2022-02-01", :valor 150, :estabelecimento "Outback", :categoria "Alimentação", :cartao 1234123412341236}])
-
-(defn nova-compra
-  "retorna uma nova compra"
-  [data valor estabelecimento categoria numero-cartao]
-  (let [nova-compra {:data            data
-                     :valor           valor
-                     :estabelecimento estabelecimento
-                     :categoria       categoria
-                     :cartao          numero-cartao}]
-    (def compras (conj compras nova-compra))
-    nova-compra))
-
-(defn lista-compras
-  ([arg1] compras)
-  ([] compras))
-
-(defn lista-compras-por-mes
-  [mes compras]
-  (filter #(if (= (subs (:data %) 5 7) mes) true) compras))
-
-(defn lista-compras-por-estabelecimento
-  [estabelecimento compras]
-  (filter #(if (= (:estabelecimento %) estabelecimento) true) compras))
-
-(defn total-gasto [compras]
-  (reduce (fn [soma compra]
-            (+ soma (:valor compra)))
-          0 compras))
-
-(defn compras-mes
-  [mes compras]
-  (lista-compras-por-mes mes compras))
-
-(defn compras-estabelecimento
-  [estabelecimento compras]
-  (lista-compras-por-estabelecimento estabelecimento compras))
+(ns yes-she-codes.core
+  (:require [yes-she-codes.cliente :as cliente]
+            [yes-she-codes.cartao :as cartao]
+            [yes-she-codes.compra :as compra]))
 
 (comment
+  
+  (compra/total-gasto-por-mes "02" [{:data "2022-01-01", :valor 150, :estabelecimento "Outback", :categoria "Alimentação", :cartao 1234123412341234}
+                                    {:data "2022-02-01", :valor 150, :estabelecimento "Outback", :categoria "Alimentação", :cartao 1234123412341235}
+                                    {:data "2022-02-01", :valor 150, :estabelecimento "n", :categoria "n", :cartao 1234123412341236}])
+
   (defn teste
     ([arg1] arg1)
     ([arg1 arg2] "socorro deus")
@@ -101,4 +33,32 @@
 
   ;(println (map total-gasto (lista-compras)))
   ;(println (total-gasto (lista-compras)))
+
+  import exclusivo
+  (ns yes-she-codes.core
+    (:require [yes-she-codes.cliente :refer [a]]))
+
+  importa tudo
+  (ns yes-she-codes.core
+    (:require [yes-she-codes.cliente :as X]))
+
+  (require '[yes-she-codes.cartao])
+    yes-she-codes.cartao/cartoes
+  (require '[yes-she-codes.cartao :as cartao])
+    cartao/cartoes
+  (require '[yes-she-codes.cartao :refer [cartoes]])
+    cartoes
+  (require '[yes-she-codes.cartao :as cartao :refer [cartoes]])
+    cartao/cartoes OU cartoes
+
+
+  usar let ao chamar função dentro de função para facilitar o entendimento dos retornos
+  (defn total-gasto-por-mes
+    [mes compras]
+    (let [lista-compras-mes (lista-compras-por-mes mes compras)]
+      (total-gasto lista-compras-mes)))
+
+  (defn total-gasto-por-mes
+    [mes compras]
+    (total-gasto (lista-compras-por-mes mes compras)))
   )
