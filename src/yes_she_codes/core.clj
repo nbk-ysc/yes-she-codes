@@ -2,25 +2,25 @@
 
 (defn novo-cliente
   [nome cpf email]
-  {"nome" nome
-   "CPF" cpf
-   "email" email})
+  {:nome nome
+   :CPF cpf
+   :email email})
 
 (defn novo-cartao
   [numero CVV  validade limite cliente]
-  {"numero" numero
-   "CVV" CVV
-   "validade" validade
-   "limite" limite
-   "cliente" cliente})
+  {:numero numero
+   :CVV CVV
+   :validade validade
+   :limite limite
+   :cliente cliente})
 
 (defn nova-compra
   [data valor estabelecimento categoria cartao]
-  {"data" data
-   "valor" valor
-   "estabelecimento" estabelecimento
-   "categoria" categoria
-   "cartao" cartao})
+  {:data data
+   :valor valor
+   :estabelecimento estabelecimento
+   :categoria categoria
+   :cartao cartao})
 
 
 (def cliente1 (novo-cliente "Feiticeira Escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"))
@@ -35,8 +35,8 @@
 (def cartao5 (novo-cartao 3939393939393939 555 "2026-05" 5.000M "999.123.456-78"))
 
 (def compra1 (nova-compra "2022-01-01"  129.90M "Outback"  "Alimentação"  1234123412341234))
-(def compra2 (nova-compra "2022-01-02"  129.90M "Dentista" "Saúde"        1234123412341234))
-(def compra3 (nova-compra "2022-02-01"  129.90M "Cinema"   "Lazer"        1234123412341234))
+(def compra2 (nova-compra "2022-01-02"  260.00M "Dentista" "Saúde"        1234123412341234))
+(def compra3 (nova-compra "2022-02-01"  20.00M "Cinema"   "Lazer"        1234123412341234))
 
 (def compra4 (nova-compra "2022-01-10"  150.00M "Show"              "Lazer"       4321432143214321))
 (def compra5 (nova-compra "2022-02-10"  289.99M "Posto de gasolina" "Automóvel"   4321432143214321))
@@ -63,15 +63,29 @@
 (defn lista-clientes []
   [cliente1 cliente2 cliente3 cliente4])
 
-(println (lista-clientes))
 
 (defn lista-cartoes []
   [cartao1 cartao2 cartao3 cartao4 cartao5])
 
-(println (lista-cartoes))
 
 (defn lista-compras []
   [compra1 compra2 compra3 compra4 compra5 compra6 compra7 compra8 compra9 compra10 compra11 compra12 compra13 compra14 compra15 compra16 compra17 compra18 compra19])
 
-(println (lista-compras))
+;(defn total-gasto
+;  [compras]
+;  (reduce + (map #(get % :valor) compras)))
+
+(def lista-compra [compra1 compra2 compra3] )
+
+(defn get-valor
+  [compra]
+  (get compra :valor 0))
+
+(defn total-gasto
+  [ compras ]
+  (->> compras
+       (map get-valor)
+       (reduce +)))
+
+(total-gasto lista-compra)
 
