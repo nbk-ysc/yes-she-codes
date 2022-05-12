@@ -1,9 +1,5 @@
 (ns yes-she-codes.db)
-
-(println "testando")
-
-; confirmar se isso está certo dessa forma, e se vamos inserir esses dados manualmente.
-
+;banco de dados com todas as informações de clientes, cartões e compras.
 (defn busca-registros-de-clientes []
   [
    ["Feiticeira Escarlate", "000.111.222-33", "feiticeira.poderosa@vingadoras.com.br"]
@@ -41,7 +37,3 @@
    ["2022-03-12" , "215.87",  "Praia",  "Lazer",  "3939 3939 3939 3939"]
    ["2022-04-01" "976.88",  "Oficina",  "Automóvel",  "3939 3939 3939 3939"]
    [ "2022-04-10",  "85.00",  "Alura",  "Educação",  "3939 3939 3939 3939"]])
-
-
-;(defn banco-de-dados []
-;  [busca-registros-de-clientes, busca-registros-de-cartoes, busca-registros-de-compras])
