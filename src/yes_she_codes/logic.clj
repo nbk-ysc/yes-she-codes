@@ -1,34 +1,129 @@
 (ns yes-she-codes.logic
   (:require [yes-she-codes.db :as y.db]))
 
-(println "é a sua vez de brilhar querida, nao se atrase!")
 
-(println "Registros-de-clientes" (y.db/busca-registros-de-clientes))
+; recebe o array menor desestruturado e devolve os dados dos clientes;
+(defn novo-cliente [nome, cpf, email]
+  {:nome nome
+   :cpf cpf
+   :email email})
 
-(println "Registros-de-cartoes" (y.db/busca-registros-de-cartoes))
+; recebe o array quebrado; e passa os dados para novo-cliente.
+(defn transforma-cliente [[nome, cpf, email]]
+  ;(println "nome" nome)
+  ;(println "cpf" cpf)
+  ;(println "email" email)
+  ;(println "terminei\n")
+  (novo-cliente nome, cpf, email))
 
-(println "Registros-de-compras" (y.db/busca-registros-de-compras))
+; recebe o array, que é o meu banco de dados com todos os clientes. Quebra o array através do map
+(defn transforma-clientes [array]
+  ;(println "Array, pare 01\n" array)
+  (map transforma-cliente array))
+
+
+(defn listar-clientes []
+  (println (transforma-clientes (y.db/busca-registros-de-clientes))))
+
+(listar-clientes)
+
+; recebe o array menor desestruturado e devolve os dados dos clientes;
+(defn novo-cliente [nome, cpf, email]
+  {:nome nome
+   :cpf cpf
+   :email email})
+
+; recebe o array quebrado; e passa os dados para novo-cliente.
+(defn transforma-cliente [[nome, cpf, email]]
+  ;(println "nome" nome)
+  ;(println "cpf" cpf)
+  ;(println "email" email)
+  ;(println "terminei\n")
+  (novo-cliente nome, cpf, email))
+
+; recebe o array, que é o meu banco de dados com todos os clientes. Quebra o array através do map
+(defn transforma-clientes [array]
+  ;(println "Array, pare 01\n" array)
+  (map transforma-cliente array))
+
+
+(defn listar-clientes []
+  (println (transforma-clientes (y.db/busca-registros-de-clientes))))
+
+(listar-clientes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;(defn teste [])
+;
+;
+;
+
+;
+;; registros seria o array completo
+;(defn transforma-clientes [registros]
+;  (println registros)
+;  ((map (teste) seq)))
+;
+;
+;
+
+
+
+
+
+
+
+
+
+;(println "Registros-de-clientes\n" (y.db/busca-registros-de-clientes))
+;(println "Registros-de-cartoes" (y.db/busca-registros-de-cartoes))
+;(println "Registros-de-compras" (y.db/busca-registros-de-compras))
+
+;(println clientes)
+
 
 ; começa aqui
 
-(defn novo-cliente [nome, cpf, email]
-  {:nome nome,
-   :cpf cpf,
-   :email email})Ł
 
-(defn novo-cartao [numero, cvv, validade,limite,cliente]
-  {:numero numero,
-   :cvv cvv,
-   :validade validade,
-   :limite limite,
-   :cliente cliente }),
 
-(defn nova-compra [data, valor, estabelecimento,categoria,cartão]
-  {:data data,
-   :valor valor,
-   :estabelecimento estabelecimento,
-   :categoria categoria,
-   :cartão cartão})
+
+
+
+
+
+
+;(println "o que acontece aqui?"
+;         (defn transforma-clientes [(y.db/busca-registros-de-cartoes)]
+;           (map (fn [[nome cpf email]]
+;                  (novo-cliente nome, cpf, email))
+;                registros)))
+;
+;(defn novo-cartao [numero, cvv, validade,limite,cliente]
+;  {:numero numero,
+;   :cvv cvv,
+;   :validade validade,
+;   :limite limite,
+;   :cliente cliente }),
+;
+;(defn nova-compra [data, valor, estabelecimento,categoria,cartão]
+;  {:data data,
+;   :valor valor,
+;   :estabelecimento estabelecimento,
+;   :categoria categoria,
+;   :cartão cartão})
 
 
 
