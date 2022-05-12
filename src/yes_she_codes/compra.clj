@@ -2,8 +2,6 @@
   (:require [java-time :as t]
             [yes-she-codes.arquivo :as ysc.arquivo]))
 
-(def dados_compras (ysc.arquivo/carrega-csv "compras.csv"))
-
 (defn novo-compra
   "criar uma estrutura de compra"
   [data valor estabelecimento categoria cartao]
@@ -20,7 +18,6 @@
 
 (defn lista-compras
   "Lista os clientes"
-  [dados]
-  (map adiciona-compra dados))
+  []
+  (map adiciona-compra (ysc.arquivo/carrega-csv "compras.csv")))
 
-(println (lista-compras dados_compras))

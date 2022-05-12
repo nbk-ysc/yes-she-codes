@@ -1,8 +1,6 @@
 (ns yes-she-codes.cliente
   (:require [yes-she-codes.arquivo :as ysc.arquivo]))
 
-(def dados_clientes (ysc.arquivo/carrega-csv "clientes.csv"))
-
 (defn novo-cliente
   "criar uma estrutura de cliente"
   [nome cpf email]
@@ -17,7 +15,5 @@
 
 (defn lista-clientes
   "Lista os clientes"
-  [dados]
-  (map adiciona-cliente dados))
-
-(println (lista-clientes dados_clientes))
+  []
+  (map adiciona-cliente (ysc.arquivo/carrega-csv "clientes.csv")))

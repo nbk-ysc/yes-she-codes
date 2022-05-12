@@ -2,8 +2,6 @@
   (:require [java-time :as t]
             [yes-she-codes.arquivo :as ysc.arquivo]))
 
-(def dados_cartoes (ysc.arquivo/carrega-csv "cartoes.csv"))
-
 (defn novo-cartao
   "criar uma estrutura de cartao"
   [numero cvv validade limite cliente]
@@ -21,7 +19,6 @@
 
 (defn lista-cartoes
   "Lista os clientes"
-  [dados]
-  (map adiciona-cartao dados))
+  []
+  (map adiciona-cartao (ysc.arquivo/carrega-csv "cartoes.csv")))
 
-(println (lista-cartoes dados_cartoes))
