@@ -1,6 +1,14 @@
-(ns yes-she-codes.core)
+(ns yes-she-codes.core
+  (:require [yes-she-codes.cliente :as ysc.cliente]
+            [yes-she-codes.cartao :as ysc.cartao]
+            [yes-she-codes.compra :as ysc.compra]
+            [yes-she-codes.funcoes :as ysc.funcoes]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(def clientes (ysc.cliente/lista-clientes))
+(def cartoes (ysc.cartao/lista-cartoes))
+(def compras (ysc.compra/lista-compras))
+
+(println clientes)
+(println cartoes)
+(println compras)
+
