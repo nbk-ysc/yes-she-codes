@@ -6,4 +6,5 @@
    "CPF" cpf
    "Email" email})
 
-(println (novo-cliente "daiane" 44219671814 "daiane@gmail.com"))
+(println (novo-cliente "daiane" "44219671814" "daiane@gmail.com"))
+
