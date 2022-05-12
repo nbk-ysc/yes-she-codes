@@ -1,6 +1,9 @@
 (ns yes-she-codes.core)
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn novo-cliente
+  [nome cpf email]
+  {"Nome" nome
+   "CPF" cpf
+   "Email" email})
+
+(println (novo-cliente "daiane" 44219671814 "daiane@gmail.com"))
