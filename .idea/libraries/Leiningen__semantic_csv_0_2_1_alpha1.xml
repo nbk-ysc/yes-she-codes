@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: semantic-csv:0.2.1-alpha1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/semantic-csv/semantic-csv/0.2.1-alpha1/semantic-csv-0.2.1-alpha1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

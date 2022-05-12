@@ -1,19 +1,4 @@
-(ns yes-she-codes.core
-  (:require [clojure.string :as cstr]
-            [clojure-csv.core :as csv]
-            [clojure.java.io :as io]))
-
-(defn take-csv
-  [fname]
-  (with-open [file (io/reader fname)]
-    (doall (map (comp first csv/parse-csv) (line-seq file)))))
-
-(defn csv-data->maps [csv-data]
-  (map zipmap
-       (->> (first csv-data)
-            (map keyword)
-            repeat)
-       (rest csv-data)))
+(ns yes-she-codes.logic)
 
 (defn novo-cliente
   [nome, cpf, email]
@@ -80,20 +65,3 @@
   (->> compras
        (group-by :CATEGORIA)
        (map total-por-categoria)))
-
-(println "agrupar" (agrupar-por-categoria (lista-compras)))
-
-
-;(println (total-gasto compras))
-;
-;(println "bla bla" (compras-feitas-mes "2022-01" (lista-compras)))
-;
-(println "esee mes de see" (compras-intervalo-valores 20 50 (lista-compras)))
-;
-;
-;(println "fffaf" (Float/parseFloat "129.90"))
-;
-;(csv-data->maps (take-csv "/Users/gabriela.rezzo/Documents/Cursos/Bootcamp/yes-she-codes/compras.csv"))
-;
-;
-;(println (csv-data->maps (take-csv "/Users/gabriela.rezzo/Documents/Cursos/Bootcamp/yes-she-codes/compras.csv")))

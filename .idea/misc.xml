@@ -2,12 +2,13 @@
 <project version="4">
   <component name="LeiningenProjectsManager">
     <option name="projectFiles">
-      <list>
+      <set>
         <option value="file://$PROJECT_DIR$/project.clj" />
-      </list>
+        <option value="jar://$MAVEN_REPOSITORY$/clojure-complete/clojure-complete/0.2.5/clojure-complete-0.2.5.jar!/project.clj" />
+      </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="adopt-11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
