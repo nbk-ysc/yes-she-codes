@@ -10,11 +10,6 @@
               {:numero "1598 1598 1598 1598" :cvv 333 :validade "2021-03" :limite 3.000 :cliente "666.777.888-99"}
               {:numero "3939 3939 3939 3939" :cvv 555 :validade "2026-05" :limite 5.000 :cliente "999.123.456-78"}])
 
-
-
-;(def compras [[:data "2022-01-01" :valor 129.90 :estabelecimento "Outback" :categoria "Alimentação" :cartao "1234 1234 1234 1234"]
-;              [:data "2022-01-02" :valor 260.00 :estabelecimento "Dentista" :categoria "Saúde" :cartao "1234 1234 1234 1234"]])
-
 (def compras [{:data "2022-01-01" :valor 129.90 :estabelecimento "Outback" :categoria "Alimentação" :cartao "1234 1234 1234 1234" }
               {:data "2022-01-02" :valor 260.00 :estabelecimento "Dentista" :categoria "Saúde" :cartao "1234 1234 1234 1234"}
               {:data "2022-02-01" :valor 20.00 :estabelecimento "Cinema" :categoria "Lazer" :cartao "1234 1234 1234 1234"}
