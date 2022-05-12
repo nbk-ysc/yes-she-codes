@@ -5,7 +5,9 @@
 
 
 
-(println "\n\n -------- novo cartao -------- ")
+
+
+(println "\n\n ---------------- novo cartao ---------------- ")
 (defn novo-cartao
   [numero cvv validade limite cliente]
   (let [cc-info      {:numero   (y.logic/str-to-float numero)
@@ -35,8 +37,7 @@
 
 
 
-
-(println "\n\n -------- lista cartoes -------- ")
+(println "\n\n ---------------- lista cartoes ---------------- ")
 
 (defn lista-cartoes
   []

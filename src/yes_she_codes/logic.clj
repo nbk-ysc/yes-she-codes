@@ -12,6 +12,10 @@
 )
 
 
+
+
+
+(println "\n\n ---------------- str-to-float ---------------- ")
 (defn str-to-float
   [string]
   (if (string? string)
@@ -23,6 +27,9 @@
 
 
 
+
+
+(println "\n\n ---------------- validar cliente ---------------- ")
 (defn validar-cliente
   [cliente]
   (let [clientes (y.db/todos-clientes)]

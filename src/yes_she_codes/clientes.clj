@@ -7,7 +7,8 @@
 
 
 
-(println "\n\n -------- novo cliente -------- ")
+
+(println "\n\n ---------------- novo cliente ---------------- ")
 
 (defn novo-cliente
   [nome cpf email]
@@ -24,7 +25,7 @@
 
 
 
-(println "\n\n -------- lista clientes -------- ")
+(println "\n\n ---------------- lista clientes ---------------- ")
 
 (defn lista-clientes
   []
