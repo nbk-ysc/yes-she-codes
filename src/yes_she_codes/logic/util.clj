@@ -14,9 +14,9 @@
   (YearMonth/parse str (DateTimeFormatter/ofPattern "yyyy-MM")))
 
 
-(defn qual-mes?
-  [obj-data]
-  (.getMonthValue obj-data))
+(defn mesmo-mes?
+  [obj-data mes]
+  (= mes (.getMonthValue obj-data)))
 
 
 (defn pertence-ao-intervalo?

@@ -16,12 +16,12 @@
     (t/is (= (.toString (u/str->year-month "2021-01")) "2021-01"))))
 
 
-(t/deftest qual-mes?-test
+(t/deftest mesmo?-test
   (let [data-2022-07-10 (LocalDate/parse "2022-07-10")
         data-2021-02-28 (LocalDate/parse "2021-02-28")]
-    (t/testing "retorno do mes dado um objeto de data"
-      (t/is (= (u/qual-mes? data-2022-07-10) 07))
-      (t/is (= (u/qual-mes? data-2021-02-28) 2)))))
+    (t/testing "retorno se data pertence ao mesmo mes comparado"
+      (t/is (= (u/mesmo-mes? data-2022-07-10 10) false))
+      (t/is (= (u/mesmo-mes? data-2021-02-28 02) true)))))
 
 
 (t/deftest pertence-ao-intervalo?-test
