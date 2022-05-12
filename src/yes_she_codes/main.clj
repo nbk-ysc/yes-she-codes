@@ -7,14 +7,18 @@
 
 ;CALCULAR O TOTAL GASTO EM COMPRAS DE UMA LISTA DE COMPRAS
 (defn total-gasto [lista-compras]
-  (reduce + (map :valor lista-compras)))
+  (->> lista-compras
+       (map :valor)
+       (reduce +)))
 
-;(pprint (total-gasto lista-compras))
+;(println "Total Gasto R$" (total-gasto lista-compras))
 
 ;BUSCAR COMPRAS POR ESTABELECIMENTO
 (defn lista-compras-por-estabelecimento [estabelecimento lista-compras]
   (println "Todas as compras n@" estabelecimento)
-  (get (group-by  :estabelecimento lista-compras) estabelecimento))
+  (-> :estabelecimento
+      (group-by lista-compras)
+      (get estabelecimento)))
 
 ;(pprint (lista-compras-por-estabelecimento "Alura" lista-compras))
 
@@ -30,13 +34,18 @@
 
 ;CALCULAR O TOTAL DA FATURA DE UM MÊS
 (defn get-extrato-mes [cartao mes lista-compras]
-  (filter #(= (:cartao %) cartao) (lista-compras-por-mes mes lista-compras)))
+  (->> lista-compras
+       (lista-compras-por-mes mes)
+       (filter #(= (:cartao %) cartao))))
 
 (defn total-gasto-no-mes [cartao mes lista-compras]
-  (print "Todas as compras do cartão" cartao "no mês" mes ": R$ ")
-  (reduce + (map :valor (get-extrato-mes cartao mes lista-compras))))
+  (println "Todas as compras do cartão" cartao "no mês" mes ": R$ ")
+  (->> lista-compras
+       (get-extrato-mes cartao mes)
+       (map :valor)
+       (reduce +)))
 
-;(pprint (total-gasto-no-mes 1234123412341234 "01" lista-compras))
+;(println (total-gasto-no-mes 1234123412341234 "01" lista-compras))
 
 ;FILTRAR COMPRAS NUM INTERVALO DE VALORES
 (defn filtro-maximo-minimo [lista-compras valormax valormin]
@@ -47,7 +56,10 @@
 
 ;AGRUPAR GASTOS POR CATEGORIA
 (defn total-categoria [[categoria compras]]
-(println categoria "R$" (reduce + (map :valor compras ))))
+  (->> compras
+       (map :valor)
+       (reduce +)
+       (println categoria "R$")))
 
 (defn gastos-por-categoria [lista-compras]
   (->> lista-compras
@@ -55,4 +67,9 @@
        (map total-categoria)))
 
 ;(gastos-por-categoria lista-compras)
+
+;LER ARQUIVO (NOT DONE)
+(def arquivo (slurp "src/yes_she_codes/files/clientes.csv"))
+;(println (str/trim arquivo))
+
 

@@ -20,5 +20,3 @@
 
 ;(lista-clientes)
 
-(def arquivo (slurp "src/yes_she_codes/files/clientes.csv"))
-
