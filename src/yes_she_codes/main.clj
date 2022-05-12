@@ -45,13 +45,14 @@
 
 ;(pprint (filtro-maximo-minimo lista-compras 130.0 84.0))
 
-;AGRUPAR GASTOS POR CATEGORIA (NOT DONE YET)
-(defn total-categoria [compra]
-  )
+;AGRUPAR GASTOS POR CATEGORIA
+(defn total-categoria [[categoria compras]]
+(println categoria "R$" (reduce + (map :valor compras ))))
 
 (defn gastos-por-categoria [lista-compras]
-  ((group-by :categoria lista-compras) 0)
-  )
+  (->> lista-compras
+       (group-by :categoria)
+       (map total-categoria)))
 
-;(pprint (gastos-por-categoria lista-compras))
+;(gastos-por-categoria lista-compras)
 
