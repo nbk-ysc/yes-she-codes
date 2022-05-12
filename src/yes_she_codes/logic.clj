@@ -3,8 +3,8 @@
 
 ; recebe o array menor desestruturado e devolve os dados dos clientes;
 (defn novo-cliente [nome, cpf, email]
-  {:nome nome
-   :cpf cpf
+  {:nome  nome
+   :cpf   cpf
    :email email})
 
 ; recebe o array quebrado; e passa os dados para novo-cliente.
@@ -64,14 +64,9 @@
 
 
 
-; 1- Crie as funções lista-clientes (se possivel tudo que seja voltado para o cliente)
-; duvida: fazer um defn lista cliente que acessa o banco e retorna todos os clientes?
-; mas tenho que botar manualmente aqueles clientes da massa de dados:?
 
-; 2-lista-cartoes (se possivel tudo que seja voltado para o cartao)
-; 3-lista-compras (se possivel tudo que seja voltado para o compras)
 
-; >>>>>> devem retornar um vetor de clientes, cartões e compras respectivamente.
+
 
 ; *duvida*: no caso ela deve retornar as informações que estão no banco de dados? não entendi bem o que seria esse retorno..
 ; um grande banco, ou as informações separadas pelas funções que criamos?
