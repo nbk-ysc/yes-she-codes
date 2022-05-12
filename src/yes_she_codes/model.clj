@@ -2,17 +2,17 @@
 
 (defn novo-cliente
   [[nome cpf email]]
-  {:nome nome
-   :cpf cpf
+  {:nome  nome
+   :cpf   cpf
    :email email})
 
 (defn novo-cartao
   [[numero cvv validade limite cliente]]
-  {:numero numero
-   :cvv cvv
+  {:numero   numero
+   :cvv      cvv
    :valdiade validade
-   :limite limite
-   :cliente cliente})
+   :limite   limite
+   :cliente  cliente})
 
 (defn nova-compra
   [[data valor estabelecimento categoria cartao]]
