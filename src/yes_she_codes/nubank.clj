@@ -1,5 +1,6 @@
 (ns yes-she-codes.nubank
-  (:require [yes-she-codes.db :as y.db]))
+  (:require [yes-she-codes.db :as y.db]
+            [java-time :as t]))
 
 
 (println "Lista de clientes:" (y.db/lista-clientes))
@@ -20,14 +21,11 @@
 
 
 
-(defn mes-data [data]
-  (subs data 5 7))
-
 (defn compra-por-mes
   [mes lista-de-compras]
-  (filter #(= (mes-data (:data %)) mes) lista-de-compras))
+  (filter #(= (t/month (:data %)) (t/month mes)) lista-de-compras))
 
-(println "Lista de compras por mês:" (compra-por-mes "02" (y.db/lista-compras)))
+(println "Lista de compras por mês:" (compra-por-mes 02 (y.db/lista-compras)))
 
 
 
@@ -44,7 +42,7 @@
   [mes lista-de-compras]
   (reduce + (map :valor (compra-por-mes mes lista-de-compras))))
 
-(println "Total por mês:" (total-gasto-no-mes "02" (y.db/lista-compras)))
+(println "Total por mês:" (total-gasto-no-mes 02 (y.db/lista-compras)))
 
 
 

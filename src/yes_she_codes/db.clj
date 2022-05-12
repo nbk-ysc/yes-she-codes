@@ -1,4 +1,5 @@
-(ns yes-she-codes.db)
+(ns yes-she-codes.db
+  (:require [java-time :as t]))
 
 (defn clientes []
   [["Feiticeira Escarlate", "000.111.222-33", "feiticeira.poderosa@vingadoras.com.br"]
@@ -30,7 +31,7 @@
 (defn novo-cartao [numero, cvv, validade, limite, cliente]
   {:numero   numero
    :cvv      cvv
-   :validade validade
+   :validade (t/year-month validade)
    :limite   (new BigDecimal limite)
    :cliente  cliente})
 
@@ -65,7 +66,7 @@
    ["2022-04-10", 85.00, "Alura", "Educação", 3939393939393939]])
 
 (defn nova-compra [data, valor, estabelecimento, categoria, cartao]
-  {:data            data
+  {:data            (t/local-date data)
    :valor           (new BigDecimal valor)
    :estabelecimento estabelecimento
    :categoria       categoria
