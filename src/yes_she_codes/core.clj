@@ -1,3 +1,6 @@
-(ns yes-she-codes.core)
+(ns yes-she-codes.core
+  (:require [java-time :as t]))
 
-(println "Hello, World! 2")
+(def hora-entrada  (t/local-date "2021-05-18"))
+(println hora-entrada)
+

@@ -1,9 +1,7 @@
-(ns yes-she-codes.cliente)
+(ns yes-she-codes.cliente
+  (:require [yes-she-codes.arquivo :as ysc.arquivo]))
 
-(def dados_clientes [["Feiticeira Escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"]
-                    ["Viúva Negra" "333.444.555-66" "viuva.casca.grossa@vingadoras.com.br"]
-                    ["Hermione Granger" "666.777.888-99" "hermione.salvadora@hogwarts.com"]
-                    ["Daenerys Targaryen" "999.123.456-78" "mae.dos.dragoes@got.com"]])
+(def dados_clientes (ysc.arquivo/carrega-csv "clientes.csv"))
 
 (defn novo-cliente
   "criar uma estrutura de cliente"

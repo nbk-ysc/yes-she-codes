@@ -1,5 +1,5 @@
 (ns yes-she-codes.funcoes
-  (:require [clojure.string :as str]))
+  (:require [java-time :as t]))
 
 (defn total-gasto
   "Total de gastos de uma lista de compras"
@@ -9,7 +9,7 @@
 (defn mes-certo?
   "É o mes certo"
   [mes compra]
-  (let [intMes (Integer/parseInt (get (str/split (get compra :Data "0000-00-00") #"-") 1 "00"))]
+  (let [intMes (t/as (get compra :Data) :month-of-year)]
     (= intMes mes)))
 
 (defn busca-mes
