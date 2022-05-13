@@ -1,5 +1,5 @@
 
-(ns yes-she-codes.semana1.busca-compras-por-estabelecimento
+(ns yes-she-codes.semana1.buscar-compras-por-estabelecimento
   (:require [yes-she-codes.semana1.db :as y.db]
             [yes-she-codes.semana1.logica :as y.logica]))
 
