@@ -1,11 +1,6 @@
 (ns yes-she-codes.core
-  (:require [yes-she-codes.db :as l.db]))
-
-(def conta-clients {})
-
-(def cartoes-clients {})
-
-(def compras-clients {})
+  (:require [yes-she-codes.db :as l.db])
+  (:require [java-time :as t]))
 
 (defn novo-cliente
   [[nome cpf email]]
@@ -13,37 +8,38 @@
     client))
 
 (defn novo-cartao
-  [[numero cvv validate limite cpf]]
-  (let [client (conj {:numero numero, :cvv cvv, :validate validate :limite limite :cpf cpf})]
+  [[numero cvv limite validate cpf]]
+  (let [client (conj {:numero numero, :cvv cvv, :limite limite :validate validate  :cpf cpf})]
     client))
 
 (defn nova-compra
   [[data valor estabelecimento categoria cartao]]
-  (let [client (conj {:data data, :valor valor, :estabelecimento estabelecimento :categoria categoria :cartao cartao})]
-    client))
+  (let [formatData (t/format "dd/MM/yyyy" (t/local-date data))]
+  (let [client (conj {:data formatData , :valor valor, :estabelecimento estabelecimento :categoria categoria :cartao cartao})]
+    client)))
 
 
 (defn parametros-clients []
   (let [clients (l.db/param-clientes)]
-    (assoc-in conta-clients [:clients] (vec (map novo-cliente clients)))))
+    (vec (map novo-cliente clients))))
 
 
 (defn parametros-cartoes []
   (let [cartoes (l.db/param-cartoes)]
-    (assoc-in cartoes-clients [:cartoes] (vec (map novo-cartao cartoes)))))
+    (vec (map novo-cartao cartoes))))
 
 (defn parametros-compras []
   (let [compras (l.db/param-compras)]
-    (assoc-in compras-clients [:compras] (vec (map nova-compra compras)))))
+    (vec (map nova-compra compras))))
 
 (defn lista-clientes []
-  (:clients (parametros-clients)))
+  (parametros-clients))
 
 (defn lista-cartoes []
-  (:cartoes (parametros-cartoes)))
+  (parametros-cartoes))
 
 (defn lista-compras []
-  (:compras (parametros-compras)))
+  (parametros-compras))
 
 
 (defn total-gasto [compras]
@@ -55,8 +51,9 @@
 
 (defn filtra-compras-data
   [field value data]
-  (filter #(= (re-matches (re-pattern (str "[0-9]{4}-" value "-[0-9]{2}")) (field %)) (field %)) data))
-
+  (let [pattern (re-pattern (str "[0-9]{2}/" value "/[0-9]{4}"))
+        match-month #(re-matches pattern (field %))]
+    (filter #(= (match-month %) (field %)) data)))
 
 (defn buscar-por-mes
   [mes compras]
@@ -76,13 +73,13 @@
 
 (defn filtrar-intervalo-compras
   [minimo maximo compras]
-  (filter #(and (> (compare (% :data) minimo) 0) (< (compare (% :data) maximo) 0)) compras))
+  (filter #(and (> (compare (% :valor) minimo) 0) (< (compare (% :valor) maximo) 0)) compras))
 
 
 (defn total-compras-por-categoria
   [[categoria values]]
   {:categoria categoria
-   :R$ (total-gasto values)})
+   :R$ (format "%.2f" (total-gasto values))})
 
 
 (defn agrupar-por-categoria [compras]
@@ -93,17 +90,19 @@
 
 (println (lista-compras))
 
-(println (total-gasto (:compras (parametros-compras))))
+(println (lista-cartoes))
 
-(println (buscar-por-mes "01" (:compras (parametros-compras))))
+(println (total-gasto (parametros-compras)))
 
-(println "total-gasto-mes" (total-gasto-mes "01" "1234 1234 1234 1234" (:compras (parametros-compras))))
+(println (buscar-por-mes "01" (parametros-compras)))
 
-(println (agrupar-por-categoria (:compras (parametros-compras))))
+(println "total-gasto-mes" (total-gasto-mes "01" "1234 1234 1234 1234" (parametros-compras)))
 
-(println (buscar-por-estabelecimento "Alura" (:compras (parametros-compras))))
+(println (agrupar-por-categoria (parametros-compras)))
 
-(println (filtrar-intervalo-compras "2022-01-01" "2022-03-01" (:compras (parametros-compras))))
+(println (buscar-por-estabelecimento "Alura" (parametros-compras)))
+
+(println (filtrar-intervalo-compras 10 130 (parametros-compras)))
 
 
 
