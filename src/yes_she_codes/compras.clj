@@ -12,7 +12,7 @@
 
 (defn nova-compra
   [data valor estabelecimento categoria cartao]
-  {:data            (t/local-date (str data))
+  {:data            (t/format (t/local-date (str data)))
    :valor           (bigdec valor)
    :estabelecimento estabelecimento
    :categoria       categoria

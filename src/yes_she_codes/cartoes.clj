@@ -4,16 +4,25 @@
             [yes-she-codes.logic :as y.logic]
             [java-time :as t]))
 
-(println (t/year-month (str "2022-09")))
+
+
+
+
+(println "\n\n ---------------- testando data java time ---------------- ")
+(println (t/format (t/year-month (str "2022-09"))))
+
+
+
+
 
 (println "\n\n ---------------- novo cartao ---------------- ")
 (defn novo-cartao
   [numero cvv validade limite cliente]
-  (let [cc-info      {:numero   (y.logic/str-to-float numero)
-                      :cvv      cvv
-                      :validade (t/year-month (str validade))
-                      :limite   limite
-                      :cliente  (y.logic/str-to-float cliente)}
+  (let [cc-info {:numero   (y.logic/str-to-float numero)
+                 :cvv      cvv
+                 :validade (t/format (t/year-month (str validade)))
+                 :limite   limite
+                 :cliente  (y.logic/str-to-float cliente)}
         client-info  (y.logic/validar-cliente cliente)]
     (if (nil? client-info)
       "cpf nao encontrado"
