@@ -5,20 +5,16 @@
   (:require [yes_she_codes.compras :as y.compras])
   (:require [clojure.string :as str]))
 
-(defn total-gasto [lista-compras]
-  (->> lista-compras
-       (map :valor)
-       (apply +)))
+; Modifica o formato da data para o filtro de compras por mes
+(defn mes-da-data [data]
+  (Long/parseLong (second (re-matches #"\d{4}-(\d{2})-\d{2}" data))))
 
-(defn lista-gastos [[cartao compras]]
-  { :cartao cartao
-   :gasto-total (total-gasto compras)})
-
-(defn soma-compras-mes [mes cartao lista-compras]
+;Separa as compras por mes de um cartao e soma
+(defn lista-compras-mes [mes cartao lista-compras]
+  (println "\nGastos do da fatura do cartao" cartao "No mes" mes)
   (->> lista-compras
-       (filter (and #(str/includes? (:data %) (str mes))
-                    #(= (:cartao %) (str cartao))))
-       (total-gasto)
+       (filter #(and (= mes (mes-da-data (:data %)))
+                     (= (str cartao) (:cartao %))))
        println))
 
-(soma-compras-mes 1 1234123412341234 (y.compras/lista-compra (y.db/lista-dados-compra)))
+(lista-compras-mes 1 1234123412341234 (y.compras/lista-compra (y.db/lista-dados-compra)))
