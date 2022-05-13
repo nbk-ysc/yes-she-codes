@@ -2,6 +2,8 @@
   (:require [yes-she-codes.db :as y.db]
             ;[clojure.string :as s]
             ;[yes-she-codes.logic :as y.logic]
+            [java-time :as time]
+            [yes-she-codes.logic :as y.logic]
             ))
 
 
@@ -29,7 +31,7 @@
 
 (defn lista-clientes
   []
-  (let [clientes (y.db/todos-clientes)]
+  (let [clientes (y.logic/csv-reader "/Users/maria.carneiro/Documents/yes-she-codes-alura/yes-she-codes/src/yes_she_codes/csv/clientes.csv")]
     (println clientes))
   )
 

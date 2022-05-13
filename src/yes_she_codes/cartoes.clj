@@ -1,7 +1,8 @@
 (ns yes-she-codes.cartoes
   (:require [yes-she-codes.db :as y.db]
             ;[clojure.string :as s]
-            [yes-she-codes.logic :as y.logic]))
+            [yes-she-codes.logic :as y.logic]
+            [java-time :as time]))
 
 
 
@@ -41,7 +42,7 @@
 
 (defn lista-cartoes
   []
-  (let [cartoes (y.db/todos-cartoes)]
+  (let [cartoes (y.logic/csv-reader "/Users/maria.carneiro/Documents/yes-she-codes-alura/yes-she-codes/src/yes_she_codes/csv/cartoes.csv")]
     (println cartoes))
   )
 

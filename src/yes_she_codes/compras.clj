@@ -1,7 +1,8 @@
 (ns yes-she-codes.compras
   (:require [yes-she-codes.db :as y.db]
             [clojure.string :as s]
-            [yes-she-codes.logic :as y.logic]))
+            [yes-she-codes.logic :as y.logic]
+            [java-time :as time]))
 
 
 
@@ -39,7 +40,7 @@
 
 (defn lista-compras
   []
-  (let [compras (y.db/todas-compras)]
+  (let [compras (y.logic/csv-reader "/Users/maria.carneiro/Documents/yes-she-codes-alura/yes-she-codes/src/yes_she_codes/csv/compras.csv")]
     (println compras))
   )
 
@@ -55,7 +56,8 @@
   [compras]
   (->> compras
        (map :valor)
-       (reduce +))
+       (reduce +)
+       )
   )
 
 (let [compras (y.db/todas-compras)]
