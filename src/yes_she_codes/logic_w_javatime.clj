@@ -1,7 +1,7 @@
-(ns yes_she_codes.logic
+(ns yes_she_codes.logic_w_javatime
   (:require [yes_she_codes.db :as ysc.db]
             [clojure.string :as str]))
-            ;[clojure-csv.core :as csv]))
+;[clojure-csv.core :as csv]))
 
 (require '[clojure.data.csv :as csv]
          '[clojure.java.io :as io]
@@ -21,8 +21,9 @@
   (= (get compra :estabelecimento) estabelecimento))
 
 (defn mesmo-cartao?
-  [numero compra]
-  (= (get compra :cartao) numero))
+  [numero_string compra]
+  (let [numero (long (bigdec (limpa-whitespace numero_string)))]
+    (= (get compra :cartao) numero)))
 
 (defn valor-no-intervalo?
   [valor-min valor-max compra]
@@ -59,7 +60,7 @@
   (map transforma-cartao registro))
 
 
-;COMPRA
+;COMPRAS
 (defn nova-compra
   [data valor estabelecimento categoria cartao]
   {:data data :valor (bigdec valor) :estabelecimento estabelecimento :categoria categoria :cartao (long (bigdec cartao))})
@@ -130,5 +131,57 @@
            rest
            (map vec)))))
 
+;; API JAVA TIME
 
-(println (time/local-date "yyyy-MM-dd" "2022-03-12"))
+(def data1 (time/year-month "yyyy-MM" "2022-03"))
+(def data2 (time/local-date "yyyy-MM-dd" "2023-03-02"))
+
+;; CARTOES
+(defn novo-cartao-javatime
+  [numero cvv validade limite cliente]
+  {:numero (long (bigdec numero)) :cvv (long (bigdec cvv)) :validade (time/year-month "yyyy-MM" validade) :limite (bigdec limite) :cliente cliente})
+
+(defn transforma-cartao-javatime
+  [[numero-espaco cvv validade limite cliente]]
+  (let [numero (limpa-whitespace numero-espaco)]
+    (novo-cartao-javatime numero cvv validade limite cliente)))
+
+(defn lista-cartoes-javatime
+  [registro]
+  (map transforma-cartao-javatime registro))
+
+;; COMPRAS
+(defn nova-compra-javatime
+  [data valor estabelecimento categoria cartao]
+  {:data (time/local-date "yyyy-MM-dd" data) :valor (bigdec valor) :estabelecimento estabelecimento :categoria categoria :cartao (long (bigdec cartao))})
+
+(defn transforma-compra-javatime
+  [[data valor estabelecimento categoria cartao-espaco]]
+  (let [cartao (limpa-whitespace cartao-espaco)]
+    (nova-compra-javatime data valor estabelecimento categoria cartao)))
+
+(defn lista-compras-javatime
+  [registro]
+  (map transforma-compra-javatime registro))
+
+;; TESTA APENAS MES
+(defn mesmo-mes?
+  [mes-string compra]
+  (let [mes (time/month "MM" mes-string)]
+    (= (time/month (get compra :data)) mes)))
+
+;; TESTA MES E ANO
+(defn mesmo-mes-e-ano?
+  [mes-string compra]
+  (let [mes (time/year-month "yyyy-MM" mes-string)]
+    (and
+      (= (time/year (get compra :data)) (time/year mes))
+      (= (time/month (get compra :data)) (time/month mes)))))
+
+(defn compra-por-mes
+  [mes lista-compras]
+  (filter #(mesmo-mes? mes %) lista-compras))
+
+(defn compra-por-mes-do-ano
+  [mes lista-compras]
+  (filter #(mesmo-mes-e-ano? mes %) lista-compras))
