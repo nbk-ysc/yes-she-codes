@@ -1,100 +1,45 @@
 (ns banco.banco
-  (:require [banco.recupera-dados :as b.recupera-dados])
+  (:require [banco.recupera-dados :as b.recupera-dados]
+            [banco.logic :as b.logic])
   (:use [clojure pprint]))
 
-(def lista-de-clientes (b.recupera-dados/recupera-clientes))
-(def lista-de-cartoes (b.recupera-dados/recupera-cartoes))
-(def lista-de-compras (b.recupera-dados/recupera-compras))
-(def lista-de-compras-vetorizada (vec (b.recupera-dados/recupera-compras)))
+
+(def lista-de-clientes b.recupera-dados/lista-clientes)
+(def lista-de-cartoes b.recupera-dados/lista-cartoes)
+(def lista-de-compras b.recupera-dados/lista-compras)
+
+(def lista-de-compras-vetorizada (vec lista-de-compras))
+;(println lista-de-compras)
+
+;(pprint (b.logic/novo-cliente lista-de-clientes
+;                              {:nome  "Feiticeira2"
+;                               :cpf   "000.111.222-33"
+;                               :email "feiticeira.poderosa@vingadoras.com.br"}))
+
+;(pprint lista-de-compras)
+
+;(b.logic/lista-compras lista-de-compras-vetorizada)
+
+;(b.logic/recupera-cliente lista-de-clientes "000.111.222-33")
+
+;(b.logic/recupera-cartao lista-de-cartoes "000.111.222-33")
+
+;(b.logic/recupera-compra lista-de-compras "1234 1234 1234 1234")
 
 
+;(println "Valor total das compras: R$" (b.logic/total-das-compras lista-de-compras-vetorizada))
+;
+;(println "Valor das compras do cartão [4321 4321 4321 4321]: R$"
+;         (b.logic/total-das-compras (b.logic/compras-de-um-cartao lista-de-compras "4321 4321 4321 4321")))
 
-;função novo-cliente
-(defn novo-cliente [cliente]
-  (conj lista-de-clientes cliente))
+;(pprint (b.logic/compras-do-mes lista-de-compras "2022-02-01"))
 
-(pprint (novo-cliente {:nome  "Feiticeira2"
-                       :cpf   "000.111.222-33"
-                       :email "feiticeira.poderosa@vingadoras.com.br"}))
+;(pprint (b.logic/compras-por-estabelecimento lista-de-compras "Alura"))
 
+;(println "Fatura do cartão no mês/ano:" (b.logic/total-gasto-no-mes lista-de-compras "6655 6655 6655 6655" "2022-03-01"))
 
+;(println "Fatura do cartão no mês/ano:" (b.logic/total-gasto-no-mes lista-de-compras "6655 6655 6655 6655" "-03-"))
 
+;(pprint (b.logic/categorias-agrupadas lista-de-compras))
 
-;listar clientes, cartões e compras
-(defn lista-clientes []
-  (pprint lista-de-clientes))
-
-(defn lista-cartoes []
-  (pprint lista-de-cartoes))
-
-(defn lista-compras []
-  (println (vec lista-de-compras)))
-
-(lista-compras)
-
-
-
-(defn recupera-cliente
-  "Retorna um cliente"
-  [cpf]
-  (pprint (filter #(= (:CPF %) cpf) lista-de-clientes)))
-
-;(recupera-cliente "000.111.222-33")
-
-(defn recupera-cartao
-  "Retorna o cartão relacionado a um cliente"
-  [cliente]
-  (pprint (filter #(= (:CLIENTE %) cliente) lista-de-cartoes)))
-
-;(recupera-cartao "000.111.222-33")
-
-(defn recupera-compra
-  "Retorna a compra de determinado cartão"
-  [cartao]
-  (pprint (filter #(= (:CARTÃO %) cartao) lista-de-compras)))
-
-;(nova-compra "1234 1234 1234 1234")
-
-
-(defn converte-valores [valor]
-  (let [valor-convertido (Double/valueOf valor)]
-    valor-convertido)
-  )
-
-(defn total-das-compras
-  [compras]
-  (->> compras
-       (map :VALOR)
-       (map converte-valores)
-       (reduce +)))
-
-(pprint (total-das-compras lista-de-compras-vetorizada))
-
-(defn compras-de-um-cartao
-  "Retorna total das compras de determinado cartão"
-  [cartao]
-  (filter #(= (:CARTÃO %) cartao) lista-de-compras))
-
-(pprint (total-das-compras (compras-de-um-cartao "4321 4321 4321 4321")))
-
-(defn compras-do-mes
-  "Retorna lista das compras de determinado mês"
-  [mes lista-de-compras]
-  (filter #(= (:DATA %) mes) lista-de-compras))
-
-(pprint (compras-do-mes "2022-02-01" lista-de-compras))
-
-(defn compras-por-estabelecimento
-  "Retorna total das compras de determinado estabelecimento"
-  [estabelecimento]
-  (filter #(= (:ESTABELECIMENTO %) estabelecimento) lista-de-compras))
-
-(pprint (compras-por-estabelecimento "Alura"))
-
-(defn compras-de-um-cartao-em-determinado-mes
-  "Retorna total das compras de determinado cartão em um mês"
-  [cartao mes]
-  (let [compras-do-cartao (filter #(= (:CARTÃO %) cartao) (compras-do-mes mes lista-de-compras))]
-    (total-das-compras compras-do-cartao)))
-
-(println "\n\n" (compras-de-um-cartao-em-determinado-mes "6655 6655 6655 6655" "2022-03-01"))
+;(pprint (b.logic/recupera-compra-por-valor lista-de-compras-vetorizada 300 400))
