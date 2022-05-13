@@ -2,7 +2,7 @@
   (:require [yes-she-codes.db :as y.db]
             [clojure.string :as s]
             [yes-she-codes.logic :as y.logic]
-            [java-time :as time]))
+            [java-time :as t]))
 
 
 
@@ -12,7 +12,7 @@
 
 (defn nova-compra
   [data valor estabelecimento categoria cartao]
-  {:data            data
+  {:data            (t/local-date (str data))
    :valor           (bigdec valor)
    :estabelecimento estabelecimento
    :categoria       categoria
