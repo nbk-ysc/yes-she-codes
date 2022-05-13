@@ -3,11 +3,15 @@
             [clojure-csv.core :as csv]
             [clojure.java.io :as io]))
 
+
+;Carregar dados de um arquivo csv
 (defn take-csv
   [fname]
   (with-open [file (io/reader fname)]
     (doall (map (comp first csv/parse-csv) (line-seq file)))))
 
+
+;Transformar a os dados do csv em um hashmap
 (defn csv-data->maps [csv-data]
   (map zipmap
        (->> (first csv-data)
@@ -31,40 +35,43 @@
   (let [compra {:data data, :valor valor, :estabelecimento estabelecimento, :categoria categoria, :cartao cartao}]
     compra))
 
+;Calcular o total gasto em compras de um cartão
+(defn total-gasto [compras]
+  (->> compras
+       (map :VALOR)
+       (map bigdec)
+       (reduce +)))
 
-(defn total-gasto
-  [compras]
-  (reduce + (map #(:VALOR %) compras)))
 
 (defn lista-clientes []
-  (csv-data->maps (take-csv "/Users/gabriela.rezzo/Documents/Cursos/Bootcamp/yes-she-codes/clientes.csv")))
+  (csv-data->maps (take-csv (io/resource "clientes.csv"))))
 
-(println "cliente" lista-clientes)
 
 (defn lista-compras []
-  (csv-data->maps (take-csv "/Users/gabriela.rezzo/Documents/Cursos/Bootcamp/yes-she-codes/compras.csv")))
+  (csv-data->maps (take-csv (io/resource "compras.csv"))))
 
 
 (defn lista-cartoes []
-  (csv-data->maps (take-csv "/Users/gabriela.rezzo/Documents/Cursos/Bootcamp/yes-she-codes/cartoes.csv")))
+  (csv-data->maps (take-csv (io/resource "cartoes.csv"))))
 
-
+;Buscar compras por mês
 (defn compras-feitas-mes [mes compras]
   (filter (fn [compra] (cstr/includes? (compra :DATA) mes)) compras))
 
-
+;Buscar compras por estabelecimento
 (defn compras-feitas-estabelecimento [estabelecimento compras]
   (filter (fn [compra] (= (compra :ESTABELECIMENTO) estabelecimento)) compras))
 
-(defn entre-min-max? [valor min max]
-  (and (<= valor max) (>= valor min)))
-
+;Filtrar compras num intervalo de valores
 (defn compras-intervalo-valores [min max compras]
   (filter (fn [compra] (and (<= (bigdec (compra :VALOR)) max) (>= (bigdec (compra :VALOR)) min))) compras))
 
+
+;Calcular o total da fatura de um mês
 (defn total-gasto-no-mes [mes compras]
   (let [compras-mes (compras-feitas-mes mes compras)]
     (total-gasto compras-mes)))
+
 
 (defn somar-total [compras]
   (->> compras
@@ -81,19 +88,11 @@
        (group-by :CATEGORIA)
        (map total-por-categoria)))
 
-(println "agrupar" (agrupar-por-categoria (lista-compras)))
 
 
-;(println (total-gasto compras))
-;
-;(println "bla bla" (compras-feitas-mes "2022-01" (lista-compras)))
-;
-(println "esee mes de see" (compras-intervalo-valores 20 50 (lista-compras)))
-;
-;
-;(println "fffaf" (Float/parseFloat "129.90"))
-;
-;(csv-data->maps (take-csv "/Users/gabriela.rezzo/Documents/Cursos/Bootcamp/yes-she-codes/compras.csv"))
-;
-;
-;(println (csv-data->maps (take-csv "/Users/gabriela.rezzo/Documents/Cursos/Bootcamp/yes-she-codes/compras.csv")))
+(println "agrupar por categoria" (agrupar-por-categoria (lista-compras)))
+(println "total gasto com compras" (total-gasto (lista-compras)))
+(println "total gasto no mes" (total-gasto-no-mes "2022-01" (lista-compras)))
+(println "compras feitas no mes" (compras-feitas-mes "2022-01" (lista-compras)))
+(println "compras feitas no estabelecimento" (compras-feitas-estabelecimento "Outback" (lista-compras)))
+(println "compras no intervalo " (compras-intervalo-valores 20 50 (lista-compras)))
