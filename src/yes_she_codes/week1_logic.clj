@@ -13,33 +13,24 @@
      cadastro))
 
   ([[nome cpf email]]                                       ;para aceitar lista db
-   (let [cadastro {:nome  nome
-                   :cpf   cpf
-                   :email email}]
-     cadastro)))
+   (novo-cliente nome cpf email)))
 
-(defn remove-espaco
+(defn converte-long
   [string]
-  (clojure.string/replace string #" " "")
-  )
+  (Long/parseLong (clojure.string/replace string #" " "")))
+
 
 (defn novo-cartao
   ([numero cvv validade limite cliente]
-   (let [cadastro {:numero   (long (bigdec (remove-espaco numero)))
-                   :cvv      (long (bigdec cvv))
+   (let [cadastro {:numero   (converte-long numero)
+                   :cvv      (converte-long cvv)
                    :validade (YearMonth/parse validade)
                    :limite   (bigdec limite)
                    :cliente  cliente}]
      cadastro))
 
   ([[numero cvv validade limite cliente]]
-   (let [cadastro {:numero   (long (bigdec (remove-espaco numero)))
-                   :cvv      (long (bigdec cvv))
-                   :validade (YearMonth/parse validade)
-                   :limite   (bigdec limite)
-                   :cliente  cliente}]
-     cadastro))
-  )
+   (novo-cartao numero cvv validade limite cliente)))
 
 
 (defn nova-compra
@@ -48,17 +39,11 @@
                    :valor           (bigdec valor)
                    :estabelecimento estabelecimento
                    :categoria       categoria
-                   :cartao          (long (bigdec (remove-espaco cartao)))}]
+                   :cartao          (converte-long cartao)}]
      cadastro))
 
   ([[data valor estabelecimento categoria cartao]]
-   (let [cadastro {:data            (LocalDate/parse data)
-                   :valor           (bigdec valor)
-                   :estabelecimento estabelecimento
-                   :categoria       categoria
-                   :cartao          (long (bigdec (remove-espaco cartao)))}]
-     cadastro))
-  )
+   (nova-compra data valor estabelecimento categoria cartao)))
 
 (defn abre-csv
   [path]
@@ -68,33 +53,32 @@
 
 (defn lista-clientes
   ([lista-de-listas]                                        ;input manual
-   (map novo-cliente lista-de-listas))
+   (vec (map novo-cliente lista-de-listas)))
 
   ([]
    (let [clientes-csv
          (abre-csv "resources/clientes.csv")]
-     (map novo-cliente (rest clientes-csv)))))
+     (lista-clientes (rest clientes-csv)))))
 
 
 (defn lista-cartoes
   ([lista-de-listas]
-   (map novo-cartao lista-de-listas))
+   (vec (map novo-cartao lista-de-listas)))
 
   ([]
    (let [cartoes-csv
          (abre-csv "resources/cartoes.csv")]
-     (map novo-cartao (rest cartoes-csv)))))
-
+     (lista-cartoes (rest cartoes-csv)))))
 
 
 (defn lista-compras
   ([lista-de-listas]
-   (map nova-compra lista-de-listas))
+   (vec (map nova-compra lista-de-listas)))
 
   ([]
    (let [compras-csv
          (abre-csv "resources/compras.csv")]
-     (map nova-compra (rest compras-csv)))))
+     (lista-compras (rest compras-csv)))))
 
 
 
