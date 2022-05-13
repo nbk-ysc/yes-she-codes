@@ -1,16 +1,7 @@
 (ns yes-she-codes.core
   (:require [clojure.pprint]
-            [yes-she-codes.db :as y.db]
-            [yes-she-codes.clientes :as y.clientes]
-            [yes-she-codes.compras :as y.compras]
-            [yes-she-codes.cartoes :as y.cartoes]
-            [clojure.data.csv :as csv]
-            [clojure.java.io :as io]
-            [java-time :as t]))
+            [yes-she-codes.compras :as y.compras]))
 
-(defn total-gasto
-  [lista]
-  (reduce + (map :VALOR lista)))
 
 (defn buscar-por-estabelecimento
   [estabelecimento lista]
@@ -18,13 +9,21 @@
 
 (defn buscar-por-mes
   [mes lista]
-  (let [nova-lista (map #(assoc % :mes (subs (% :DATA) 5 7)) lista)]
-    (filter #(= mes (:mes  %)) nova-lista)))
+  (filter #(= mes (subs (% :DATA) 5 7)) lista))
+
+(defn buscar-por-cartao
+  [cartao lista]
+  (filter #(= cartao (:CARTAO %)) lista))
+
+(defn total-gasto
+  [cartao lista]
+  (let [nova-lista (buscar-por-cartao cartao lista)]
+    (reduce + (map :VALOR nova-lista))))
 
 (defn total-gasto-no-mes
-  [mes lista]
+  [mes cartao lista]
   (let [nova-lista (buscar-por-mes mes lista)]
-    (reduce + (map :VALOR nova-lista))))
+    (reduce + (map :VALOR (buscar-por-cartao cartao nova-lista)))))
 
 (defn filtro-intervalo
   [valor-minimo valor-maximo lista]
@@ -36,6 +35,27 @@
       {:CATEGORIA key
        :total (reduce + (map :VALOR values))})
     (group-by :CATEGORIA lista)))
+
+(pprint "Total gasto em um cartao")
+(pprint (total-gasto 1234123412341234 y.compras/compras))
+
+(pprint "Busca por estabelecimento")
+(pprint (buscar-por-estabelecimento "Alura" y.compras/minhas-compras))
+
+(pprint "Busca por mes")
+(pprint (buscar-por-mes "04" y.compras/minhas-compras))
+
+(pprint "Busca por cartão")
+(pprint (buscar-por-cartao 1234123412341234 y.compras/compras))
+
+(pprint "Total gasto em um mes em um cartao")
+(pprint (total-gasto-no-mes "01" 1234123412341234 y.compras/compras))
+
+(pprint "Filtro por intervalo")
+(pprint (filtro-intervalo 200 300 y.compras/minhas-compras))
+
+(pprint "Gastos por categoria")
+(pprint (gastos-por-categoria  y.compras/minhas-compras))
 
 
 

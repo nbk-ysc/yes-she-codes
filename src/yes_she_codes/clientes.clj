@@ -1,6 +1,6 @@
 (ns yes-she-codes.clientes
-  (:use clojure.pprint)
-  (:require [yes-she-codes.db :as y.db]
+  (:require [clojure.pprint]
+            [yes-she-codes.db :as y.db]
             [yes-she-codes.logic :as y.logic]))
 
 (defn novo-cliente
@@ -17,5 +17,11 @@
   [filepath]
   (y.logic/csv-data->maps (y.logic/read-csv filepath)))
 
-
+(def clientes (lista-clientes y.db/clientes))
 (def meus-clientes (listar-clientes-csv "/Users/marta.lima/Desktop/YSC/yes-she-codes/src/yes_she_codes/clientes.csv"))
+
+(pprint "Função listar clientes a partir do db")
+(pprint clientes)
+
+(pprint "Função listar clientes a partir do csv")
+(pprint meus-clientes)

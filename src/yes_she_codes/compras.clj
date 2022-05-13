@@ -1,6 +1,6 @@
 (ns yes-she-codes.compras
-  (:use clojure.pprint)
-  (:require [yes-she-codes.db :as y.db]
+  (:require [clojure.pprint]
+            [yes-she-codes.db :as y.db]
             [yes-she-codes.logic :as y.logic]))
 
 
@@ -21,4 +21,13 @@
        (map (fn [csv-record]
               (update csv-record :VALOR #(bigdec %))))))
 
+
+(def compras (lista-compras y.db/compras))
 (def minhas-compras (listar-compras-csv "/Users/marta.lima/Desktop/YSC/yes-she-codes/src/yes_she_codes/compras.csv"))
+
+(pprint "Função listar compras a partir do db")
+(pprint compras)
+
+(pprint "Função listar compras a partir do csv")
+(pprint minhas-compras)
+

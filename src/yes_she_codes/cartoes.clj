@@ -1,6 +1,6 @@
 (ns yes-she-codes.cartoes
-  (:use clojure.pprint)
-  (:require [yes-she-codes.db :as y.db]
+  (:require [clojure.pprint]
+            [yes-she-codes.db :as y.db]
             [yes-she-codes.logic :as y.logic]))
 
 (defn novo-cartao
@@ -19,3 +19,12 @@
        y.logic/csv-data->maps
        (map (fn [csv-record]
               (update csv-record :CVV #(Long/parseLong %))))))
+
+(def cartoes (lista-cartoes y.db/cartoes))
+(def meus-cartoes (listar-cartoes-csv "/Users/marta.lima/Desktop/YSC/yes-she-codes/src/yes_she_codes/cartoes.csv"))
+
+(pprint "Função listar cartões a partir do db")
+(pprint cartoes)
+
+(pprint "Função listar cartões a partir do csv")
+(pprint meus-cartoes)
