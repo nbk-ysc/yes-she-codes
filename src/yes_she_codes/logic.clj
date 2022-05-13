@@ -1,7 +1,9 @@
 (ns yes-she-codes.logic
-  (:require [yes-she-codes.db :as y.db]))
+  (:require [yes-she-codes.db :as y.db])
+  (:require [clojure.string :as str]))
 
 ; recebe o array menor desestruturado e devolve os dados dos clientes;
+
 (defn novo-cliente [nome, cpf, email]
   {:nome  nome
    :cpf   cpf
@@ -12,7 +14,7 @@
   ;(println "nome" nome)
   ;(println "cpf" cpf)
   ;(println "email" email)
-  ;(println "terminei\n")
+  ;(println "terminei")
   (novo-cliente nome, cpf, email))
 
 ; recebe o array, que é o meu banco de dados com todos os clientes. Quebra o array através do map
@@ -20,10 +22,8 @@
   ;(println "Array, pare 01\n" array)
   (map transforma-cliente array))
 
-(defn listar-clientes []
-  (println (transforma-clientes (y.db/busca-registros-de-clientes))))
-
-;(listar-clientes)
+(defn lista-clientes []
+  (transforma-clientes (y.db/busca-registros-de-clientes)))
 
 (defn novo-cartao [numero, cvv, validade, limite, cliente]
   {:numero   numero,
@@ -38,18 +38,15 @@
 (defn transforma-cartoes [array]
   (map transforma-cartao array))
 
-
-(defn listar-cartoes []
-  (println (transforma-cartoes (y.db/busca-registros-de-cartoes))))
-
-;(listar-cartoes)
+(defn lista-cartoes []
+  (transforma-cartoes (y.db/busca-registros-de-cartoes)))
 
 (defn nova-compra [data, valor, estabelecimento, categoria, cartão]
   {:data            data,
    :valor           valor,
    :estabelecimento estabelecimento,
    :categoria       categoria,
-   :cartão          cartão})
+   :cartao          cartão})
 
 (defn transforma-compra [[data, valor, estabelecimento, categoria, cartão]]
   (nova-compra data, valor, estabelecimento, categoria, cartão))
@@ -57,35 +54,71 @@
 (defn transforma-compras [array]
   (map transforma-compra array))
 
-(defn listar-compras []
-  (println (transforma-compras (y.db/busca-registros-de-compras))))
+(defn lista-compras []
+  (transforma-compras (y.db/busca-registros-de-compras)))
 
-;(listar-compras)
+(println "\n=================================")             ;fiz essa etapa para somar todos os valores de todos os cartão
+
+(defn compra [x y]
+  (+ x (:valor y)))
+
+(defn total-gasto [lista-de-compras]
+  (reduce compra 0 lista-de-compras))
+
+(println "Valor total das compras de todos os cartões" (total-gasto (lista-compras)))
+
+(println "\n=================================")             ;fiz essa etapa para encontrar o mes
+
+(defn split-data [data]
+  (str/split data #"-"))
+
+(defn get-mes [data]
+  (get (split-data data) 1))
+
+(defn get-mes-da-compra [compra]
+  (get-mes (:data compra)))
+
+(defn compra-realizada-no-mes? [mes compra]
+  (= mes (get-mes-da-compra compra)))
+
+(defn compras-no-mes [mes lista-de-compras]
+  (filter #(compra-realizada-no-mes? mes %) lista-de-compras))
+
+(println "achei o mes 04?" (compras-no-mes "04" (lista-compras)))
 
 
+(println "\n=================================")             ;fiz essa etapa para somar valores de um mes da lista
 
+(defn total-gasto-no-mes [mes lista-de-compras-no-mes]
+  (total-gasto (compras-no-mes mes lista-de-compras-no-mes)))
 
+(println "Valor total das compras de um mes" (total-gasto-no-mes "04" (lista-compras)))
 
+(println "\n=================================")             ;fiz essa etapa para encontrar o estabelecimento
 
+(defn achei-o-estabelecimento? [local todas-as-compras]
+  (= local (:estabelecimento todas-as-compras)))
 
-; *duvida*: no caso ela deve retornar as informações que estão no banco de dados? não entendi bem o que seria esse retorno..
-; um grande banco, ou as informações separadas pelas funções que criamos?
+(defn comprei-no-estabelecimento? [local lista-de-compras]
+  (filter #(achei-o-estabelecimento? local %) lista-de-compras))
 
-; 3-Criar uma função que, dado um mês e uma lista de compras, retorne uma lista de compras feitas somente naquele mês.
-; plano: >>> acessar a lista > filtrar mes/listas
+(println "achei o estabelecimento?" (comprei-no-estabelecimento? "Alura" (lista-compras)))
 
-; 3-Criar uma função que, dado um estabelecimento e uma lista de compras, retorne uma lista de compras feitas somente naquele estabelecimento.
-; plano: >>> acessar a lista de compras > filtrar estabelecimento
+(println "\n=================================")             ;fiz essa etapa para encontrar o cartão dentro da lista de compras
 
-; 2-Criar a função total-gasto, que recebe uma lista de compras e retorna a soma dos valores gastos.
-; plano: >>> acessar a lista de compras > filtrar gastos > somar gastos
+(defn achei-o-cartao-na-lista-de-compras? [cartao todas-as-compras]
+  (= cartao (:cartao todas-as-compras)))
 
-; 2-Criar a função total-gasto-no-mes, que calcule a soma dos valores gastos num determinado cartão em um mês.
+(defn comprei-no-cartao? [cartao lista-de-cartoes]
+  (filter #(achei-o-cartao-na-lista-de-compras? cartao %) lista-de-cartoes))
 
-; acredito que esse seja mais simples: basta fazer a função acessar o cartao de um determinado cliente
-; (usando aquele recurso de in) e depois de acessado, fazer um filter do mes vigente, e somar as compras(valores em real).
+(comprei-no-cartao? 1234123412341234 (lista-compras))
 
-; plano: >>> acessar o cartao do cliente > filtrar mes > usar função soma p/total(seria bom criar uma funçao somente pra isso)
+;(println "achei algum cartao?" (comprei-no-cartao? 1234123412341234 (lista-compras)))
 
+(println "\n=================================")             ;fiz essa etapa para somar valores de um o cartão na lista
 
-;dados fixos
+(defn total-gasto-no-cartao [cartao lista-de-compras-no-cartao]
+  (total-gasto (comprei-no-cartao? cartao lista-de-compras-no-cartao)))
+
+(println "Valor total das compras de um cartao" (total-gasto-no-cartao 1234123412341234 (lista-compras)))
