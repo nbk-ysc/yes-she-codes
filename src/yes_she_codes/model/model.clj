@@ -45,4 +45,4 @@
    :valor valor
    :estabelecimento estabelecimento
    :categoria categoria
-   :cartão cartao})
+   :cartao cartao})

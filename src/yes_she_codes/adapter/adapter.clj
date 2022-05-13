@@ -1,7 +1,8 @@
 (ns yes-she-codes.adapter.adapter
   (:require [yes-she-codes.model.model :as m]
-            [clojure.string :as str]
-            [clojure.java.io :as io]))
+            [yes-she-codes.logic.util :as u]
+            [java-time :as jt]))
+
 
 (defn criar-cliente
   [[nome cpf email]]
@@ -19,37 +20,37 @@
 
 
 (defn parse-input-cliente
-  "retorna um vetor com os tipos primitivos adequados ao model a partir a partir dos elementos em string"
+  "retorna um vetor com os tipos primitivos adequados ao model a partir dos elementos em string"
   [[nome cpf email]]
   [nome cpf email])
 
 
 (defn parse-input-cartao
-  "retorna um vetor com os tipos primitivos adequados ao model a partir a partir dos elementos em string"
-  [[numero                                        cvv                   validade  limite           cliente]]
-   [(Long/parseLong (str/replace numero " " ""))  (Long/parseLong cvv)  validade  (bigdec limite)  cliente])
+  "retorna um vetor com os tipos primitivos adequados ao model a partir dos elementos em string"
+  [[numero cvv validade limite cliente]]
+  [(Long/parseLong (u/string-sem-espacos numero))
+   (Long/parseLong cvv)
+   (jt/year-month validade)
+   (bigdec limite)
+   cliente])
 
 
 (defn parse-input-compra
-  "retorna um vetor com os tipos primitivos adequados ao model a partir a partir dos elementos em string"
-  [[data  valor           estabelecimento  categoria   cartao]]
-   [data  (bigdec valor)  estabelecimento  categoria   (Long/parseLong (str/replace cartao " " ""))])
+  "retorna um vetor com os tipos primitivos adequados ao model a partir dos elementos em string"
+  [[data valor estabelecimento categoria cartao]]
+  [(jt/local-date data)
+   (bigdec valor)
+   estabelecimento
+   categoria
+   (Long/parseLong (u/string-sem-espacos cartao))])
 
 
-(defn arquivo->vetor [path-arquivo]
-  (try
-    (with-open [rdr (io/reader path-arquivo)]
-      (into [] (line-seq rdr)))
-    (catch Exception e
-      (println "Error:" (.getMessage e)))))
-
-
-(defn transformar-dados-arquivo-em-model
-  [path-arquivo fn-parse fn-model]
-  (let [input-vector (arquivo->vetor path-arquivo)]
-    (->> input-vector
-         rest
-         (map #(str/split % #","))
-         (map fn-parse)
-         (mapv fn-model))))
+(defn dado-bruto->model
+  "pipeline que retorna os dados modelados a parir da leitura de um arquivo"
+  [file-path fn-parse fn-model]
+  (->> (u/arquivo->vetor file-path)
+       rest
+       (map u/csv-splitter)
+       (map fn-parse)
+       (mapv fn-model)))
 
