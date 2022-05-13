@@ -71,15 +71,14 @@
 (defn lista-compras []
   [compra1 compra2 compra3 compra4 compra5 compra6 compra7 compra8 compra9 compra10 compra11 compra12 compra13 compra14 compra15 compra16 compra17 compra18 compra19])
 
-;(defn total-gasto
-;  [compras]
-;  (reduce + (map #(get % :valor) compras)))
-
-(def lista-compra [compra1 compra2 compra3] )
-
 (defn get-valor
   [compra]
   (get compra :valor 0))
+
+
+(defn get-data
+  [compra]
+  (get compra :data 0))
 
 (defn total-gasto
   [ compras ]
@@ -87,5 +86,22 @@
        (map get-valor)
        (reduce +)))
 
-(total-gasto lista-compra)
+(defn captura-mes
+  [data]
+  (subs data 5 7))
 
+(defn gasto-no-mes
+  ([mes compras]
+   (gasto-no-mes mes compras []))
+
+  ([mes compras compras-naquele-mes]
+   (let [compra (first compras)]
+     (if  (some? compra)
+       (do
+         (if (= mes (captura-mes (get-data compra)))
+           (recur mes (next compras) (conj compras-naquele-mes compra))
+           (recur mes (next compras) compras-naquele-mes )))
+       compras-naquele-mes))))
+
+(def lista-compra [compra1 compra2 compra3 ] )
+(gasto-no-mes "02" lista-compra)
