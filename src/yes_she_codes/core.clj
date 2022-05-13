@@ -8,4 +8,4 @@
 (println "Total gasto em compras de apenas um cartao" (y.logic/total-gasto-no-cartao 1234123412341234 (y.logic/lista-compras)))
 (println "Busca das compras de um mes" (y.logic/compras-no-mes "04" (y.logic/lista-compras)))
 (println "Calcular o total da fatura de um mês" (y.logic/total-gasto-no-mes "04" (y.logic/lista-compras)))
-(println "Busca de um estabelecimento" (y.logic/comprei-no-estabelecimento? "Alura" (y.logic/lista-compras)))
+(println "Busca de estabelecimento" (y.logic/comprei-no-estabelecimento? "Alura" (y.logic/lista-compras)))
