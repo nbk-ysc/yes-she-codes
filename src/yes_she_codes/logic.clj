@@ -41,15 +41,15 @@
 (defn lista-cartoes []
   (transforma-cartoes (y.db/busca-registros-de-cartoes)))
 
-(defn nova-compra [data, valor, estabelecimento, categoria, cartão]
+(defn nova-compra [data, valor, estabelecimento, categoria, cartao]
   {:data            data,
    :valor           valor,
    :estabelecimento estabelecimento,
    :categoria       categoria,
-   :cartao          cartão})
+   :cartao          cartao})
 
-(defn transforma-compra [[data, valor, estabelecimento, categoria, cartão]]
-  (nova-compra data, valor, estabelecimento, categoria, cartão))
+(defn transforma-compra [[data, valor, estabelecimento, categoria, cartao]]
+  (nova-compra data, valor, estabelecimento, categoria, cartao))
 
 (defn transforma-compras [array]
   (map transforma-compra array))
@@ -85,7 +85,6 @@
   (filter #(compra-realizada-no-mes? mes %) lista-de-compras))
 
 (println "achei o mes 04?" (compras-no-mes "04" (lista-compras)))
-
 
 (println "\n=================================")             ;fiz essa etapa para somar valores de um mes da lista
 
