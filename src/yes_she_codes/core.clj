@@ -1,3 +1,6 @@
 (ns yes-she-codes.core)
 
-(println "teste do REPL")
+(defn foo
+  "I don't do a whole lot."
+  [x]
+  (println x "Hello, World!"))
