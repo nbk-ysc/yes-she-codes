@@ -4,21 +4,7 @@
             [clojure.java.io :as io]
             [java-time :as t]))
 
-(def compra1 {:data 2022 01 01
-              :valor 129.90
-              :estabelecimento "Outback"
-              :categoria "Alimentação"
-              :cartao 1234123412341234
-              })
 
-(defn get-moth [mes]
-  ;(get (str/split mes #"-") 1)
-  )
+(require '[java-time :as t])
 
-(defn lista-compras-por-mes [mes lista-compras]
-  ;(println "Todas as compras no mês" mes)
-  ;(filter #(= (get-moth (:data %)) mes) lista-compras)
-  )
-
-;(pprint (lista-compras-por-mes "03" lista-compras))
-
+(println (t/format "MM/yyyy" (t/year-month "2022-05"))) ; vai imprimir 05/2022
