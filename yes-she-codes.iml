@@ -18,8 +18,10 @@
     <orderEntry type="jdk" jdkName="IDE SDK" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Leiningen: args4j:2.33" level="project" />
+    <orderEntry type="library" name="Leiningen: clj-tuple:0.2.2" level="project" />
     <orderEntry type="library" name="Leiningen: clojure-complete:0.2.5" level="project" />
     <orderEntry type="library" name="Leiningen: clojure-csv:2.0.1" level="project" />
+    <orderEntry type="library" name="Leiningen: clojure.java-time:0.3.3" level="project" />
     <orderEntry type="library" name="Leiningen: com.google.code.findbugs/jsr305:3.0.1" level="project" />
     <orderEntry type="library" name="Leiningen: com.google.code.gson/gson:2.7" level="project" />
     <orderEntry type="library" name="Leiningen: com.google.guava/guava:20.0" level="project" />
