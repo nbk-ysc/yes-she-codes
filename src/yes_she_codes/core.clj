@@ -41,13 +41,14 @@
 ; Calcula os gastos por cartao
 (defn soma-compras-cartao [cartao lista-compras]
   (println "\nTotal de gasto do cartao: " cartao)
+  (println lista-compras)
   (->> lista-compras
        (group-by :cartao)
        (map lista-gastos)
        (filter #(= (:cartao %) (str cartao)))
        println))
 
-(soma-compras-cartao cartao (y.compras/lista-compra (y.db/lista-dados-compra)))
+;(soma-compras-cartao cartao (y.compras/lista-compra (y.db/lista-dados-compra)))
 
 ; Calcula o total da fatura de um cartao no mes
 (defn cacula-fatura-mes [mes cartao lista-compras]
@@ -58,7 +59,7 @@
        (total-gasto)
        println))
 
-(cacula-fatura-mes mes cartao (y.compras/lista-compra (y.db/lista-dados-compra)))
+;(cacula-fatura-mes mes cartao (y.compras/lista-compra (y.db/lista-dados-compra)))
 
 ; Lista as compras do mes
 (defn lista-compras-mes [mes cartao lista-compras]
@@ -68,7 +69,7 @@
                      (= (str cartao) (:cartao %))))
        println))
 
-(lista-compras-mes mes cartao (y.compras/lista-compra (y.db/lista-dados-compra)))
+;(lista-compras-mes mes cartao (y.compras/lista-compra (y.db/lista-dados-compra)))
 
 ;Filtro de compra por estabelecimento
 (defn soma-compras-estabelecimento [estabelecimento lista-compras]
@@ -79,4 +80,4 @@
        (filter #(= (str/lower-case (:estabelecimento %)) (str/lower-case estabelecimento)))
        println))
 
-(soma-compras-estabelecimento estabelecimento (y.compras/lista-compra (y.db/lista-dados-compra)))
+;(soma-compras-estabelecimento estabelecimento (y.compras/lista-compra (y.db/lista-dados-compra)))
