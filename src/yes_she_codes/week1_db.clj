@@ -1,4 +1,4 @@
-(ns yes-she-codes.week1_db)
+(ns yes-she-codes.week1-db)
 
 
 (def exemplos-clientes [["Feiticeira Escarlate", "000.111.222-33", "feiticeira.poderosa@vingadoras.com.br"],

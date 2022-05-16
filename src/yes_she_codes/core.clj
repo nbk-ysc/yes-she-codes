@@ -1,6 +1,6 @@
 (ns yes-she-codes.core
-  (:require [yes-she-codes.week1_db :as db]
-            [yes-she-codes.week1_logic :as logic])
+  (:require [yes-she-codes.week1-db :as db]
+            [yes-she-codes.week1-logic :as logic])
   (:use clojure.pprint))
 
 
