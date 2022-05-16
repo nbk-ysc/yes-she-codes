@@ -1,4 +1,4 @@
-(ns yes-she-codes.logic
+(ns yes-she-codes.semana1.logic
   (:require [yes-she-codes.db :as y.db]
             [clojure.string :as s]
             [clojure.data.csv :as csv]

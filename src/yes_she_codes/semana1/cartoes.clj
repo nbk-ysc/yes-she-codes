@@ -1,4 +1,4 @@
-(ns yes-she-codes.cartoes
+(ns yes-she-codes.semana1.cartoes
   (:require [yes-she-codes.db :as y.db]
             [clojure.string :as s]
             [yes-she-codes.logic :as y.logic]

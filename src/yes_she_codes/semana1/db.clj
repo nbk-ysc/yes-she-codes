@@ -1,4 +1,4 @@
-(ns yes-she-codes.db)
+(ns yes-she-codes.semana1.db)
 
 (def clientes [{:nome "Feiticeira Escarlate" :cpf "000.111.222-33" :email "feiticeira.poderosa@vingadoras.com.br"}
                {:nome "Viúva Negra" :cpf "333.444.555-66" :email "viuva.casca.grossa@vingadoras.com.br"}
