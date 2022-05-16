@@ -1,5 +1,4 @@
-(ns yes-she-codes.logic.logic
-  (:require [yes-she-codes.logic.util :as u]))
+(ns yes-she-codes.logic.logic)
 
 
 (defn total-gasto
@@ -14,7 +13,7 @@
   "retorna a lista de compras feitas somente naquele mês"
   [mes lista-compras]
   (->> lista-compras
-       (filter #(u/mesmo-mes? (:data %) mes))))
+       (filter #(= mes (.getMonthValue (:data %))))))
 
 
 (defn lista-de-compras-do-estabelecimento
@@ -33,11 +32,11 @@
        (total-gasto)))
 
 
-(defn lista-de-compras-por-intervalo
-  "retorna as compras que estão dentro de um intervalo dado."
-  [data-max data-min lista-compras]
+(defn lista-de-compras-por-intervalo-de-valores
+  [valor-max valor-min lista-compras]
   (->> lista-compras
-       (filter #(u/pertence-ao-intervalo? data-max data-min (:data %)))))
+       (filter #(and (<= (:valor %) valor-max)
+                     (>= (:valor %) valor-min)))))
 
 
 (defn gasto-por-categoria
@@ -47,4 +46,3 @@
        (group-by :categoria)
        (map (fn [[key vals]] [key (total-gasto vals)]))
        (reduce conj {})))
-

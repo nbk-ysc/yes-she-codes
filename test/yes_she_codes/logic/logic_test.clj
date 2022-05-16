@@ -51,19 +51,20 @@
       (t/is (= (l/total-gasto-no-mes mes lista-compras) valor-esperado)))))
 
 
-(t/deftest lista-de-compras-por-intervalo-test
+(t/deftest lista-de-compras-por-intervalo-de-valores-test
   (t/testing "lista dentro de um intervalo dado"
-    (let [data-max (jt/local-date "2022-03-25")
-          data-min (jt/local-date "2022-01-10")
-          data3    (jt/local-date "2022-03-28")
-          data2    (jt/local-date "2022-01-10")
-          data1    (jt/local-date "2022-02-05")
-          lista-compras [{:data data1, :valor 0M, :estabelecimento "", :categoria "", :cartao 0}
-                         {:data data2, :valor 0M, :estabelecimento "", :categoria "", :cartao 0}
-                         {:data data3, :valor 0M, :estabelecimento "", :categoria "", :cartao 0}]
-          lista-esperada-no-intervalo [{:data data1, :valor 0M, :estabelecimento "", :categoria "", :cartao 0}
-                                       {:data data2, :valor 0M, :estabelecimento "", :categoria "", :cartao 0}]]
-      (t/is (= (l/lista-de-compras-por-intervalo data-max data-min lista-compras) lista-esperada-no-intervalo)))))
+    (let [valor-max 1000.00M
+          valor-min 899.99M
+          lista-compras [{:data "", :valor 1300M, :estabelecimento "", :categoria "", :cartao 0}
+                         {:data "", :valor 750M, :estabelecimento "", :categoria "", :cartao 0}
+                         {:data "", :valor 900M, :estabelecimento "", :categoria "", :cartao 0}
+                         {:data "", :valor 1000M, :estabelecimento "", :categoria "", :cartao 0}
+                         {:data "", :valor 890M, :estabelecimento "", :categoria "", :cartao 0}
+                         {:data "", :valor 899.99M, :estabelecimento "", :categoria "", :cartao 0}]
+          lista-esperada-no-intervalo [{:data "", :valor 900M, :estabelecimento "", :categoria "", :cartao 0}
+                                       {:data "", :valor 1000M, :estabelecimento "", :categoria "", :cartao 0}
+                                       {:data "", :valor 899.99M, :estabelecimento "", :categoria "", :cartao 0}]]
+      (t/is (= (l/lista-de-compras-por-intervalo-de-valores valor-max valor-min lista-compras) lista-esperada-no-intervalo)))))
 
 
 (t/deftest gasto-por-categoria-test

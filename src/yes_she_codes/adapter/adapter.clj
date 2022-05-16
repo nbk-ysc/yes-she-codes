@@ -5,16 +5,19 @@
 
 
 (defn criar-cliente
+  "cria um cliente a partir dos parametros parseados"
   [[nome cpf email]]
   (m/novo-cliente nome cpf email))
 
 
 (defn criar-cartao
+  "cria um cartão a partir dos parametros parseados"
   [[numero cvv validade limite cliente]]
   (m/novo-cartao numero cvv validade limite cliente))
 
 
 (defn criar-compra
+  "cria uma compra a partir dos parametros parseados"
   [[data valor estabelecimento categoria cartao]]
   (m/nova-compra data valor estabelecimento categoria cartao))
 
@@ -28,8 +31,8 @@
 (defn parse-input-cartao
   "retorna um vetor com os tipos primitivos adequados ao model a partir dos elementos em string"
   [[numero cvv validade limite cliente]]
-  [(Long/parseLong (u/string-sem-espacos numero))
-   (Long/parseLong cvv)
+  [(u/string->long numero)
+   (u/string->long cvv)
    (jt/year-month validade)
    (bigdec limite)
    cliente])
@@ -42,15 +45,13 @@
    (bigdec valor)
    estabelecimento
    categoria
-   (Long/parseLong (u/string-sem-espacos cartao))])
+   (u/string->long cartao)])
 
 
 (defn dado-bruto->model
   "pipeline que retorna os dados modelados a parir da leitura de um arquivo"
-  [file-path fn-parse fn-model]
-  (->> (u/arquivo->vetor file-path)
-       rest
-       (map u/csv-splitter)
+  [caminho-arquivo fn-parse fn-model]
+  (->> (u/csv-data->vector caminho-arquivo)
        (map fn-parse)
        (mapv fn-model)))
 
