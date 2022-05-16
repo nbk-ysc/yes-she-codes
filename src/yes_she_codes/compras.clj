@@ -74,7 +74,16 @@
   (let [parsed-mes (format "%02d" mes)]
     (->> compras
          (filter #(s/includes? (:data %) (str "-" parsed-mes "-"))))))
+; poderiamos usar
+; (re-matches #"\d{4}-\d{2}-\d{2}" "2022-04-10")
+; (essa expressao acima confirma se essa data tem 4 numeros em ano, 2 numeros em mes e dois numeros em dia
 
+; para capturar o valor de mes teria que fazer:
+; (re-matches #"\d{4}-(\d{2})-\d{2}" "2022-04-10") -> retorno ["2022-04-10""04"]
+; acima voce consegue capturar o valor "mes"
+
+; entao seria apenas pegar a segunda posicao desse vetor usando "second"
+; (second (re-matches #"\d{4}-(\d{2})-\d{2}" "2022-04-10")) -> retorno "04"
 
 (let [compras (y.db/todas-compras)
       mes 3]

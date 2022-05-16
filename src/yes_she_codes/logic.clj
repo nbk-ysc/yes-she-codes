@@ -29,7 +29,9 @@
                 (Long/valueOf))
            string))
 
-
+;aqui definimos a funcao str-to-float para transformar strings
+;primeiro removemos os espacos ou pontos (. -) entre os numeros
+;e depois transformamos a string em tipo long
 
 
 
@@ -80,9 +82,6 @@
 
 (let [file "/Users/maria.carneiro/Documents/yes-she-codes-alura/yes-she-codes/src/yes_she_codes/csv/compras.csv"]
   (println "COMPRAS" (csv-reader file)))
-
-
-
 
 
 
