@@ -40,7 +40,7 @@
 
 (defn total-gasto-no-mes
   [mes lista-de-compras]
-  (reduce + (map :valor (compra-por-mes mes lista-de-compras))))
+  (total-gasto (compra-por-mes mes lista-de-compras)))
 
 (println "Total por mês:" (total-gasto-no-mes 02 (y.db/lista-compras)))
 

@@ -9,6 +9,8 @@
     (doall
       (csv/read-csv reader))))
 
+(defn str->long [valor]
+  (Long/parseLong (clojure.string/replace valor #" " "")))
 
 
 (defn clientes []
@@ -32,10 +34,10 @@
   (ler-csv "csv/cartoes.csv"))
 
 (defn novo-cartao [numero, cvv, validade, limite, cliente]
-  {:numero   numero
+  {:numero   (str->long numero)
    :cvv      cvv
    :validade (t/year-month validade)
-   :limite   (new BigDecimal limite)
+   :limite   (bigdec limite)
    :cliente  cliente})
 
 (defn dados-cartoes
@@ -52,10 +54,10 @@
 
 (defn nova-compra [data, valor, estabelecimento, categoria, cartao]
   {:data            (t/local-date data)
-   :valor           (new BigDecimal valor)
+   :valor           (bigdec valor)
    :estabelecimento estabelecimento
    :categoria       categoria
-   :cartao          cartao})
+   :cartao          (str->long cartao)})
 
 (defn dados-compras
   [[data valor estabelecimento categoria cartao]]
