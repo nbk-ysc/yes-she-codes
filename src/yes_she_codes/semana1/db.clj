@@ -1,4 +1,4 @@
-(ns yes-she-codes.db
+(ns yes-she-codes.semana1.db
   (:require [java-time :as t]))
 
 (def clientes

@@ -1,7 +1,7 @@
-(ns yes-she-codes.compras
+(ns yes-she-codes.semana1.compras
   (:use [clojure pprint])
-  (:require [yes-she-codes.db :as y.db]
-            [yes-she-codes.logic :as y.logic]))
+  (:require [yes-she-codes.semana1.db :as y.db]
+            [yes-she-codes.semana1.logic :as y.logic]))
 
 
 (defn nova-compra
@@ -23,7 +23,7 @@
 
 
 (def compras (lista-compras y.db/compras))
-(def minhas-compras (listar-compras-csv "/Users/marta.lima/Desktop/YSC/yes-she-codes/src/yes_she_codes/compras.csv"))
+(def minhas-compras (listar-compras-csv "/Users/marta.lima/Desktop/YSC/yes-she-codes/src/yes_she_codes/semana1/compras.csv"))
 
 (pprint "Função listar compras a partir do db")
 (pprint compras)
