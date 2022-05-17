@@ -59,6 +59,10 @@
        (filter #(= mes (mes-da-data (:data %))))
        total-gasto))
 
+(defn gastos-por-categoria
+  [compras]
+  (group-by #(get % :categoria) compras))
+
 (def clientes (transforma-clientes (y.db/lista-clientes)))
 (def cartoes (transforma-cartoes (y.db/lista-cartoes)))
 (def compras (transforma-compras (y.db/lista-compras)))
@@ -66,4 +70,5 @@
 (total-gasto (compras-de-um-cartao compras 1234123412341234))
 (compras-por-estabelecimento compras "Alura")
 (compras-por-mes (compras-de-um-cartao compras 1234123412341234) 1)
-(total-gasto-no-mes (compras-de-um-cartao compras 1234123412341234) 2)
+(total-gasto-no-mes (compras-de-um-cartao compras 1234123412341234) 1)
+(gastos-por-categoria compras)
