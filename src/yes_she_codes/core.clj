@@ -9,14 +9,14 @@
 
 (defn novo-cartao
   [[numero cvv limite validate cpf]]
-  (let [client (conj {:numero numero, :cvv cvv, :limite limite :validate validate  :cpf cpf})]
-    client))
+  (let [formatValidate (t/format "MM/yyyy" (t/year-month validate))]
+    (let [client (conj {:numero numero, :cvv cvv, :limite limite :validate formatValidate :cpf cpf})]
+      client)))
 
 (defn nova-compra
   [[data valor estabelecimento categoria cartao]]
   (let [formatData (t/format "dd/MM/yyyy" (t/local-date data))]
-  (let [client (conj {:data formatData , :valor valor, :estabelecimento estabelecimento :categoria categoria :cartao cartao})]
-    client)))
+    (conj {:data formatData, :valor valor, :estabelecimento estabelecimento :categoria categoria :cartao cartao})))
 
 
 (defn parametros-clients []
@@ -79,30 +79,12 @@
 (defn total-compras-por-categoria
   [[categoria values]]
   {:categoria categoria
-   :R$ (format "%.2f" (total-gasto values))})
+   :R$        (format "%.2f" (total-gasto values))})
 
 
 (defn agrupar-por-categoria [compras]
   (map total-compras-por-categoria
-     (group-by :categoria compras)))
-
-
-
-(println (lista-compras))
-
-(println (lista-cartoes))
-
-(println (total-gasto (parametros-compras)))
-
-(println (buscar-por-mes "01" (parametros-compras)))
-
-(println "total-gasto-mes" (total-gasto-mes "01" "1234 1234 1234 1234" (parametros-compras)))
-
-(println (agrupar-por-categoria (parametros-compras)))
-
-(println (buscar-por-estabelecimento "Alura" (parametros-compras)))
-
-(println (filtrar-intervalo-compras 10 130 (parametros-compras)))
+       (group-by :categoria compras)))
 
 
 
