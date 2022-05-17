@@ -5,41 +5,41 @@
     (inc (apply max (map :id entidades)))
     1))
 
-(defn insere-compra
-  "Atribui um id à compra e a armazena no vetor compras."
-  [compras compra]
-  (let [id (proximo-id compras)
-        compra-com-id (assoc compra :id id)]
-    (conj compras compra-com-id)))
+(defn insere-item-no-vetor
+  "Atribui um id ao item e o armazena no vetor."
+  [vetor item]
+  (let [id (proximo-id vetor)
+        item-com-id (assoc item :id id)]
+    (conj vetor item-com-id)))
 
-(defn insere-compra!
-  "Inclui uma nova compra no átomo compras."
-  [compras compra]
-  (swap! compras insere-compra compra))
+(defn insere-item!
+  "Inclui um novo item no átomo."
+  [atomo item]
+  (swap! atomo insere-item-no-vetor item))
 
-(defn lista-compras!
-  "Lista as compras a partir de um átomo."
-  [compras]
-  (println @compras))
+(defn lista-itens!
+  "Lista os itens a partir de um átomo."
+  [atomo]
+  (println @atomo))
 
-(defn pesquisa-compra-por-id
-  "Retorna a compra com o identificador 'id' no vetor compras."
-  [compras id]
-  (->> compras
+(defn pesquisa-item-por-id
+  "Retorna o item com o identificador 'id' no vetor."
+  [vetor id]
+  (->> vetor
        (filter #(= id (:id %)))
        first))
 
-(defn pesquisa-compra-por-id!
-  "Pesquisa por uma compra em um átomo a partir do seu id."
-  [compras id]
-  (pesquisa-compra-por-id @compras id))
+(defn pesquisa-item-por-id!
+  "Pesquisa por um item em um átomo a partir do seu id."
+  [atomo id]
+  (pesquisa-item-por-id @atomo id))
 
-(defn exclui-compra
-  "Exclui uma compra com o identificador 'id' do vetor compras."
-  [compras id]
-  (remove #(= id (:id %)) compras))
+(defn exclui-item
+  "Exclui um item com o identificador 'id' de um vetor."
+  [vetor id]
+  (remove #(= id (:id %)) vetor))
 
-(defn exclui-compra!
-  "Exclui uma compra com o identificador 'id' do átomo compras."
-  [compras id]
-  (swap! compras exclui-compra id))
+(defn exclui-item!
+  "Exclui um item com o identificador 'id' do átomo."
+  [atomo id]
+  (swap! atomo exclui-item id))
