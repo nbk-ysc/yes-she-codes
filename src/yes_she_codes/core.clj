@@ -95,4 +95,52 @@
   (processa-csv "dados/compras.csv" (fn [[data valor estabelecimento categoria cartao]]
                                               (y.compra/nova-compra data valor estabelecimento categoria cartao))))
 
+;SEMANA 2
+
+(def repositorio-de-compras (atom ()))
+
+{:id Long
+ :data String
+ :valor bigdec
+ :estabelecimento String
+ :categoria String
+ :cartao Long}
+
+;(println @repositorio-de-compras)
+
+(defrecord Compra [^Long id
+                   ^String data
+                   ^BigDecimal valor
+                   ^String estabelecimento
+                   ^String categoria
+                   ^Long cartao])
+
+(->Compra 1 "2022-01-01" 200 "Alura" "Educação" 4321432143214321)
+(Compra. nil "2022-01-01" 200 "Alura" "Educação" 4321432143214321)
+
+(def compra (Compra. nil "2022-01-01" 200 "Alura" "Educação" 4321432143214321))
+
+(defn insere-compra [compra compras]
+  ;(assoc compra :id (inc (count compras)))
+  (->> compras
+       count
+       inc
+       (assoc compra :id)
+       (conj compras)))
+
+;(pprint (insere-compra compra (lista-compras)))
+
+(defn lista-compras! [repositorio-de-compras]
+  (pprint (deref repositorio-de-compras)))
+
+(defn insere-compra! [compra repositorio-de-compras]
+  ; (swap! (insere-compra compra repositorio-de-compras) repositorio-de-compras)
+  (swap! repositorio-de-compras conj compra)
+  (swap! repositorio-de-compras conj compra)
+  ;(pprint @repositorio-de-compras)
+  (lista-compras! repositorio-de-compras)
+  )
+
+(insere-compra! compra repositorio-de-compras)
+
 

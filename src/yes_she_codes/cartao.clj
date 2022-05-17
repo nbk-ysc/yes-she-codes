@@ -2,13 +2,17 @@
   (:use clojure.pprint)
   (:require [yes-she-codes.db :as y.db]))
 
+(defn str->long [valor]
+  (Long/parseLong (clojure.string/replace valor #" " "")))
+
 ;DEFINE UM NOVO CARTAO
 (defn novo-cartao [numero cvv validade limite cliente]
-  {:numero numero
-   :cvv cvv
-   :validade validade
-   :limite limite
+  {:numero  (str->long numero)
+   :cvv     (str->long cvv)
+   :email   validade
+   :limite  (bigdec limite)
    :cliente cliente})
+
 
 ;(pprint (novo-cartao 4321432143214325 021 "2026-08" 8000 "111222333014"))
 

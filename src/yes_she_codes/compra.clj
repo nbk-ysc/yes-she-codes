@@ -3,13 +3,16 @@
   (:require [yes-she-codes.db :as y.db]
             [clojure.string :as str]))
 
+(defn str->long [valor]
+  (Long/parseLong (clojure.string/replace valor #" " "")))
+
 ;DEFINE UMA NOVA COMPRA
 (defn nova-compra [data valor estabelecimento categoria cartao]
-  {:data data
-   :valor (bigdec valor)
+  {:data            data
+   :valor           (bigdec valor)
    :estabelecimento estabelecimento
-   :categoria categoria
-   :cartao  cartao})
+   :categoria       categoria
+   :cartao          (str->long cartao)})
 
 ;(pprint (nova-compra "2026-08-08" 25.6 "Ifood" "Alimentação" 4321432143214325))
 
