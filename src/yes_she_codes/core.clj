@@ -86,7 +86,7 @@
                                                (y.cliente/novo-cliente nome cpf email)))))
 ;(lista-clientes)
 
-(defn lista-clientes []
+(defn lista-cartoes []
   (pprint (processa-csv "dados/cartoes.csv" (fn [[numero cvv validade limite cliente]]
                                               (y.cartao/novo-cartao numero cvv validade limite cliente)))))
 ;(lista-cartoes)
@@ -97,17 +97,10 @@
 
 ;SEMANA 2
 
-(def repositorio-de-compras (atom ()))
+;Definir átomo como banco de dados em memória
+(def repositorio-de-compras (atom {}))
 
-{:id Long
- :data String
- :valor bigdec
- :estabelecimento String
- :categoria String
- :cartao Long}
-
-;(println @repositorio-de-compras)
-
+;Criar Record para Compra
 (defrecord Compra [^Long id
                    ^String data
                    ^BigDecimal valor
@@ -115,13 +108,11 @@
                    ^String categoria
                    ^Long cartao])
 
-(->Compra 1 "2022-01-01" 200 "Alura" "Educação" 4321432143214321)
-(Compra. nil "2022-01-01" 200 "Alura" "Educação" 4321432143214321)
-
+;DEFINE UMA COMPRA
 (def compra (Compra. nil "2022-01-01" 200 "Alura" "Educação" 4321432143214321))
 
+;FUNÇÃO INSERIR COMPRA
 (defn insere-compra [compra compras]
-  ;(assoc compra :id (inc (count compras)))
   (->> compras
        count
        inc
@@ -130,17 +121,38 @@
 
 ;(pprint (insere-compra compra (lista-compras)))
 
-(defn lista-compras! [repositorio-de-compras]
-  (pprint (deref repositorio-de-compras)))
+;STOP
 
+;FUNÇÃO INSERIR COMPRA NO ÁTOMO
 (defn insere-compra! [compra repositorio-de-compras]
-  ; (swap! (insere-compra compra repositorio-de-compras) repositorio-de-compras)
   (swap! repositorio-de-compras conj compra)
   (swap! repositorio-de-compras conj compra)
-  ;(pprint @repositorio-de-compras)
-  (lista-compras! repositorio-de-compras)
+  (swap! repositorio-de-compras conj compra)
+  (pprint @repositorio-de-compras)
+  ;(lista-compras! repositorio-de-compras)
   )
 
 (insere-compra! compra repositorio-de-compras)
+
+;FUNÇÃO LISTAR COMPRA NO ÁTOMO
+(defn lista-compras! [repositorio-de-compras]
+  (pprint (deref repositorio-de-compras)))
+
+
+;FUNÇÃO PESQUISAR COMPRA POR ID
+(defn pesquisa-compra-por-id [id compras]
+  (-> :id
+      (group-by compras)
+      (get id)
+      pprint))
+
+;(pesquisa-compra-por-id 20 (insere-compra compra (lista-compras)))
+
+;FUNÇÃO PESQUISAR COMPRA POR ATOMO
+(defn pesquisa-compra-por-id! [id repositorio-de-compras]
+  (pprint (deref repositorio-de-compras))
+  )
+
+;(pesquisa-compra-por-id! 20 repositorio-de-compras)
 
 
