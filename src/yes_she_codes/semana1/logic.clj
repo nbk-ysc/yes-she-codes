@@ -1,10 +1,10 @@
-(ns yes-she-codes.logic
-  (:require [yes-she-codes.db :as ysc.db]
+(ns yes-she-codes.semana1.logic
+  (:require [yes-she-codes.semana1.db :as ysc.db]
             [java-time :as jtime]))
 
-(def caminho-para-arquivo-clientes "")
-(def caminho-para-arquivo-cartoes "")
-(def caminho-para-arquivo-compras "")
+(def caminho-para-arquivo-clientes "/Users/bruna.soares/Documents/yes-she-codes-arquivos/clientes.csv")
+(def caminho-para-arquivo-cartoes "/Users/bruna.soares/Documents/yes-she-codes-arquivos/cartoes.csv")
+(def caminho-para-arquivo-compras "/Users/bruna.soares/Documents/yes-she-codes-arquivos/compras.csv")
 
 (defn lista-clientes
   "Retorna um vetor de clientes."

@@ -1,4 +1,4 @@
-(ns yes-she-codes.model)
+(ns yes-she-codes.semana1.model)
 
 (defn novo-cliente
   "Retorna um mapa que representa os dados de um cliente."
