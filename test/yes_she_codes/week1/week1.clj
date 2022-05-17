@@ -1,9 +1,9 @@
-(ns yes-she-codes.core-test
+(ns yes-she-codes.week1.week1
   (:require [clojure.test :as t]
-            [yes-she-codes.model.model-test :as m]
-            [yes-she-codes.adapter.adapter-test :as a]
-            [yes-she-codes.logic.logic-test :as l]
-            [yes-she-codes.logic.util-test :as u]))
+            [yes-she-codes.week1.model.model-test :as m]
+            [yes-she-codes.week1.adapter.adapter-test :as a]
+            [yes-she-codes.week1.logic.logic-test :as l]
+            [yes-she-codes.week1.logic.util-test :as u]))
 
 ; runs all tests in all namespaces
 ; prints results.
@@ -14,9 +14,6 @@
 (t/test-vars [#'a/criar-cliente-test])
 (t/test-vars [#'a/criar-cartao-test])
 (t/test-vars [#'a/criar-compra-test])
-(t/test-vars [#'a/parse-input-cliente-test])
-(t/test-vars [#'a/parse-input-cartao-test])
-(t/test-vars [#'a/parse-input-compra-test])
 (t/test-vars [#'a/dado-bruto->model-test])
 (t/test-vars [#'l/total-gasto-test])
 (t/test-vars [#'l/lista-de-compras-do-mes-test])

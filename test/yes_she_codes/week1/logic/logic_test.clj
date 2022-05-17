@@ -1,6 +1,6 @@
-(ns yes-she-codes.logic.logic-test
+(ns yes-she-codes.week1.logic.logic-test
   (:require [clojure.test :as t]
-            [yes-she-codes.logic.logic :as l]
+            [yes-she-codes.week1.logic.logic :as l]
             [java-time :as jt]))
 
 

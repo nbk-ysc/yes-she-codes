@@ -1,4 +1,4 @@
-(ns yes-she-codes.logic.logic)
+(ns yes-she-codes.week1.logic.logic)
 
 
 (defn total-gasto

@@ -1,6 +1,6 @@
-(ns yes-she-codes.logic.util-test
+(ns yes-she-codes.week1.logic.util-test
   (:require [clojure.test :as t]
-            [yes-she-codes.logic.util :as u]))
+            [yes-she-codes.week1.logic.util :as u]))
 
 
 (t/deftest csv-data->vector-test

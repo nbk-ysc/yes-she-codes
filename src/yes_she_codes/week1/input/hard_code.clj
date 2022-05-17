@@ -1,5 +1,5 @@
-(ns yes-she-codes.input.hard-code
-  (:require [yes-she-codes.adapter.adapter :as a]))
+(ns yes-she-codes.week1.input.hard-code
+  (:require [yes-she-codes.week1.adapter.adapter :as a]))
 
 
 (let [massa-clientes [["Feiticeira Escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"]
@@ -39,6 +39,4 @@
     (mapv a/criar-cartao massa-cartoes))
 
   (defn lista-compras []
-    (mapv a/criar-compra massa-compras ))
-
-  )
+    (mapv a/criar-compra massa-compras )))

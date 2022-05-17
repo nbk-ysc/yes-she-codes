@@ -1,59 +1,38 @@
-(ns yes-she-codes.adapter.adapter-test
+(ns yes-she-codes.week1.adapter.adapter-test
   (:require [clojure.test :as t]
-            [yes-she-codes.adapter.adapter :as a]))
+            [yes-she-codes.week1.adapter.adapter :as a]))
 
 
 (t/deftest criar-cliente-test
-  (t/testing "criacao de cliente"
+  (t/testing "criacao do cliente a partir dos dados em string"
     (let [input              ["fulano" "888.888.888-88" "fulano@fulano.com"]
           resultado-esperado {:cpf "888.888.888-88" :nome "fulano" :email "fulano@fulano.com"}]
       (t/is (= (a/criar-cliente input) resultado-esperado)))))
 
 
 (t/deftest criar-cartao-test
-  (t/testing "criacao de cartao"
-    (let [input              [999999999 999 nil 999.99 "999.999.999-99"]
+  (t/testing "criacao do cartao a partir dos dados em string"
+    (let [input              ["999 999 999" "999" "2022-01" "999.99" "999.999.999-99"]
           resultado-esperado {:cvv 999
                               :numero 999999999
-                              :limite 999.99
+                              :limite 999.99M
                               :validade nil
-                              :cliente "999.999.999-99"}]
-      (t/is (= (a/criar-cartao input) resultado-esperado)))))
-
-
-(t/deftest criar-compra-test
-  (t/testing "criacao de compra"
-    (let [input              [nil 99.99 "estabelecimento" "categoria" 99999999]
-          resultado-esperado {:cartao 99999999
-                              :data nil
-                              :estabelecimento "estabelecimento"
-                              :categoria "categoria"
-                              :valor 99.99}]
-      (t/is (= (a/criar-compra input) resultado-esperado)))))
-
-
-(t/deftest parse-input-cliente-test
-  (t/testing "parse dos dados do cliente"
-    (let [input              ["fulano" "888.888.888-88" "fulano@fulano.com"]
-          resultado-esperado ["fulano" "888.888.888-88" "fulano@fulano.com"]]
-      (t/is (= (a/parse-input-cliente input) resultado-esperado)))))
-
-
-(t/deftest parse-input-cartao-test
-  (t/testing "parse dos dados de cartao"
-    (let [input              ["999 999 999" "999" "2022-01" "999.99" "999.999.999-99"]
-          resultado-esperado [999999999 999 nil 999.99M "999.999.999-99"]
-          resultado          (a/parse-input-cartao input)
-          resultado-sem-obj  (assoc resultado 2 nil)]
+                              :cliente "999.999.999-99"}
+          resultado          (a/criar-cartao input)
+          resultado-sem-obj  (assoc resultado :validade nil)]
       (t/is (= resultado-sem-obj resultado-esperado)))))
 
 
-(t/deftest parse-input-compra-test
-  (t/testing "parse dos dados de compra"
+(t/deftest criar-compra-test
+  (t/testing "criacao da compra a partir dos dados em string"
     (let [input              ["2022-12-01" "99.99" "estabelecimento" "categoria" "999 999 999"]
-          resultado-esperado [nil 99.99M "estabelecimento" "categoria" 999999999]
-          resultado          (a/parse-input-compra input)
-          resultado-sem-obj  (assoc resultado 0 nil)]
+          resultado-esperado {:cartao 999999999
+                              :data nil
+                              :estabelecimento "estabelecimento"
+                              :categoria "categoria"
+                              :valor 99.99M}
+          resultado          (a/criar-compra input)
+          resultado-sem-obj  (assoc resultado :data nil)]
       (t/is (= resultado-sem-obj resultado-esperado)))))
 
 
@@ -61,30 +40,27 @@
 
   (t/testing "adapter dos dados dos clientes"
     (let [caminho-arquivo    "data/clientes.csv"
-          fn-parse           a/parse-input-cliente
           fn-model           a/criar-cliente
           estrutura-esperada [{:nome "Feiticeira Escarlate", :cpf "000.111.222-33", :email "feiticeira.poderosa@vingadoras.com.br"}
                               {:nome "Viúva Negra", :cpf "333.444.555-66", :email "viuva.casca.grossa@vingadoras.com.br"}
                               {:nome "Hermione Granger", :cpf "666.777.888-99", :email "hermione.salvadora@hogwarts.com"}
                               {:nome "Daenerys Targaryen", :cpf "999.123.456-78", :email "mae.dos.dragoes@got.com"}]]
-      (t/is (= (a/dado-bruto->model caminho-arquivo fn-parse fn-model) estrutura-esperada))))
+      (t/is (= (a/dado-bruto->model caminho-arquivo fn-model) estrutura-esperada))))
 
   (t/testing "adapter dos dados dos cartões"
     (let [caminho-arquivo    "data/cartoes.csv"
-          fn-parse           a/parse-input-cartao
           fn-model           a/criar-cartao
           estrutura-esperada [{:numero   1234123412341234, :cvv  111, :validade nil, :limite   1000M, :cliente  "000.111.222-33"}
                               {:numero   4321432143214321, :cvv  222, :validade nil, :limite   2000M, :cliente  "333.444.555-66"}
                               {:numero   1598159815981598, :cvv  333, :validade nil, :limite   3000M, :cliente  "666.777.888-99"}
                               {:numero   6655665566556655, :cvv  444, :validade nil, :limite   4000M, :cliente  "666.777.888-99"}
                               {:numero   3939393939393939, :cvv  555, :validade nil, :limite   5000M, :cliente  "999.123.456-78"}]
-          resultado           (a/dado-bruto->model caminho-arquivo fn-parse fn-model)
+          resultado           (a/dado-bruto->model caminho-arquivo fn-model)
           resultado-sem-obj   (map #(assoc % :validade nil) resultado)]
       (t/is (= resultado-sem-obj estrutura-esperada))))
 
   (t/testing "adapter dos dados das compras"
     (let [caminho-arquivo      "data/compras.csv"
-          fn-parse             a/parse-input-compra
           fn-model             a/criar-compra
           estrutura-esperada [{:data nil, :valor 129.90M, :estabelecimento "Outback", :categoria "Alimentação", :cartao 1234123412341234}
                               {:data nil, :valor 260.00M, :estabelecimento "Dentista", :categoria "Saúde", :cartao 1234123412341234}
@@ -105,7 +81,7 @@
                               {:data nil, :valor 215.87M, :estabelecimento "Praia", :categoria "Lazer", :cartao 3939393939393939}
                               {:data nil, :valor 976.88M, :estabelecimento "Oficina", :categoria "Automóvel", :cartao 3939393939393939}
                               {:data nil, :valor 85.00M, :estabelecimento "Alura", :categoria "Educação", :cartao 3939393939393939}]
-          resultado           (a/dado-bruto->model caminho-arquivo fn-parse fn-model)
+          resultado           (a/dado-bruto->model caminho-arquivo fn-model)
           resultado-sem-obj   (map #(assoc % :data nil) resultado)]
       (t/is (= resultado-sem-obj estrutura-esperada)))))
 

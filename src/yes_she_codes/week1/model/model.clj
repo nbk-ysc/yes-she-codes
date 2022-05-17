@@ -1,4 +1,4 @@
-(ns yes-she-codes.model.model)
+(ns yes-she-codes.week1.model.model)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

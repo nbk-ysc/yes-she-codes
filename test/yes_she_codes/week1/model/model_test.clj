@@ -1,6 +1,6 @@
-(ns yes-she-codes.model.model-test
+(ns yes-she-codes.week1.model.model-test
   (:require [clojure.test :as t]
-            [yes-she-codes.model.model :as m]))
+            [yes-she-codes.week1.model.model :as m]))
 
 
 (t/deftest novo-cliente-test

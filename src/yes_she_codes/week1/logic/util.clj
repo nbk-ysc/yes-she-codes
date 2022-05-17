@@ -1,4 +1,4 @@
-(ns yes-she-codes.logic.util
+(ns yes-she-codes.week1.logic.util
   (:require [clojure.string :as str]))
 
 (defn string-sem-espacos
