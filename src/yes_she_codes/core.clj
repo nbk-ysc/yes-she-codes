@@ -1,6 +1,6 @@
 (ns yes-she-codes.core
-  (:require [clojure.pprint]
-            [yes-she-codes.compras :as y.compras]))
+  (:use [clojure pprint])
+  (:require [yes-she-codes.compras :as y.compras]))
 
 
 (defn buscar-por-estabelecimento

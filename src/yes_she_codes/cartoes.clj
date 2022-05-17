@@ -1,6 +1,6 @@
 (ns yes-she-codes.cartoes
-  (:require [clojure.pprint]
-            [yes-she-codes.db :as y.db]
+  (:use [clojure pprint])
+  (:require [yes-she-codes.db :as y.db]
             [yes-she-codes.logic :as y.logic]))
 
 (defn novo-cartao
