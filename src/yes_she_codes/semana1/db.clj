@@ -1,6 +1,6 @@
 (ns yes-she-codes.semana1.db
   (:require [yes-she-codes.semana1.model :as ysc.model]
-            [yes-she-codes.semana1.util :refer :all]
+            [yes-she-codes.util :refer :all]
             [clojure.data.csv :as csv]
             [clojure.java.io :as io]))
 

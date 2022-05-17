@@ -1,4 +1,4 @@
-(ns yes-she-codes.semana1.util
+(ns yes-she-codes.util
   (:require [clojure.string :as str]
             [java-time :as jtime]))
 
