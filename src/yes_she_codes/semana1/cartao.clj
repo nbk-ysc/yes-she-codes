@@ -1,5 +1,5 @@
-(ns yes_she_codes.cartao
-  (:require [yes_she_codes.db :as y.db]))
+(ns yes-she-codes.semana1.cartao
+  (:require [yes-she-codes.semana1.db :as y.db]))
 
 ;todo Criar uma funçao de validaçao dos dados que vao ser utilizados para acadastrar o cartao
 

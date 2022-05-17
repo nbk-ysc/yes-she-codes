@@ -1,4 +1,4 @@
-(ns yes_she_codes.db)
+(ns yes-she-codes.semana1.db)
 
 (defn lista-dados-cartao []
   [["1234123412341234", "111", "2023-01", "1.000", "00011122233"]

@@ -1,7 +1,7 @@
 (ns yes-she-codes.core-test
   (:require [clojure.test :refer :all]
-            [yes-she-codes.core :as y.core]
-            [yes_she_codes.compras :as y.compras]))
+            [yes-she-codes.semana1.core :as y.core]
+            [yes-she-codes.semana1.compras :as y.compras]))
 
 
 (def lista-compras

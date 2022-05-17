@@ -1,5 +1,5 @@
-(ns yes-she-codes.cliente
-  (:require [yes_she_codes.db :as y.db]))
+(ns yes-she-codes.semana1.cliente
+  (:require [yes-she-codes.semana1.db :as y.db]))
 
 (defn novo-cliente
   "Cria um cadastro com o cliente novo"

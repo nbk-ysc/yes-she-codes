@@ -1,5 +1,5 @@
-(ns yes_she_codes.compras
-  (:require [yes_she_codes.db :as y.db]))
+(ns yes-she-codes.semana1.compras
+  (:require [yes-she-codes.semana1.db :as y.db]))
 
 (defn nova-compra
   "Cadastra uma nova compra"

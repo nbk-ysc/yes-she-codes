@@ -1,8 +1,8 @@
-(ns yes_she_codes.teste
-  (:require [yes_she_codes.db :as y.db])
-  (:require [yes-she-codes.cliente :as y.cliente])
-  (:require [yes_she_codes.cartao :as y.cartao])
-  (:require [yes_she_codes.compras :as y.compras])
+(ns yes-she-codes.semana1.teste
+  (:require [yes-she-codes.semana1.db :as y.db])
+  (:require [yes-she-codes.semana1.cliente :as y.cliente])
+  (:require [yes-she-codes.semana1.cartao :as y.cartao])
+  (:require [yes-she-codes.semana1.compras :as y.compras])
   (:require [clojure.string :as str]))
 
 ; Modifica o formato da data para o filtro de compras por mes
