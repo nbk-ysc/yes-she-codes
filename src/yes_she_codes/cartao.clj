@@ -1,18 +1,14 @@
-(ns yes-she-codes.cartao)
+(ns yes-she-codes.cartao
+  (:require [yes-she-codes.db :as db]
+            [yes-she-codes.core :as core]))
 
-(def cartoes [])
+(defn novo-cartao [numero cvv validade limite cpf-cliente]
+  {:numero   (core/str-to-long numero)
+   :cvv      (core/str-to-long cvv)
+   :validade validade
+   :limite   (bigdec limite)
+   :cliente  cpf-cliente})
 
-(defn novo-cartao
-  "retorna um cartão de crédito"
-  [numero cvv validade limite cpf-cliente]
-  (let [novo-cartao {:numero numero
-                     :cvv cvv
-                     :validade validade
-                     :limite limite
-                     :cliente cpf-cliente}]
-    (def cartoes (conj cartoes novo-cartao))
-    novo-cartao))
-
-(defn lista-cartoes
-  ([arg1 cartoes])
-  ([] cartoes))
+(defn lista-cartoes []
+  (db/processa-csv "dados/cartoes.csv" (fn [[numero cvv validade limite cliente]]
+                                         (novo-cartao numero cvv validade limite cliente))))

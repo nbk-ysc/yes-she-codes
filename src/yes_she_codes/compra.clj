@@ -1,48 +1,50 @@
-(ns yes-she-codes.compra)
+(ns yes-she-codes.compra
+  (:require [yes-she-codes.db :as db]
+            [yes-she-codes.core :as core]))
 
-(def compras [])
+(defn nova-compra [data valor estabelecimento categoria numero-cartao]
+  {:data            data
+   :valor           (bigdec valor)
+   :estabelecimento estabelecimento
+   :categoria       categoria
+   :cartao          (core/str-to-long numero-cartao)})
 
-(def compras [{:data "2022-01-01", :valor 150, :estabelecimento "Outback", :categoria "Alimentação", :cartao 1234123412341234}
-              {:data "2022-01-01", :valor 150, :estabelecimento "Outback", :categoria "Alimentação", :cartao 1234123412341235}
-              {:data "2022-02-01", :valor 150, :estabelecimento "Outback", :categoria "Alimentação", :cartao 1234123412341236}])
-
-(defn nova-compra
-  "retorna uma nova compra"
-  [data valor estabelecimento categoria numero-cartao]
-  (let [nova-compra {:data            data
-                     :valor           valor
-                     :estabelecimento estabelecimento
-                     :categoria       categoria
-                     :cartao          numero-cartao}]
-    (def compras (conj compras nova-compra))
-    nova-compra))
-
-(defn lista-compras
-  ([arg1] compras)
-  ([] compras))
+(defn lista-compras []
+  (db/processa-csv "dados/compras.csv" (fn [[data valor estabelecimento categoria numero-cartao]]
+                                         (nova-compra data valor estabelecimento categoria numero-cartao))))
 
 (defn lista-compras-por-mes
   [mes compras]
   (filter #(if (= (subs (:data %) 5 7) mes) true) compras))
+
+(defn lista-compras-por-cartao
+  [cartao compras]
+  (filter #(if (= (:cartao %) cartao) true) compras))
 
 (defn lista-compras-por-estabelecimento
   [estabelecimento compras]
   (filter #(if (= (:estabelecimento %) estabelecimento) true) compras))
 
 (defn total-gasto [compras]
-  (reduce (fn [soma compra]
-            (+ soma (:valor compra)))
-          0 compras))
-
-(defn compras-mes
-  [mes compras]
-  (lista-compras-por-mes mes compras))
-
-(defn compras-estabelecimento
-  [estabelecimento compras]
-  (lista-compras-por-estabelecimento estabelecimento compras))
+  (reduce #(+ %1 (:valor %2)) 0 compras))
 
 (defn total-gasto-por-mes
   [mes compras]
   (let [lista-compras-mes (lista-compras-por-mes mes compras)]
     (total-gasto lista-compras-mes)))
+
+(defn total-gasto-por-mes-e-cartao
+  [cartao mes compras]
+  (let [lista-compras-cartao (lista-compras-por-cartao cartao compras)
+        lista-compras-mes (lista-compras-por-mes mes lista-compras-cartao)]
+    (total-gasto lista-compras-mes)))
+
+(defn filtra-compras-por-valor
+  [valor-minimo valor-maximo compras]
+  (filter #(if (and (>= (:valor %) valor-minimo) (<= (:valor %) valor-maximo)) true) compras))
+
+(defn agrupa-gastos-por-categoria [compras]
+  (vec (map (fn [[categoria compras-da-categoria]]
+              {:categoria   categoria
+               :total-gasto (total-gasto compras-da-categoria)})
+            (group-by :categoria compras))))

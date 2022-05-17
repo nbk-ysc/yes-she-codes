@@ -1,16 +1,11 @@
-(ns yes-she-codes.cliente)
+(ns yes-she-codes.cliente
+  (:require [yes-she-codes.db :as db]))
 
-(def clientes [])
+(defn novo-cliente [nome cpf email]
+  {:nome  nome
+   :cpf   cpf
+   :email email})
 
-(defn novo-cliente
-  "retorna um novo cliente com os dados informados"
-  [nome cpf email]
-  (let [novo-cliente {:nome nome
-                      :cpf cpf
-                      :email email}]
-    (def clientes (conj clientes novo-cliente))
-    novo-cliente))
-
-(defn lista-clientes
-  ([arg1] clientes)
-  ([] clientes))
+(defn lista-clientes []
+  (db/processa-csv "dados/clientes.csv" (fn [[nome cpf email]]
+                                          (novo-cliente nome cpf email))))
