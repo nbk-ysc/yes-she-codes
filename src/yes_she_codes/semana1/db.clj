@@ -1,6 +1,6 @@
-(ns yes_she_codes.db
-  (:require [yes_she_codes.logic :as y.logic]
-            [yes_she_codes.model :as y.model]))
+(ns yes_she_codes.semana1.db
+  (:require [yes_she_codes.semana1.logic :as y.logic]
+            [yes_she_codes.semana1.model :as y.model]))
 
 (defn lista-clientes
   "Funcao que retorna um vetor de hashmap com dados tratados de clientes

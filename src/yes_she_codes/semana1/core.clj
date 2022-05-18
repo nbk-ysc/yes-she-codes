@@ -1,6 +1,6 @@
-(ns yes-she-codes.core
-  (:require [yes_she_codes.logic :as y.logic]
-            [yes_she_codes.db :as y.db])
+(ns yes-she-codes.semana1.core
+  (:require [yes_she_codes.semana1.logic :as y.logic]
+            [yes_she_codes.semana1.db :as y.db])
   (:use clojure.pprint))
 
 (defn teste

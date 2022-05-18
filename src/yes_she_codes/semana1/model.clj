@@ -1,4 +1,4 @@
-(ns yes_she_codes.model)
+(ns yes_she_codes.semana1.model)
 
 (defn novo-cliente
   [[nome cpf email]]

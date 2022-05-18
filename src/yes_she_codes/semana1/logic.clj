@@ -1,4 +1,4 @@
-(ns yes_she_codes.logic
+(ns yes_she_codes.semana1.logic
   (:require [clojure.string :as str]
             [clojure.data.csv :as csv]
             [clojure.java.io :as io]))
