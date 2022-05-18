@@ -11,4 +11,4 @@
   (let [lista-de-compras-nao-tratados (y.logic/csv-to-map "resources/compras.csv")
         lista-de-compras-tratados (map y.logic/extrai-dados-compras lista-de-compras-nao-tratados)]
     (->> lista-de-compras-tratados
-         (map y.model/nova-compra))))
+         (mapv y.model/nova-compra))))
