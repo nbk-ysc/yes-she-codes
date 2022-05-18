@@ -88,9 +88,10 @@
 
 (println "\n=================================")             ;fiz essa etapa para somar valores de um mes da lista
 
-(defn total-gasto-no-mes [mes lista-de-compras-no-mes]
-  (total-gasto (compras-no-mes mes lista-de-compras-no-mes)))
+;(defn total-gasto-no-mes [mes lista-de-compras-no-mes]
+;  (total-gasto (compras-no-mes mes lista-de-compras-no-mes)))
 
+(def total-gasto-no-mes (comp total-gasto compras-no-mes))
 (println "Valor total das compras de um mes" (total-gasto-no-mes "04" (lista-compras)))
 
 (println "\n=================================")             ;fiz essa etapa para encontrar o estabelecimento
@@ -117,7 +118,9 @@
 
 (println "\n=================================")             ;fiz essa etapa para somar valores de um o cartão na lista
 
-(defn total-gasto-no-cartao [cartao lista-de-compras-no-cartao]
-  (total-gasto (comprei-no-cartao? cartao lista-de-compras-no-cartao)))
+;(defn total-gasto-no-cartao [cartao lista-de-compras-no-cartao]
+;  (total-gasto (comprei-no-cartao? cartao lista-de-compras-no-cartao)))
+
+(def total-gasto-no-cartao (comp total-gasto comprei-no-cartao?))
 
 (println "Valor total das compras de um cartao" (total-gasto-no-cartao 1234123412341234 (lista-compras)))
