@@ -1,7 +1,7 @@
-(ns yes_she_codes.logic
+(ns yes_she_codes.core
   (:require [yes_she_codes.db :as ysc.db]
             [clojure.string :as str]))
-            ;[clojure-csv.core :as csv]))
+;[clojure-csv.core :as csv]))
 
 (require '[clojure.data.csv :as csv]
          '[clojure.java.io :as io]
@@ -13,6 +13,10 @@
   (str/replace string " " ""))
 
 (defn mesmo-mes?
+  [mes compra]
+  (= mes (second (re-matches #"\d{4}-(\d{2})-\d{2}" (get compra :data)))))
+
+(defn mesmo-ano-mes?
   [mes compra]
   (.contains (get compra :data) mes))
 
@@ -29,6 +33,13 @@
   (let [valor (get compra :valor)]
     (and (>= valor valor-min) (<= valor valor-max) )))
 
+(defn processa-csv [caminho-arquivo funcao-mapeamento]
+  (->> (slurp caminho-arquivo)
+       clojure.string/split-lines
+       rest
+       (map #(clojure.string/split % #","))
+       funcao-mapeamento))
+
 
 ;;CLIENTE
 (defn novo-cliente
@@ -43,11 +54,16 @@
   [registro]
   (map transforma-cliente registro))
 
+(defn lista-clientes-csv
+  [caminho]
+  (processa-csv caminho lista-clientes))
+
 
 ;;CARTAO
 (defn novo-cartao
-  [numero cvv validade limite cliente]
-  {:numero (long (bigdec numero)) :cvv (long (bigdec cvv)) :validade validade :limite (bigdec limite) :cliente cliente})
+  [numero_espaco cvv validade limite cliente]
+  (let [numero (limpa-whitespace numero_espaco)]
+    {:numero (long (bigdec numero)) :cvv (long (bigdec cvv)) :validade validade :limite (bigdec limite) :cliente cliente}))
 
 (defn transforma-cartao
   [[numero-espaco cvv validade limite cliente]]
@@ -58,11 +74,16 @@
   [registro]
   (map transforma-cartao registro))
 
+(defn lista-cartoes-csv
+  [caminho]
+  (processa-csv caminho lista-cartoes))
+
 
 ;COMPRA
 (defn nova-compra
-  [data valor estabelecimento categoria cartao]
-  {:data data :valor (bigdec valor) :estabelecimento estabelecimento :categoria categoria :cartao (long (bigdec cartao))})
+  [data valor estabelecimento categoria cartao_espaco]
+  (let [cartao (limpa-whitespace cartao_espaco)]
+    {:data data :valor (bigdec valor) :estabelecimento estabelecimento :categoria categoria :cartao (long (bigdec cartao))}))
 
 (defn transforma-compra
   [[data valor estabelecimento categoria cartao-espaco]]
@@ -72,6 +93,10 @@
 (defn lista-compras
   [registro]
   (map transforma-compra registro))
+
+(defn lista-compras-csv
+  [caminho]
+  (processa-csv caminho lista-compras))
 
 
 ;;OUTRAS FUNÇÕES
@@ -83,6 +108,10 @@
   [mes lista-compras]
   (filter #(mesmo-mes? mes %) lista-compras))
 
+(defn compra-por-ano-mes
+  [mes lista-compras]
+  (filter #(mesmo-ano-mes? mes %) lista-compras))
+
 (defn compra-por-estabelecimento
   [estabelecimento lista]
   (filter #(mesmo-estabelecimento? estabelecimento %) lista))
@@ -91,12 +120,24 @@
   [numero lista]
   (filter #(mesmo-cartao? numero %) lista))
 
-(defn total-gasto-por-mes
-  [mes lista]
-  (->> lista
-       (compra-por-mes mes)
-       (map :valor)
-       (reduce +)))
+(def total-gasto-por-mes (comp total-gastos compra-por-mes))
+
+(def total-gasto-por-ano-mes (comp total-gastos compra-por-ano-mes))
+
+
+;(defn total-gasto-por-mes
+;  [mes lista]
+;  (->> lista
+;       (compra-por-mes mes)
+;       (map :valor)
+;       (reduce +)))
+;
+;(defn total-gasto-por-ano-mes
+;  [mes lista]
+;  (->> lista
+;       (compra-por-ano-mes mes)
+;       (map :valor)
+;       (reduce +)))
 
 (defn total-gasto-por-mes-por-cartao
   [mes numero lista]
@@ -106,29 +147,22 @@
        (map :valor)
        (reduce +)))
 
+(defn total-gasto-por-ano-mes-por-cartao
+  [mes numero lista]
+  (->> lista
+       (compra-por-ano-mes mes)
+       (compra-por-cartao numero)
+       (map :valor)
+       (reduce +)))
+
 (defn filtra-compras-por-intervalo
   [valor-min valor-max lista]
   (filter #(valor-no-intervalo? valor-min valor-max %) lista))
-
-(defn total-por-grupo
-  [[grupo compras]]
-  {grupo (->> compras
-              (map :valor)
-              (reduce +))})
 
 (defn total-por-categoria
   [compras]
   (->> compras
        (group-by :categoria)
-       (map total-por-grupo)))
-
-(defn csv-para-vec
-  [file]
-  (with-open [reader (io/reader file)]
-    (doall
-      (->> (csv/read-csv reader)
-           rest
-           (map vec)))))
-
-
-(println (time/local-date "yyyy-MM-dd" "2022-03-12"))
+       (map (fn [[categoria compras]]
+              {:categoria categoria
+               :valor (total-gastos compras)}))))
