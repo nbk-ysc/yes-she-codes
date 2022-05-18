@@ -1,5 +1,6 @@
 (ns semana2.nubank
-  (:use clojure.pprint))
+  (:use clojure.pprint)
+  (:require [java-time :as t]))
 
 (def repositorio-de-compras (atom []))
 (def repositorio-de-clientes (atom []))
@@ -20,20 +21,31 @@
         nova-compra-id (update nova-compra :id (constantly id))]
     (assoc compras id nova-compra-id)))
 
+(defn valida-compra
+  [nova-compra]
+  (if (and (> (:valor nova-compra) 0)
+           (t/before? (:data nova-compra) (t/local-date))
+           (= (class (:valor nova-compra)) BigDecimal)
+           (> (count (:estabelecimento nova-compra)) 2)
+           (contains? #{"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"} (:categoria nova-compra)))
+    true
+    (throw (ex-info "Não foi possível inserir a compra" {:compra nova-compra}))))
+
 (defn insere-compra!
   [nova-compra compras]
-  (swap! compras insere-compra nova-compra))
+  (if (valida-compra nova-compra)
+    (swap! compras insere-compra nova-compra)))
 
 (insere-compra!
-  (->Compra nil, "2022-05-07", 129.90, "Outback", "Alimentação", 1234123412341234)
+  (->Compra nil, (t/local-date "2022-05-07"), (bigdec 129.90), "Outback", "Alimentação", 1234123412341234)
   repositorio-de-compras)
 
 (insere-compra!
-  (->Compra nil, "2022-01-02", 260.00, "Dentista", "Saúde", 1234123412341234)
+  (->Compra nil, (t/local-date "2022-01-02"), (bigdec 260.00), "Dentista", "Saúde", 1234123412341234)
   repositorio-de-compras)
 
 (insere-compra!
-  (->Compra nil, "2022-02-01", 20.00, "Cinema", "Lazer", 1234123412341234)
+  (->Compra nil, (t/local-date "2022-02-01"), (bigdec 20.00), "Cinema", "Lazer", 1234123412341234)
   repositorio-de-compras)
 
 
