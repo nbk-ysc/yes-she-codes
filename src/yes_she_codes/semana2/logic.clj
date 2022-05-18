@@ -1,4 +1,5 @@
-(ns yes-she-codes.semana2.logic)
+(ns yes-she-codes.semana2.logic
+  (:require [yes-she-codes.semana2.model :as ysc.model]))
 
 (defn proximo-id [entidades]
   (if-not (empty? entidades)
@@ -15,7 +16,8 @@
 (defn insere-item!
   "Inclui um novo item no átomo."
   [atomo item]
-  (swap! atomo insere-item-no-vetor item))
+  (if (ysc.model/valido? item)
+    (swap! atomo insere-item-no-vetor item)))
 
 (defn lista-itens!
   "Lista os itens a partir de um átomo."
