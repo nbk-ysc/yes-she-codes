@@ -20,13 +20,13 @@
   [repositorio-de-compras]
   (mapv println @repositorio-de-compras))
 
-(defn compra-possui-id?
-  [compra id]
-  (= id (:id compra)))
+(defn possui-id?
+  [entidade id]
+  (= id (:id entidade)))
 
 (defn pesquisa-compra-por-id
   [compras id]
-  (let [compra (filter #(compra-possui-id? % id) compras)]
+  (let [compra (filter #(possui-id? % id) compras)]
     (if (not (empty? compra))
       compra)))
 
@@ -36,8 +36,40 @@
 
 (defn exclui-compra
   [compras id]
-  (remove #(compra-possui-id? % id) compras))
+  (remove #(possui-id? % id) compras))
 
 (defn exclui-compra!
   [compras id]
   (println (swap! compras exclui-compra id)))
+
+(defn insere-cliente
+  [lista-de-cliente cliente]
+  (let [id (proximo-id lista-de-cliente)
+        cliente-com-id (assoc cliente :id id)]
+    (conj lista-de-cliente cliente-com-id)))
+
+(defn insere-cliente!
+  [lista-de-cliente cliente]
+  (swap! lista-de-cliente insere-cliente cliente))
+
+(defn lista-clientes!
+  [repositorio-de-clientes]
+  (mapv println @repositorio-de-clientes))
+
+(defn pesquisa-cliente-por-id
+  [clientes id]
+  (let [cliente (filter #(possui-id? % id) clientes)]
+    (if (not (empty? cliente))
+      cliente)))
+
+(defn pesquisa-cliente-por-id!
+  [clientes id]
+  (println (pesquisa-cliente-por-id @clientes id)))
+
+(defn exclui-cliente
+  [clientes id]
+  (remove #(possui-id? % id) clientes))
+
+(defn exclui-cliente!
+  [clientes id]
+  (println (swap! clientes exclui-cliente id)))
