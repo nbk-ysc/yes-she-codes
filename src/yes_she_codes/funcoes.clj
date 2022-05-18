@@ -42,4 +42,4 @@
   [Compras]
   (->> Compras
        (group-by :Categoria)
-       (map (fn [[chave compras]] {chave (reduce + (map :Valor compras))}))))
+       (map (fn [[chave compras]] {:Categoria chave :Valor (reduce + (map :Valor compras))}))))

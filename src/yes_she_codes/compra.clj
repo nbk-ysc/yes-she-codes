@@ -6,7 +6,7 @@
   "criar uma estrutura de compra"
   [data valor estabelecimento categoria cartao]
   {:Data (t/local-date data)
-   :Valor (read-string valor)
+   :Valor (bigdec valor)
    :Estabelecimento estabelecimento
    :Categoria categoria
    :Cartao (Long/valueOf (clojure.string/replace cartao #" " ""))})

@@ -8,7 +8,10 @@
 (def cartoes (ysc.cartao/lista-cartoes))
 (def compras (ysc.compra/lista-compras))
 
-(println clientes)
-(println cartoes)
-(println compras)
+;(println clientes)
+;(println cartoes)
+;(println compras)
 
+(def teste (ysc.funcoes/agrupar-categoria compras))
+
+(println teste)
