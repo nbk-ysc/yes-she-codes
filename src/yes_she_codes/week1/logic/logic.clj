@@ -35,8 +35,7 @@
 (defn lista-de-compras-por-intervalo-de-valores
   [valor-max valor-min lista-compras]
   (->> lista-compras
-       (filter #(and (<= (:valor %) valor-max)
-                     (>= (:valor %) valor-min)))))
+       (filter #(<= valor-min (:valor %) valor-max))))
 
 
 (defn gasto-por-categoria

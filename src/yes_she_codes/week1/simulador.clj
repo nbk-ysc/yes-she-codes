@@ -22,6 +22,8 @@
            (l/total-gasto (i.csv/lista-compras)))
 (my-pprint "Compras do Mes: Abril"
            (l/lista-de-compras-do-mes 04 (i.csv/lista-compras)))
+(my-pprint "Compras do estabelecimento: Alura"
+           (l/lista-de-compras-do-estabelecimento "Alura" (i.csv/lista-compras)))
 (my-pprint "Total Gasto Mes: Abril"
            (l/total-gasto-no-mes 04 (i.csv/lista-compras)))
 (my-pprint "Lista de compras intervalo: valor-max = 150, valor-min = 100"
