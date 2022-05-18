@@ -43,14 +43,14 @@
   (println (swap! compras exclui-compra id)))
 
 (defn insere-cliente
-  [lista-de-cliente cliente]
-  (let [id (proximo-id lista-de-cliente)
+  [lista-de-clientes cliente]
+  (let [id (proximo-id lista-de-clientes)
         cliente-com-id (assoc cliente :id id)]
-    (conj lista-de-cliente cliente-com-id)))
+    (conj lista-de-clientes cliente-com-id)))
 
 (defn insere-cliente!
-  [lista-de-cliente cliente]
-  (swap! lista-de-cliente insere-cliente cliente))
+  [lista-de-clientes cliente]
+  (swap! lista-de-clientes insere-cliente cliente))
 
 (defn lista-clientes!
   [repositorio-de-clientes]
@@ -73,3 +73,35 @@
 (defn exclui-cliente!
   [clientes id]
   (println (swap! clientes exclui-cliente id)))
+
+(defn insere-cartao
+  [lista-de-cartoes cartao]
+  (let [id (proximo-id lista-de-cartoes)
+        cartao-com-id (assoc cartao :id id)]
+    (conj lista-de-cartoes cartao-com-id)))
+
+(defn insere-cartao!
+  [lista-de-cartoes cartao]
+  (swap! lista-de-cartoes insere-cartao cartao))
+
+(defn lista-cartoes!
+  [repositorio-de-cartoes]
+  (mapv println @repositorio-de-cartoes))
+
+(defn pesquisa-cartao-por-id
+  [cartoes id]
+  (let [cartao (filter #(possui-id? % id) cartoes)]
+    (if (not (empty? cartao))
+      cartao)))
+
+(defn pesquisa-cartao-por-id!
+  [cartoes id]
+  (println (pesquisa-cartao-por-id @cartoes id)))
+
+(defn exclui-cartao
+  [cartoes id]
+  (remove #(possui-id? % id) cartoes))
+
+(defn exclui-cartao!
+  [cartoes id]
+  (println (swap! cartoes exclui-cartao id)))

@@ -4,6 +4,7 @@
 
 (def repositorio-de-compras (atom []))
 (def repositorio-de-clientes (atom []))
+(def repositorio-de-cartoes (atom []))
 
 (defn lista-compras
   "Funcao que retorna um vetor de hashmap com dados tratados de compras
@@ -22,3 +23,12 @@
         lista-de-clientes-tratados (map y.logic/extrai-dados-clientes lista-de-clientes-nao-tratados)]
     (->> lista-de-clientes-tratados
          (mapv y.model/novo-cliente))))
+
+(defn lista-cartoes
+  "Funcao que retorna um vetor de hashmap com dados tratados de cartoes
+  relacionados a uma lista extraida de um arquivo csv"
+  []
+  (let [lista-de-cartoes-nao-tratados (y.logic/csv-to-map "resources/cartoes.csv")
+        lista-de-cartoes-tratados (map y.logic/extrai-dados-cartoes lista-de-cartoes-nao-tratados)]
+    (->> lista-de-cartoes-tratados
+         (mapv y.model/novo-cartao))))
