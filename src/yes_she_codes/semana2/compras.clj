@@ -12,7 +12,7 @@
                            :categoria "Educação"
                            :cartao 1234123412341234}))
 
-(def compra2 (map->Compra {:data "02/02/2022"
+(def compra2 (map->Compra {:data "2022-02-02"
                            :valor 100.00M
                            :estabelecimento "Lanches"
                            :categoria "Alimentação"
@@ -67,3 +67,5 @@
 (defn exclui-compra!
   [id lista]
   (swap! lista exclui-compra id))
+
+

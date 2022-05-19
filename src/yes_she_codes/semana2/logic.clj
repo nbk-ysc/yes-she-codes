@@ -6,33 +6,48 @@
     (+ 1 (apply max (map :id entidades)))
     1))
 
+
 (defn valida-data
-  [data]
-  (if (re-matches #"\d{4}-\d{2}-\d{2}" data)
-    true
-    false))
+  [compra]
+  (if-not (re-matches #"\d{4}-\d{2}-\d{2}" (:data compra))
+    (throw (ex-info "Fomato da data está errado, deve ser YYY-MM-DD" {:data (:data compra)}))
+    compra))
 
 (defn valida-valor
-  [valor]
-  (and (= (class valor) java.math.BigDecimal) (> valor 0)))
+  [compra]
+  (if-not (and (= (class (:valor compra)) java.math.BigDecimal) (> (:valor compra) 0))
+    (throw (ex-info "Valor deve ser bigdecimal e maior que 0" {:valor (:valor compra)}))
+    compra))
 
 (defn valida-estabelecimento
-  [estabelecimento]
-  (>= (count estabelecimento) 2))
+  [compra]
+  (if-not (>= (count (:estabelecimento compra)) 2)
+    (throw (ex-info "Estabelecimento deve ter ao menos dois caracteres" {:estabelecimento (:estabelecimento compra)}))
+    compra))
+
 
 (defn valida-categoria
-  [categoria]
+  [compra]
   (let [categorias ["Alimentação" "Automóvel" "Casa" "Educação" "Lazer" "Saúde"]]
-    (some #(= categoria %) categorias)))
+    (if-not (some #(= (:categoria compra) %) categorias)
+      (throw (ex-info "Categoria inválida" {:categorias-validas categorias}))
+      compra)))
 
 (defn valida-compra
   [compra]
-  (if (and (valida-data (:data compra))
-           (valida-valor (:valor compra))
-           (valida-estabelecimento (:estabelecimento compra))
-           (valida-categoria (:categoria compra)))
-    true
-    false))
+  (if (and (valida-data compra)
+           (valida-valor compra)
+           (valida-estabelecimento compra)
+           (valida-categoria compra))
+    true))
+
+
+
+
+
+
+
+
 
 
 
