@@ -1,5 +1,38 @@
 (ns yes_she_codes.semana2.logic)
 
+(defn valida-categoria-compra
+  [categoria]
+  (let [categorias ["Alimentação" "Saúde" "Lazer" "Automóvel" "Lazer" "Educação" "Casa"]]
+    (if-not (some #(= categoria %) categorias)
+      (throw (ex-info "Categoria da compra não existe" {:categoria categoria})))))
+
+(defn valida-estabelecimento-compra
+  [estabelecimento]
+  (if (< (count estabelecimento) 2)
+    (throw (ex-info "Estabelecimento da compra deve possuir pelo menos 2 caracteres" {:estabelecimento estabelecimento}))))
+
+(defn valida-valor-compra
+  [valor]
+  (if (< valor 0)
+    (throw (ex-info "Valor da compra deve ser positivo" {:valor valor}))))
+
+(defn valida-data-compra
+  [data]
+  (if (.before (java.util.Date.) data)
+    (throw (ex-info "Data da compra deve ser uma data válida" {:data data}))))
+
+(defn valida-compra
+  [compra]
+  (let [data-compra (:data compra)
+        valor-compra (:valor compra)
+        estabelecimento-compra (:estabelecimento compra)
+        categoria-compra (:categoria compra)]
+
+    (valida-data-compra data-compra)
+    (valida-valor-compra valor-compra)
+    (valida-estabelecimento-compra estabelecimento-compra)
+    (valida-categoria-compra categoria-compra)))
+
 (defn proximo-id
   [entidades]
   (if-not (empty? entidades)
@@ -14,6 +47,7 @@
 
 (defn insere-compra!
   [lista-de-compras compra]
+  (valida-compra compra)
   (swap! lista-de-compras insere-compra compra))
 
 (defn lista-compras!
