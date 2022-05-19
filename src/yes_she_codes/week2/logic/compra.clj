@@ -20,14 +20,18 @@
   (let [categorias-permitidas #{"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"}]
     (contains? categorias-permitidas categoria )))
 
-(defn insere-compra!
+(defn insere-compra
   [compras
-  {_0 :_0 data :data valor :valor estabelecimento :estabelecimento categoria :categoria _1 :_1 :as record}]
+   {:keys [data valor estabelecimento categoria] :as record}]
   {:pre [(data-menor-igual-a-hoje? data)
          (bigdec-positivo? valor)
          (pelo-menos-dois-chars? estabelecimento)
          (pertence-as-opcoes? categoria)]}
-  (swap! compras logic.common/insere-record record))
+  (logic.common/insere-record compras record))
+
+(defn insere-compra!
+  [compras record]
+  (swap! compras insere-compra record))
 
 (defn lista-compras!
   [compras]

@@ -4,14 +4,7 @@
             [yes-she-codes.week2.logic.compra :as logic.compra]
             [yes-she-codes.week2.adapter.cliente :as adapter.cliente]
             [yes-she-codes.week2.adapter.cartao :as adapter.cartao]
-            [yes-she-codes.week2.adapter.compra :as adapter.compra]
-            [clojure.pprint :as pp]))
-
-(defn my-pprint
-  [& args]
-  (mapv #(pp/pprint %) args))
-
-; atoms -> [coll param]
+            [yes-she-codes.week2.adapter.compra :as adapter.compra]))
 
 ;; SIMULADOR SEMANA 2
 
@@ -19,7 +12,6 @@
 
 (def lista-records-compra (adapter.compra/csv->compra "data/compras.csv"))
 (def repositorio-de-compras (atom []))
-(my-pprint (get lista-records-compra 1))
 (logic.compra/insere-compra! repositorio-de-compras (get lista-records-compra 1))
 (logic.compra/insere-compra! repositorio-de-compras (get lista-records-compra 2))
 (logic.compra/insere-compra! repositorio-de-compras (get lista-records-compra 3))
@@ -27,8 +19,6 @@
 (logic.compra/exclui-compra! repositorio-de-compras 1)
 (logic.compra/insere-compra! repositorio-de-compras (get lista-records-compra 5))
 (logic.compra/lista-compras! repositorio-de-compras)
-
-
 
 
 ;;; TESTANDO CRUD CLIENTES

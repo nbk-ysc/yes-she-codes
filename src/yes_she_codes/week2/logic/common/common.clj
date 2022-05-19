@@ -6,7 +6,7 @@
   (if-not (empty? entidades)
     (inc (apply max (map :id entidades))) 1))
 
-(defn record-com-id-atribuido
+(defn ^:private record-com-id-atribuido
   [compras record]
   (assoc record :id (proximo-id compras)))
 
