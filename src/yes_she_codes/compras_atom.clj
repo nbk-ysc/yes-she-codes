@@ -3,6 +3,13 @@
             [yes-she-codes.logic :as y.logic])
   (:use [clojure.pprint]))
 
+(def vetor-de-compras (y.model/lista-compras))
+(def compra1 (map->Compras {:data "2022-05-10",
+                            :valor 100.00M,
+                            :estabelecimento "Alura",
+                            :categoria "Educação",
+                            :cartao 3939393939393939}))
+
 ;1- Definir átomo como banco de dados em memória, vazio
 (def repositorio-de-compras (atom []))
 ;(pprint (class @repositorio-de-compras))
@@ -17,18 +24,15 @@
        (assoc record-compras :id)
        (conj vetor-compras-cadastradas)))
 
-
+;4- Inserir compra no átomo
+(defn insere! [atomo-compras record-compras]
+  (swap! atomo-compras into (insere-compra [] record-compras)))
 
 ;;;;;;;;testes;;;;;;;;;;;
-(def vetor-de-compras (y.model/lista-compras))
-(def compra1 (map->Compras {:data "2022-05-10",
-                            :valor 100.00M,
-                            :estabelecimento "Alura",
-                            :categoria "Educação",
-                            :cartao 3939393939393939}))
-
-(pprint (insere-compra vetor-de-compras compra1))
-;(pprint (cria-atom-crompas "2022-01-02" "260.00" "Dentista" "Saúde" "1234123412341234"))
+;teste 3
+;(pprint (insere-compra vetor-de-compras compra1))
+;teste 4
+(pprint (insere! repositorio-de-compras compra1))
 
 
 
