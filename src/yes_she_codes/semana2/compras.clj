@@ -15,6 +15,8 @@
 
 
 
+
+
 (println "\n\n ---------- criando um record ----------")
 
 (defrecord Compras [^Long ID, ^String Data, ^BigDecimal Valor, ^String Estabelecimento, ^String Categoria, ^Long Cartao])
@@ -26,16 +28,9 @@
 
 
 
+
+
 (println "\n\n ---------- criando a funcao insere-compra ----------")
-
-;(defn insere-compra
-;  [lista-compras nova-compra]
-;
-;  (let [id (inc (count lista-compras))
-;        id-compra-a-inserir (assoc nova-compra :ID id)]
-;    (conj lista-compras id-compra-a-inserir))
-;  )
-
 
 (defn insere-compra
   [lista-compras nova-compra]
@@ -46,6 +41,8 @@
   )
 
 (pprint (insere-compra {} {:Data "18/05/2022" :Valor 10 :Estabelecimento "Araujo" :Categoria "Saude" :Cartao 1111222233334444}))
+
+
 
 
 
@@ -64,8 +61,12 @@
 
 
 
+
+
 (println "\n\n ---------- repositorio-de-compras ----------")
 (pprint @repositorio-de-compras)
+
+
 
 
 
@@ -76,6 +77,8 @@
   (println @repositorio-de-compras))
 
 (lista-compras! repositorio-de-compras)
+
+
 
 
 
@@ -90,6 +93,8 @@
 
 
 
+
+
 (println "\n\n ---------- pesquisar-compra-por-id! ----------")
 (defn pesquisa-compra-por-id!
   [repositorio-de-compras id]
@@ -97,6 +102,7 @@
 
 (pprint (pesquisa-compra-por-id! repositorio-de-compras 5))
 (pprint (pesquisa-compra-por-id! repositorio-de-compras 2))
+
 
 
 
@@ -116,6 +122,8 @@
 
 (pprint (exclui-compra [{:ID 1 :Data "18/05/2022" :Valor 10 :Estabelecimento "Araujo" :Categoria "Saude" :Cartao 1111222233334444}
                         {:ID 2 :Data "19/05/2022" :Valor 10 :Estabelecimento "Nucleo Artistico" :Categoria "Lazer" :Cartao 1111222233334444}] 1))
+
+
 
 
 
