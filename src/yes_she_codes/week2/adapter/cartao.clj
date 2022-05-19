@@ -5,15 +5,11 @@
 
 (defn ^:private criar-record-cartao
   [[numero cvv validade limite cliente]]
-  (model.cartao/novo-record-cartao (adaptor.common/string->long numero)
-                                   (adaptor.common/string->long cvv)
-                                   (time/year-month validade)
-                                   (bigdec limite)
-                                   cliente))
-
-
-; validacao será feita uma vez implementado o schema
-; abrir o arquivo deve ser feito no controller?
+  (model.cartao/map->Cartao {:numero   (adaptor.common/string->long numero)
+                             :cvv      (adaptor.common/string->long cvv)
+                             :validade (time/year-month validade)
+                             :limite   (bigdec limite)
+                             :cliente   cliente}))
 
 (defn csv->cartao
   [caminho-arquivo]

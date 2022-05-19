@@ -1,21 +1,9 @@
-(ns yes-she-codes.week2.model.cartao)
+(ns yes-she-codes.week2.model.cartao
+  (:import (java.time YearMonth)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Dados de um record de cartão de crédito:
-; Id (Long ou nil)
-; Número (Long)
-; CVV (Long)
-; Validade (String: yyyy-mm)  => (Obj: java.time.YearMonth)
-; Limite (BigDecimal)
-; Cliente (String) = cpf
-
-(defn novo-record-cartao
-  ([numero cvv validade limite cliente]
-   (novo-record-cartao nil numero cvv validade limite cliente))
-  ([id numero cvv validade limite cliente]
-   {:id       id
-    :numero   numero
-    :cvv      cvv
-    :validade validade
-    :limite   limite
-    :cliente  cliente}))
+(defrecord Cartao [^Long       id
+                   ^Long       numero
+                   ^Long       cvv
+                   ^YearMonth  validade
+                   ^BigDecimal limite
+                   ^String     cliente])

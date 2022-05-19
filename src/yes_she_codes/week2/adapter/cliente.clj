@@ -4,7 +4,9 @@
 
 (defn ^:private criar-record-cliente
   [[nome cpf email]]
-  (model.cliente/novo-record-cliente nome cpf email))
+  (model.cliente/map->Cliente {:nome  nome
+                               :cpf   cpf
+                               :email email}))
 
 (defn csv->cliente
   [caminho-arquivo]

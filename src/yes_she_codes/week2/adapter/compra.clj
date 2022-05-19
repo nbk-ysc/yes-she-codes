@@ -5,11 +5,11 @@
 
 (defn ^:private criar-record-compra
   [[data valor estabelecimento categoria cartao]]
-  (model.compra/novo-record-compra (time/local-date data)
-                                   (bigdec valor)
-                                   estabelecimento
-                                   categoria
-                                   (adaptor.common/string->long cartao)))
+  (model.compra/map->Compra {:data            (time/local-date data)
+                             :valor           (bigdec valor)
+                             :estabelecimento estabelecimento
+                             :categoria       categoria
+                             :cartao          (adaptor.common/string->long cartao)}))
 
 (defn csv->compra
   [caminho-arquivo]
