@@ -1,4 +1,4 @@
-(ns yes_she_codes.logic_w_javatime
+(ns yes_she_codes.logic_semana1_w_javatime
   (:require [yes_she_codes.db :as ysc.db]
             [clojure.string :as str]))
 ;[clojure-csv.core :as csv]))
