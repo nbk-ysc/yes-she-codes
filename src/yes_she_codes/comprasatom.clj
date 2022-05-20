@@ -48,6 +48,3 @@
 ;9- Criar a função exclui-compra! para uma compra de um átomo por meio de swap!.
 (defn exlui-compra! [id atomo-compras]
   (swap! atomo-compras into (exlui-compra id @atomo-compras)))
-
-
-
