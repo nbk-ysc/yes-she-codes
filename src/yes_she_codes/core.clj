@@ -1,91 +1,92 @@
-(ns yes-she-codes.core
-  (:require [yes-she-codes.db :as l.db])
-  (:require [java-time :as t]))
+(ns yes-she-codes.core)
 
-(defn novo-cliente
-  [[nome cpf email]]
-  (let [client (conj {:nome nome :cpf cpf :email email})]
-    client))
-
-(defn novo-cartao
-  [[numero cvv limite validate cpf]]
-  (let [formatValidate (t/format "MM/yyyy" (t/year-month validate))]
-    (let [client (conj {:numero numero, :cvv cvv, :limite limite :validate formatValidate :cpf cpf})]
-      client)))
-
-(defn nova-compra
-  [[data valor estabelecimento categoria cartao]]
-  (let [formatData (t/format "dd/MM/yyyy" (t/local-date data))]
-    (conj {:data formatData, :valor valor, :estabelecimento estabelecimento :categoria categoria :cartao cartao})))
+(defn str->long [valor]
+  (Long/parseLong (clojure.string/replace valor #" " "")))
 
 
-(defn parametros-clients []
-  (let [clients (l.db/param-clientes)]
-    (vec (map novo-cliente clients))))
+(defn novo-cliente [nome cpf email]
+  {:nome  nome
+   :cpf   cpf
+   :email email})
 
 
-(defn parametros-cartoes []
-  (let [cartoes (l.db/param-cartoes)]
-    (vec (map novo-cartao cartoes))))
+(defn novo-cartao [numero cvv validade limite cliente]
+  {:numero  (str->long numero)
+   :cvv     (str->long cvv)
+   :email   validade
+   :limite  (bigdec limite)
+   :cliente cliente})
 
-(defn parametros-compras []
-  (let [compras (l.db/param-compras)]
-    (vec (map nova-compra compras))))
+
+(defn nova-compra [data valor estabelecimento categoria cartao]
+  {:data            data
+   :valor           (bigdec valor)
+   :estabelecimento estabelecimento
+   :categoria       categoria
+   :cartao          (str->long cartao)})
+
+
+(defn processa-csv [caminho-arquivo funcao-mapeamento]
+  (->> (slurp caminho-arquivo)
+       clojure.string/split-lines
+       rest
+       (map #(clojure.string/split % #","))
+       (mapv funcao-mapeamento)))
+
 
 (defn lista-clientes []
-  (parametros-clients))
+  (processa-csv "dados/clientes.csv" (fn [[nome cpf email]]
+                                       (novo-cliente nome cpf email))))
 
 (defn lista-cartoes []
-  (parametros-cartoes))
+  (processa-csv "dados/cartoes.csv" (fn [[numero cvv validade limite cliente]]
+                                      (novo-cartao numero cvv validade limite cliente))))
+
 
 (defn lista-compras []
-  (parametros-compras))
+  (processa-csv "dados/compras.csv" (fn [[data valor estabelecimento categoria cartao]]
+                                      (nova-compra data valor estabelecimento categoria cartao))))
 
 
 (defn total-gasto [compras]
-  (reduce + (map #(:valor %) compras)))
-
-(defn filtra-compras
-  [field value data]
-  (filter #(= value (field %)) data))
-
-(defn filtra-compras-data
-  [field value data]
-  (let [pattern (re-pattern (str "[0-9]{2}/" value "/[0-9]{4}"))
-        match-month #(re-matches pattern (field %))]
-    (filter #(= (match-month %) (field %)) data)))
-
-(defn buscar-por-mes
-  [mes compras]
-  (filtra-compras-data :data mes compras))
+  (reduce + (map :valor compras)))
 
 
-(defn total-gasto-mes
-  [mes cartao compras]
-  (let [client-cartao (filtra-compras :cartao cartao compras)]
-    (let [data (filtra-compras-data :data mes client-cartao)]
-      (total-gasto data))))
+(defn mes-da-data [data]
+  (second (re-matches #"\d{4}-(\d{2})-\d{2}" data)))
 
 
-(defn buscar-por-estabelecimento
-  [estabelecimento compras]
-  (filtra-compras :estabelecimento estabelecimento compras))
-
-(defn filtrar-intervalo-compras
-  [minimo maximo compras]
-  (filter #(and (> (compare (% :valor) minimo) 0) (< (compare (% :valor) maximo) 0)) compras))
+(defn filtra-compras [predicado compras]
+  (vec (filter predicado compras)))
 
 
-(defn total-compras-por-categoria
-  [[categoria values]]
-  {:categoria categoria
-   :R$        (format "%.2f" (total-gasto values))})
+(defn filtra-compras-no-mes [mes compras]
+  (filtra-compras #(= mes (mes-da-data (:data %)))
+                  compras))
 
 
-(defn agrupar-por-categoria [compras]
-  (map total-compras-por-categoria
-       (group-by :categoria compras)))
+(defn filtra-compras-no-estabelecimento [estabelecimento compras]
+  (filtra-compras #(= estabelecimento (:estabelecimento %))
+                  compras))
 
+
+;(defn total-gasto-no-mes [mes compras]
+;  (total-gasto (filtra-compras-no-mes mes compras)))
+
+
+(def total-gasto-no-mes-com-composition (comp total-gasto filtra-compras-no-mes))
+
+(defn filtra-compras-por-valor [minimo maximo compras]
+  (filtra-compras #(and (>= (:valor %) minimo)
+                        (<= (:valor %) maximo))
+                  compras))
+
+
+(defn agrupa-gastos-por-categoria [compras]
+  (vec (map (fn [[categoria compras-da-categoria]]
+              {:categoria   categoria
+               :total-gasto (total-gasto compras-da-categoria)})
+            (group-by :categoria compras))))
 
 
 
