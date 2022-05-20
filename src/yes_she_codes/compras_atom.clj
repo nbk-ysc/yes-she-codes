@@ -50,12 +50,11 @@
 ;5- Crie a função lista-compras!, que lista uma lista de compras de um átomo.
 (defn lista-compras! [atomo-compras]
   (println "atomo" @atomo-compras))
-'
-;6- Crie a função pesquisa-compra-por-id, que pesquisa por uma compra de determinado id num vetor.
-(defn pesquisa-compra-por-id [id vetor-compras]
-  (->> vetor-compras
-       (filter #(= (:id %) id))
-       first))
+';6- Crie a função pesquisa-compra-por-id, que pesquisa por uma compra de determinado id num vetor.
+        (defn pesquisa-compra-por-id [id vetor-compras]
+          (->> vetor-compras
+               (filter #(= (:id %) id))
+               first))
 
 ;7- Crie a função pesquisa-compra-por-id!, que pesquisa por uma compra em um átomo.
 (defn pesquisa-compra-por-id! [id atomo-compras]
@@ -63,14 +62,16 @@
   )
 
 ;8- Crie a função exclui-compra, que exclui uma compra de determinado id de um vetor.
-;Parâmetros da função:
-;id da compra a ser excluída;
-;vetor de compras.
-;Retorno da função:
-;Novo vetor sem a compra excluída.
-;Critérios de aceitação:
-;Caso a compra não exista, retornar o vetor original recebido por parâmetro.
-
+(defn pesquisa-para-excluir-id [id vetor-compras]
+  (->> vetor-compras
+       (remove #(= (:id %) id))
+       vec)
+  )
+(defn exlui-compra [id vetor-compras]
+  (let [vetor-sem-id-pesquisado (pesquisa-para-excluir-id id vetor-compras)]
+    (if-not (= (count vetor-compras) (count vetor-sem-id-pesquisado))
+      vetor-sem-id-pesquisado
+      vetor-compras)))
 
 
 
@@ -87,7 +88,9 @@
 ;(pprint (pesquisa-compra-por-id 1 [{:id 1 :data "2022-04-10" :valor 150.00M} {:id 7} compra2]))
 ;teste 7
 ;(println "\n Pesquisa")(pprint (pesquisa-compra-por-id! 4  repositorio-de-compras))
-
+;teste 8
+;(println "\n Vetor:") (pprint vetor-de-compras)
+;(println "\n Pesquisa para excluir id:") (pprint (exlui-compra 5 vetor-de-compras))
 
 ;(update vetor-compras-cadastradas :id conj (y.logic/proximo-id record-compras))
 
