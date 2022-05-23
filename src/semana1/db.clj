@@ -1,4 +1,4 @@
-(ns yes-she-codes.db
+(ns semana1.db
   (:require [java-time :as t]
             [clojure.data.csv :as csv]
             [clojure.java.io :as io]))

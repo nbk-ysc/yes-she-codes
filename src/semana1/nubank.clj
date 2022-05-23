@@ -1,5 +1,5 @@
-(ns yes-she-codes.nubank
-  (:require [yes-she-codes.db :as y.db]
+(ns semana1.nubank
+  (:require [semana1.db :as y.db]
             [java-time :as t]))
 
 

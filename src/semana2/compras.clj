@@ -1,14 +1,10 @@
-(ns semana2.nubank
+(ns semana2.compras
   (:use clojure.pprint)
   (:require [java-time :as t]))
 
 (def repositorio-de-compras (atom []))
-(def repositorio-de-clientes (atom []))
-(def repositorio-de-cartoes (atom []))
 
 (defrecord Compra [id, data, valor, estabelecimento, categoria, cartao])
-(defrecord Clientes [nome, cpf, email])
-(defrecord Cartoes [numero, cvv, validade, limite, cliente])
 
 (defn proximo-id [entidades]
   (if-not (empty? entidades)
@@ -51,9 +47,9 @@
 
 (defn lista-compras!
   [compras]
-  (println "Lista compras:" (deref compras)))
+  (@compras))
 
-(lista-compras! repositorio-de-compras)
+(println "Lista compras:" lista-compras! repositorio-de-compras)
 
 
 (defn pesquisa-compra-por-id
@@ -67,7 +63,7 @@
   (pesquisa-compra-por-id id (deref compras)))
 
 (println "Pesquisa por id 0:" (pesquisa-compra-por-id! 0 repositorio-de-compras))
-(println "Pesquisa por id 100:" (pesquisa-compra-por-id! 100 repositorio-de-compras))
+;(println "Pesquisa por id 100:" (pesquisa-compra-por-id! 100 repositorio-de-compras))
 
 
 (defn exclui-compra
