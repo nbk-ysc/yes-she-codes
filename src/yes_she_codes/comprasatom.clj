@@ -20,7 +20,8 @@
 
 ;4- Inserir compra no átomo
 (defn insere! [atomo-compras record-compras]
-  (swap! atomo-compras into (insere-compra @atomo-compras record-compras)))
+  (swap! atomo-compras insere-compra record-compras))
+
 
 ;5- Crie a função lista-compras!, que lista uma lista de compras de um átomo.
 (defn lista-compras! [atomo-compras]
@@ -37,7 +38,7 @@
   (pesquisa-compra-por-id id @atomo-compras))
 
 ;8- Crie a função exclui-compra, que exclui uma compra de determinado id de um vetor.
-(defn exlui-compra [id vetor-compras]
+(defn exlui-compra [vetor-compras id]
   (if-not (= nil (pesquisa-compra-por-id id vetor-compras))
     (->> vetor-compras
          (remove #(= (:id %) id))
@@ -47,4 +48,4 @@
 
 ;9- Criar a função exclui-compra! para uma compra de um átomo por meio de swap!.
 (defn exlui-compra! [id atomo-compras]
-  (swap! atomo-compras into (exlui-compra id @atomo-compras)))
+  (swap! atomo-compras exlui-compra id))
