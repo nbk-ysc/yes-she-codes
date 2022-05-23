@@ -1,5 +1,6 @@
 (ns yes-she-codes.comprasatom
-  (:require [yes-she-codes.logic :as y.logic])
+  (:require [yes-she-codes.logic :as y.logic]
+            [java-time :as time])
   (:use [clojure.pprint]))
 
 
@@ -49,3 +50,18 @@
 ;9- Criar a função exclui-compra! para uma compra de um átomo por meio de swap!.
 (defn exlui-compra! [id atomo-compras]
   (swap! atomo-compras exlui-compra id))
+
+(defn compra-valida?
+  [compra]
+  (let [valida-Data (time/after? (time/local-date) (get compra :data))
+        valida-Valor (and (number? (get compra :valor)) (> (get compra :valor) 0))
+        valida-Estabelecimento (>= (count (get compra :estabelecimento)) 2)
+        categoria (get compra :categoria)
+        valida-Categoria (or (= "Alimentação" categoria)
+                             (= "Automóvel" categoria)
+                             (= "Casa" categoria)
+                             (= "Educação" categoria)
+                             (= "Lazer" categoria)
+                             (= "Saúde" categoria))]
+    (and valida-Data valida-Valor valida-Estabelecimento valida-Categoria)
+    ))
