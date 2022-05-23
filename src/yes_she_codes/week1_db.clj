@@ -1,4 +1,5 @@
-(ns yes-she-codes.week1-db)
+(ns yes-she-codes.week1-db
+  (:require [clojure.string :as str]))
 
 
 (def exemplos-clientes [["Feiticeira Escarlate", "000.111.222-33", "feiticeira.poderosa@vingadoras.com.br"],
@@ -31,3 +32,24 @@
                        ["2022-03-12",215.87,"Praia","Lazer",3939393939393939]
                        ["2022-04-01",976.88,"Oficina","Automóvel",3939393939393939]
                        ["2022-04-10",85.00,"Alura","Educação",3939393939393939]])
+
+
+(def compras-csv
+  (->> (slurp "resources/compras.csv")
+       str/split-lines
+       rest
+       (map #(str/split % #","))))
+
+
+
+(def clientes-csv
+(->> (slurp "resources/clientes.csv")
+       str/split-lines
+       rest
+       (map #(str/split % #","))))
+
+
+(def cartoes-csv (->> (slurp "resources/cartoes.csv")
+                      str/split-lines
+                      rest
+                      (map #(str/split % #","))))

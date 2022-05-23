@@ -15,7 +15,6 @@
                                  :estabelecimento "Drogaria", :categoria "Saúde",
                                  :cliente 6655665566556655}))
 
-
 (println "Insere 1ª compra:" (insere-no-vetor [] compra1 ))
 (println "Insere outras compras:"(insere-no-vetor [{:id 5} {:id 3} compra2] compra1))
 
@@ -28,7 +27,7 @@
 (println "Compra por id no atom:" (pesquisar-por-id! 3 repositorio-de-compras))
 
 (println "Exclui por id:" (exclui-item-do-vetor [{:id 5} {:id 3} compra2] 5))
-(println "Exclui por id no atom:" (exclui-item! repositorio-de-compras 1))
+(println "Exclui por id no atom:" (exclui-item! repositorio-de-compras 2))
 
 (println "Atom deref final:" @repositorio-de-compras)
 
