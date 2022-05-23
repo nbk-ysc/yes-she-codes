@@ -1,4 +1,14 @@
-(ns yes-she-codes.db)
+(ns yes-she-codes.db
+  (:require [clojure.string :as str]))
+
+
+(defn processa-csv [arquivo funcao-mapeamento]
+  (->> (slurp arquivo)
+       str/split-lines
+       rest
+       (map #(str/split % #","))
+       (mapv funcao-mapeamento)))
+
 
 (def clientes [
                {:nome "Feiticeira Escarlate" :cpf "000.111.222-33" :email "feiticeira.poderosa@vingadoras.com.br"}
