@@ -1,4 +1,4 @@
-(ns yes-she-codes.compra
+(ns model.compra
   (:use clojure.pprint)
   (:require [yes-she-codes.db :as y.db]
             [clojure.string :as str]))

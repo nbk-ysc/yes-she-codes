@@ -1,4 +1,4 @@
-(ns yes-she-codes.cartao
+(ns model.cartao
   (:use clojure.pprint)
   (:require [yes-she-codes.db :as y.db]))
 

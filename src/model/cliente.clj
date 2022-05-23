@@ -1,4 +1,4 @@
-(ns yes-she-codes.cliente
+(ns model.cliente
   (:use clojure.pprint)
   (:require [yes-she-codes.db :as y.db]))
 
