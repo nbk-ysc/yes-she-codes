@@ -51,6 +51,7 @@
 (defn exlui-compra! [id atomo-compras]
   (swap! atomo-compras exlui-compra id))
 
+;12- Validar cadastro de compra
 (defn compra-valida?
   [compra]
   (let [valida-Data (time/after? (time/local-date) (get compra :data))
