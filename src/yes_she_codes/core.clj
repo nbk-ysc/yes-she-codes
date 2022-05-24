@@ -1,42 +1,5 @@
 (ns yes-she-codes.core)
 
-(defn lista-registros-clientes []
-  [["Feiticeira Escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"]
-   ["Viúva Negra" "333.444.555-66" "viuva.casca.grossa@vingadoras.com.br"]
-   ["Hermione Granger" "666.777.888-99" "hermione.salvadora@hogwarts.com"]
-   ["Daenerys Targaryen" "999.123.456-78" "mae.dos.dragoes@got.com"]])
-
-
-(defn lista-registros-cartoes []
-  [["1234 1234 1234 1234" "111" "2023-01" "1.000" "000.111.222-33"]
-   ["4321 4321 4321 4321" "222" "2024-02" "2.000" "333.444.555-66"]
-   ["1598 1598 1598 1598" "333" "2021-03" "3.000" "666.777.888-99"]
-   ["6655 6655 6655 6655" "444" "2025-04" "4.000" "666.777.888-99"]
-   ["3939 3939 3939 3939" "555" "2026-05" "5.000" "999.123.456-78"]])
-
-
-(defn lista-registros-compras []
-  [["2022-01-01" "129.90" "Outback" "Alimentação" "1234 1234 1234 1234"]
-   ["2022-01-02" "260.00" "Dentista" "Saúde" "1234 1234 1234 1234"]
-   ["2022-02-01" "20.00" "Cinema" "Lazer" "1234 1234 1234 1234"]
-   ["2022-01-10" "150.00" "Show" "Lazer" "4321 4321 4321 4321"]
-   ["2022-02-10" "289.99" "Posto de gasolina" "Automóvel" "4321 4321 4321 4321"]
-   ["2022-02-20" "79.90" "iFood" "Alimentação" "4321 4321 4321 4321"]
-   ["2022-03-01" "85.00" "Alura" "Educação" "4321 4321 4321 4321"]
-   ["2022-01-30" "85.00" "Alura" "Educação" "1598 1598 1598 1598"]
-   ["2022-01-31" "350.00" "Tok&Stok" "Casa" "1598 1598 1598 1598"]
-   ["2022-02-01" "400.00" "Leroy Merlin" "Casa" "1598 1598 1598 1598"]
-   ["2022-03-01" "50.00" "Madero" "Alimentação" "6655 6655 6655 6655"]
-   ["2022-03-01" "70.00" "Teatro" "Lazer" "6655 6655 6655 6655"]
-   ["2022-03-04" "250.00" "Hospital" "Saúde" "6655 6655 6655 6655"]
-   ["2022-04-10" "130.00" "Drogaria" "Saúde" "6655 6655 6655 6655"]
-   ["2022-03-10" "100.00" "Show de pagode" "Lazer" "3939 3939 3939 3939"]
-   ["2022-03-11" "25.90" "Dogão" "Alimentação" "3939 3939 3939 3939"]
-   ["2022-03-12" "215.87" "Praia" "Lazer" "3939 3939 3939 3939"]
-   ["2022-04-01" "976.88" "Oficina" "Automóvel" "3939 3939 3939 3939"]
-   ["2022-04-10" "85.00" "Alura" "Educação" "3939 3939 3939 3939"]])
-
-
 (defn str->long [valor]
   (Long/parseLong (clojure.string/replace valor #" " "")))
 
@@ -63,25 +26,78 @@
    :cartao          (str->long cartao)})
 
 
+(defn processa-csv [caminho-arquivo funcao-mapeamento]
+  (->> (slurp caminho-arquivo)
+       clojure.string/split-lines
+       rest
+       (map #(clojure.string/split % #","))
+       (mapv funcao-mapeamento)))
+
+
 (defn lista-clientes []
-  (vec (map (fn [[nome cpf email]]
-              (novo-cliente nome cpf email))
-            (lista-registros-clientes))))
+  (processa-csv "dados/clientes.csv" (fn [[nome cpf email]]
+                                       (novo-cliente nome cpf email))))
 
 (defn lista-cartoes []
-  (vec (map (fn [[numero cvv validade limite cliente]]
-              (novo-cartao numero cvv validade limite cliente))
-            (lista-registros-cartoes))))
+  (processa-csv "dados/cartoes.csv" (fn [[numero cvv validade limite cliente]]
+                                       (novo-cartao numero cvv validade limite cliente))))
 
 
 (defn lista-compras []
-  (vec (map (fn [[data valor estabelecimento categoria cartao]]
-              (nova-compra data valor estabelecimento categoria cartao))
-            (lista-registros-compras))))
+  (processa-csv "dados/compras.csv" (fn [[data valor estabelecimento categoria cartao]]
+            (nova-compra data valor estabelecimento categoria cartao))))
 
 
 (defn total-gasto [compras]
   (reduce + (map :valor compras)))
+
+
+(defn mes-da-data [data]
+  (second (re-matches #"\d{4}-(\d{2})-\d{2}" data)))
+
+
+(defn filtra-compras [predicado compras]
+  (vec (filter predicado compras)))
+
+
+(defn filtra-compras-no-mes [mes compras]
+  (filtra-compras #(= mes (mes-da-data (:data %)))
+                  compras))
+
+
+(defn filtra-compras-no-estabelecimento [estabelecimento compras]
+  (filtra-compras #(= estabelecimento (:estabelecimento %))
+                  compras))
+
+
+;(defn total-gasto-no-mes [mes compras]
+;  (total-gasto (filtra-compras-no-mes mes compras)))
+
+
+(def total-gasto-no-mes-com-composition (comp total-gasto filtra-compras-no-mes))
+
+(defn filtra-compras-por-valor [minimo maximo compras]
+  (filtra-compras #(and (>= (:valor %) minimo)
+                        (<= (:valor %) maximo))
+                  compras))
+
+
+(defn agrupa-gastos-por-categoria [compras]
+  (vec (map (fn [[categoria compras-da-categoria]]
+              {:categoria   categoria
+               :total-gasto (total-gasto compras-da-categoria)})
+            (group-by :categoria compras))))
+
+
+
+
+
+
+
+
+
+
+
 
 
 
