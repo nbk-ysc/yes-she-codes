@@ -15,8 +15,8 @@
   {:numero numero :cvv cvv :validade validade :limite limite :cliente cliente})
 
 (defn nova-compra
-  [data valor estabelecimento categoria cartao]
-  {:data (transforma-datas data) :valor valor :estabelecimento estabelecimento :categoria categoria :cartao cartao})
+  [id data valor estabelecimento categoria cartao]
+  {:id id :data (transforma-datas data) :valor valor :estabelecimento estabelecimento :categoria categoria :cartao cartao})
 
 (defn transforma-clientes [registros]
   (map (fn [[nome cpf email]]
@@ -29,8 +29,8 @@
        registros))
 
 (defn transforma-compras [registros]
-  (map (fn [[data valor estabelecimento categoria cartao]]
-         (nova-compra data, valor, estabelecimento, categoria, cartao))
+  (map (fn [[id data valor estabelecimento categoria cartao]]
+         (nova-compra id data, valor, estabelecimento, categoria, cartao))
        registros))
 
 (defn compras-de-um-cartao
