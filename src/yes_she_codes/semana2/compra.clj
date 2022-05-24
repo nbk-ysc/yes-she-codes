@@ -2,7 +2,6 @@
   (:import (java.time LocalDate))
   (:use clojure.pprint))
 
-
 (def repositorio-de-compras (atom []))
 
 (println @repositorio-de-compras)
