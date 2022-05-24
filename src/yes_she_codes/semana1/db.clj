@@ -1,4 +1,6 @@
-(ns yes-she-codes.semana1.db)
+(ns yes-she-codes.semana1.db
+  (:require
+    [yes-she-codes.semana1.utilities :as y.utilities]))
 
 (defn novo-cliente
   [nome cpf email]
@@ -8,19 +10,19 @@
 
 (defn novo-cartao
   [numero CVV  validade limite cliente]
-  {:numero numero
-   :CVV CVV
+  {:numero   (y.utilities/str->long numero)
+   :CVV      (y.utilities/str->long CVV)
    :validade validade
-   :limite limite
-   :cliente cliente})
+   :limite   (bigdec limite)
+   :cliente  cliente})
 
 (defn nova-compra
   [data valor estabelecimento categoria cartao]
-  {:data data
-   :valor valor
+  {:data            data
+   :valor           (bigdec valor)
    :estabelecimento estabelecimento
-   :categoria categoria
-   :cartao cartao})
+   :categoria       categoria
+   :cartao          (y.utilities/str->long cartao)})
 
 
 (def cliente1 (novo-cliente "Feiticeira Escarlate" "000.111.222-33" "feiticeira.poderosa@vingadoras.com.br"))
