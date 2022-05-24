@@ -1,10 +1,6 @@
-(ns yes-she-codes.core-test
-  (:require [clojure.test :refer :all]
-            [yes-she-codes.semana1.compras :as y.compras]
-            [yes-she-codes.semana1.core :as y.core]))
+(ns yes-she-codes.semana2.bd)
 
-
-(def lista-compras
+(defn lista-dados-compra []
   [["2022-01-01" 129.90 "Outback" "Alimentação" "1234123412341234"]
    ["2022-01-02" 260.00 "Dentista" "Saúde" "1234123412341234"]
    ["2022-02-01" 20.00 "Cinema" "Lazer" "1234123412341234"]
@@ -24,23 +20,3 @@
    ["2022-03-12" 215.87 "Praia" "Lazer" "3939393939393939"]
    ["2022-04-01" 976.88 "Oficina" "Automóvel" "3939393939393939"]
    ["2022-04-10" 85.00 "Alura" "Educação" "3939393939393939"]])
-
-(deftest compras-cartao
-  (let [cartao 1234123412341234
-        compras (y.compras/lista-compra lista-compras)]
-    (is (= 409.9 (y.core/soma-compras-cartao cartao compras)))))
-
-(deftest cacula-fatura-teste
-  (let [mes 1
-        cartao 1234123412341234
-        compras (y.compras/lista-compra lista-compras)]
-    (is (= 389.9 (y.core/cacula-fatura-mes mes cartao compras)))
-    (is (= 20.0 (y.core/cacula-fatura-mes 2 cartao compras)))))
-
-(deftest compras-estabelecimento
-  (let [estabelecimento "Outback"
-        compras (y.compras/lista-compra lista-compras)]
-    (is (= {:estabelecimento "Outback", :gasto-total 129.9} (y.core/soma-compras-estabelecimento estabelecimento compras)))
-    ))
-
-(clojure.test/run-all-tests)

@@ -18,7 +18,7 @@
 ; Soma valores recebidos
 (defn total-gasto [lista-compras]
   (->> lista-compras
-       (map :valor)
+       (mapv :valor)
        (apply +)))
 
 (println "\nTotal geral de compras (todos os cartoes):"
@@ -41,14 +41,16 @@
 ; Calcula os gastos por cartao
 (defn soma-compras-cartao [cartao lista-compras]
   (println "\nTotal de gasto do cartao: " cartao)
-  (println lista-compras)
-  (->> lista-compras
-       (group-by :cartao)
-       (map lista-gastos)
-       (filter #(= (:cartao %) (str cartao)))
-       println))
+  ;(println lista-compras)
+   (->> lista-compras
+                     (group-by :cartao)
+                     (mapv lista-gastos)
+                     (filter #(= (:cartao %) (str cartao)))
+                           first
+                           :gasto-total)
+  )
 
-;(soma-compras-cartao cartao (y.compras/lista-compra (y.db/lista-dados-compra)))
+(soma-compras-cartao 1234123412341234 (y.compras/lista-compra (y.db/lista-dados-compra)))
 
 ; Calcula o total da fatura de um cartao no mes
 (defn cacula-fatura-mes [mes cartao lista-compras]
@@ -56,10 +58,9 @@
   (->> lista-compras
        (filter #(and (= mes (mes-da-data (:data %)))
                      (= (str cartao) (:cartao %))))
-       (total-gasto)
-       println))
+       (total-gasto)))
 
-;(cacula-fatura-mes mes cartao (y.compras/lista-compra (y.db/lista-dados-compra)))
+;(cacula-fatura-mes 1 1234123412341234 (y.compras/lista-compra (y.db/lista-dados-compra)))
 
 ; Lista as compras do mes
 (defn lista-compras-mes [mes cartao lista-compras]
@@ -72,12 +73,15 @@
 ;(lista-compras-mes mes cartao (y.compras/lista-compra (y.db/lista-dados-compra)))
 
 ;Filtro de compra por estabelecimento
-(defn soma-compras-estabelecimento [estabelecimento lista-compras]
+(defn soma-compras-estabelecimento
+  [estabelecimento
+   lista-compras]
+
 (println "\nGastos totais por estabelecimento")
   (->> lista-compras
        (group-by :estabelecimento)
        (map lista-gastos-estabelecimento)
        (filter #(= (str/lower-case (:estabelecimento %)) (str/lower-case estabelecimento)))
-       println))
+       first))
 
-;(soma-compras-estabelecimento estabelecimento (y.compras/lista-compra (y.db/lista-dados-compra)))
+(soma-compras-estabelecimento "Outback" (y.compras/lista-compra (y.db/lista-dados-compra)))
