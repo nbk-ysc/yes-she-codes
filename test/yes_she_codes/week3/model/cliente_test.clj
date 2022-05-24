@@ -5,10 +5,9 @@
 
 
 (test/deftest ClienteSchema-test
-  (let [cliente {:id     1
-                 :nome  "Fulano"
-                 :cpf   "000.000.000-00"
-                 :email "fulano@gmail.com"}]
+  (let [cliente {:nome "Viúva Negra"
+                 :cpf "333.444.555-66"
+                 :email "viuva.casca.grossa@vingadoras.com.br"}]
 
     (test/testing "cliente que atende ao schema"
       (test/is (=
@@ -37,4 +36,15 @@
                  (s/validate model.cliente/ClienteSchema (assoc cliente :email "fulano@gmail"))))
       (test/is (thrown?
                  clojure.lang.ExceptionInfo
-                 (s/validate model.cliente/ClienteSchema (assoc cliente :email "fulano gmail.com")))))))
+                 (s/validate model.cliente/ClienteSchema (assoc cliente :email "fulano gmail.com")))))
+
+    (test/testing "campos nulos"
+      (test/is (thrown?
+                 clojure.lang.ExceptionInfo
+                 (s/validate model.cliente/ClienteSchema (assoc cliente :nome nil))))
+      (test/is (thrown?
+                 clojure.lang.ExceptionInfo
+                 (s/validate model.cliente/ClienteSchema (assoc cliente :cpf nil))))
+      (test/is (thrown?
+                 clojure.lang.ExceptionInfo
+                 (s/validate model.cliente/ClienteSchema (assoc cliente :email nil)))))))

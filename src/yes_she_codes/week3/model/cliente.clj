@@ -1,20 +1,12 @@
 (ns yes-she-codes.week3.model.cliente
-  (:require [schema.core :as s]))
+  (:require [schema.core :as s]
+            [yes-she-codes.week3.model.constrains.constrains :as constrains]))
 
-(defrecord Cliente [^Long   id
-                    ^String nome
-                    ^String cpf
-                    ^String email])
-
+(def Nome  (s/constrained s/Str constrains/pelo-menos-dois-chars?))
+(def Cpf   (s/constrained s/Str constrains/formato-cpf?))
+(def Email (s/constrained s/Str constrains/formato-email?))
 
 (def ClienteSchema
-  {:id    java.lang.Long
-   :nome  (s/conditional #(>= (count %) 2) s/Str)
-   :cpf   (s/conditional #(re-matches #"\d{3}.\d{3}.\d{3}-\d{2}" %) s/Str)
-   :email (s/conditional #(re-matches #"^^\w+[\.-]?\w+@\w+[\.-]?\w+\.\w{2,3}+$" %) s/Str)})
-
-
-
-;;; validação de regras de negócio feito a partir de schema é bastante perigoso
-;;; como, por exemplo, validação de cpf
-;;; schema pode ser desativado em produção
+  {:nome  Nome
+   :cpf   Cpf
+   :email Email})

@@ -4,14 +4,12 @@
             [yes-she-codes.week3.model.cartao :as model.cartao]
             [java-time :as time]))
 
-
 (test/deftest CartaoSchema-test
-  (let [cartao {:id       1
-                :numero   11111111111
-                :cvv      999
-                :validade (time/year-month)
-                :limite   500.00
-                :cliente  "000.000.000-00"}]
+  (let [cartao {:numero   4321432143214321
+                :cvv      222
+                :validade (time/year-month "2024-02")
+                :limite   2000.00M
+                :cliente  "333.444.555-66"}]
 
     (test/testing "cartao que atende ao schema"
       (test/is (=
@@ -21,7 +19,7 @@
     (test/testing "numero invalido"
       (test/is (thrown?
                  clojure.lang.ExceptionInfo
-                 (s/validate model.cartao/CartaoSchema (assoc cartao :numero "11111111"))))
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :numero -11111111))))
       (test/is (thrown?
                  clojure.lang.ExceptionInfo
                  (s/validate model.cartao/CartaoSchema (assoc cartao :numero 11111.11)))))
@@ -34,13 +32,21 @@
                  clojure.lang.ExceptionInfo
                  (s/validate model.cartao/CartaoSchema (assoc cartao :cvv 1000)))))
 
+    (test/testing "validade invalida"
+      (test/is (thrown?
+                 clojure.lang.ExceptionInfo
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :validade "2030-03"))))
+      (test/is (thrown?
+                 clojure.lang.ExceptionInfo
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :validade (time/local-date))))))
+
     (test/testing "limite invalido"
       (test/is (thrown?
                  clojure.lang.ExceptionInfo
-                 (s/validate model.cartao/CartaoSchema (assoc cartao :limite "500.00"))))
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :limite  -500.00M))))
       (test/is (thrown?
                  clojure.lang.ExceptionInfo
-                 (s/validate model.cartao/CartaoSchema (assoc cartao :limite 500)))))
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :limite 500.00)))))
 
     (test/testing "cliente invalido"
       (test/is (thrown?
@@ -48,4 +54,22 @@
                  (s/validate model.cartao/CartaoSchema (assoc cartao :cliente "000000000-00"))))
       (test/is (thrown?
                  clojure.lang.ExceptionInfo
-                 (s/validate model.cartao/CartaoSchema (assoc cartao :cliente 00000000000)))))))
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :cliente 00000000000)))))
+
+    (test/testing "campos nulos"
+      (test/is (thrown?
+                 clojure.lang.ExceptionInfo
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :numero nil))))
+      (test/is (thrown?
+                 clojure.lang.ExceptionInfo
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :cvv nil))))
+      (test/is (thrown?
+                 clojure.lang.ExceptionInfo
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :validade nil))))
+      (test/is (thrown?
+                 clojure.lang.ExceptionInfo
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :limite nil))))
+      (test/is (thrown?
+                 clojure.lang.ExceptionInfo
+                 (s/validate model.cartao/CartaoSchema (assoc cartao :cliente nil)))))
+    ))
