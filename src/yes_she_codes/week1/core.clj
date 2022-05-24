@@ -1,4 +1,4 @@
-(ns yes-she-codes.week1.simulador
+(ns yes-she-codes.week1.core
   (:require [yes-she-codes.week1.input.csv-reader :as i.csv]
             [yes-she-codes.week1.input.hard-code :as i.hc]
             [yes-she-codes.week1.logic.logic :as l]
@@ -8,7 +8,7 @@
   [& args]
   (mapv #(pp/pprint %) args))
 
-;; SIMULADOR SEMANA 1
+;; SEMANA 1
 
 (my-pprint "***Lista Clientes:" (i.csv/lista-clientes))
 (my-pprint "*** Lista Cartões:" (i.csv/lista-cartoes))

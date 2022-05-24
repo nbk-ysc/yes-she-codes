@@ -20,21 +20,17 @@
   (let [categorias-permitidas #{"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"}]
     (contains? categorias-permitidas categoria )))
 
-(defn ^:private valida-compra
+(defmethod logic.common/valida-entidade
+  "yes_she_codes.week2.model.compra.Compra"
   [{:keys [data valor estabelecimento categoria]}]
   (and (data-menor-igual-a-hoje? data)
        (bigdec-positivo? valor)
        (pelo-menos-dois-chars? estabelecimento)
        (pertence-as-opcoes? categoria)))
 
-(defn insere-compra
-  [compras record]
-  {:pre [(valida-compra record)]}
-  (logic.common/insere-record compras record))
-
 (defn insere-compra!
   [compras record]
-  (swap! compras insere-compra record))
+  (swap! compras logic.common/insere-record record))
 
 (defn lista-compras!
   [compras]
