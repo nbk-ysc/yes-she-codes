@@ -3,6 +3,12 @@
   (:use [clojure pprint])
   )
 
+
+
+(s/set-fn-validation! true)
+
+
+
 (def CartaoSchema
   "Schema de um cartao"
   {:numero s/Int,                                           ; inteiro entre 0 e 1 0000 0000 0000 0000.
