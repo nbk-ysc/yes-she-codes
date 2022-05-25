@@ -78,7 +78,7 @@
 ;Alimentação, Automóvel, Casa, Educação, Lazer ou Saúde
 (defn match-category?
   [x]
-  (clojure.string/includes? "Alimentação, Automóvel, Casa, Educação, Lazer ou Saúde" x)
+  (clojure.string/includes? "Alimentação, Automóvel, Casa, Educação, Lazer, Saúde" x)
   )
 
 (def MatchCategory (s/pred match-category? 'MatchCategory))

@@ -16,7 +16,7 @@
   {:data y.3.logic/DateFormatString,                     ; Se você estiver usando a data como String, então ela deve ter o formato yyyy-mm-dd;
    :valor y.3.logic/BigDecimalBiggerEqual0,              ; deve ser um BigDecimal positivo
    :estabelecimento y.3.logic/MinDoisCaracteresStr,      ; Deve ter pelo menos 2 caracteres
-   :categoria y.3.logic/MatchCategory,                                     ; Deve ser uma das opções: Alimentação, Automóvel, Casa, Educação, Lazer ou Saúde.
+   :categoria y.3.logic/MatchCategory,                   ; Deve ser uma das opções: Alimentação, Automóvel, Casa, Educação, Lazer ou Saúde.
    :cartao y.3.logic/IntBetween0And,                     ; inteiro entre 0 e 1 0000 0000 0000 0000.
    }
   )

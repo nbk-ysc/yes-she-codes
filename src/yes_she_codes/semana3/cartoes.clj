@@ -17,7 +17,7 @@
    :cvv y.3.logic/IntBetween0And999,                              ; inteiro entre 0 e 999 OK
    :validade y.3.logic/DateFormatString,                          ; se estiver usando String, deve ter o formato "yyyy-mm" OK
    :limite y.3.logic/BigDecimalBiggerEqual0,                      ; BigDecimal maior ou igual a zero OK
-   :cliente y.3.logic/CpfFormatStr                                           ; String com o formato 000.000.000-00.
+   :cliente y.3.logic/CpfFormatStr                                ; String com o formato 000.000.000-00.
    })
 
 
