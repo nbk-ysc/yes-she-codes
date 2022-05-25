@@ -13,11 +13,11 @@
 (defn maior-ou-igual-a-zero? [numero]
   (>= numero 0))
 
-(defn menor-ou-igual-a-numero-grande? [numero]
-  (<= numero 10000000000000000))
+(defn maior-ou-igual-a-zero-e-menor-ou-igual-a-999? [numero]
+  (and (>= numero 0) (<= numero 999)))
 
-(defn menor-ou-igual-a-999? [numero]
-  (<= numero 999))
+(defn maior-ou-igual-a-zero-e-menor-ou-igual-a-numero-grande? [numero]
+  (and (>= numero 0) (<= numero 10000000000000000)))
 
 (defn categoria? [categoria]
   (contains? #{"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"} categoria))

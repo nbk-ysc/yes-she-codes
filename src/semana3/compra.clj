@@ -9,9 +9,7 @@
 (def Valor (s/constrained BigDecimal pos?))
 (def Estabelecimento (s/constrained s/Str s.logic/pelo-menos-2-caracteres?))
 (def Categoria (s/pred s.logic/categoria?))
-(def Cartao (s/constrained s/Int
-                           s.logic/maior-ou-igual-a-zero?
-                           s.logic/menor-ou-igual-a-numero-grande?))
+(def Cartao (s/constrained s/Int s.logic/maior-ou-igual-a-zero-e-menor-ou-igual-a-numero-grande?))
 (def Data (s/pred s.logic/menor-ou-igual-a-data-atual))
 
 (def CompraSchema

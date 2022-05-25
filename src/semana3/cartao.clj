@@ -6,12 +6,8 @@
             [java-time :as t]
             [semana3.logic :as s.logic]))
 
-(def NumeroCartao (s/constrained s/Int
-                                 s.logic/maior-ou-igual-a-zero?
-                                 s.logic/menor-ou-igual-a-numero-grande?))
-(def CVV (s/constrained s/Int
-                        s.logic/maior-ou-igual-a-zero?
-                        s.logic/menor-ou-igual-a-999?))
+(def NumeroCartao (s/constrained s/Int s.logic/maior-ou-igual-a-zero-e-menor-ou-igual-a-numero-grande?))
+(def CVV (s/constrained s/Int s.logic/maior-ou-igual-a-zero-e-menor-ou-igual-a-999?))
 (def Limite (s/constrained BigDecimal s.logic/maior-ou-igual-a-zero?))
 (def Cliente (s/constrained s/Str s.logic/cpf?))
 

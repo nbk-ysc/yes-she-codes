@@ -14,7 +14,7 @@
 
 
 (defn clientes []
-  (ler-csv "csv/clientes.csv"))
+  (ler-csv "dados/clientes.csv"))
 
 (defn novo-cliente [nome, cpf, email]
   {:nome  nome
@@ -31,7 +31,7 @@
 
 
 (defn cartoes []
-  (ler-csv "csv/cartoes.csv"))
+  (ler-csv "dados/cartoes.csv"))
 
 (defn novo-cartao [numero, cvv, validade, limite, cliente]
   {:numero   (str->long numero)
@@ -50,7 +50,7 @@
 
 
 (defn compras []
-  (ler-csv "csv/compras.csv"))
+  (ler-csv "dados/compras.csv"))
 
 (defn nova-compra [data, valor, estabelecimento, categoria, cartao]
   {:data            (t/local-date data)

@@ -1,6 +1,7 @@
 (ns semana2.compras
   (:use clojure.pprint)
-  (:require [java-time :as t]))
+  (:require [java-time :as t]
+            [semana1.db :as y.db]))
 
 (def repositorio-de-compras (atom []))
 
@@ -9,15 +10,15 @@
 (defn proximo-id [entidades]
   (if-not (empty? entidades)
     (+ 1 (apply max (map :id entidades)))
-    0))
+    1))
 
 (defn insere-compra
   [compras nova-compra]
   (let [id (proximo-id compras)
-        nova-compra-id (update nova-compra :id (constantly id))]
-    (assoc compras id nova-compra-id)))
+        compra-com-id (assoc nova-compra :id id)]
+    (conj compras compra-com-id)))
 
-(defn valida-compra
+(defn compra-valida?
   [nova-compra]
   (if (and (> (:valor nova-compra) 0)
            (t/before? (:data nova-compra) (t/local-date))
@@ -29,20 +30,18 @@
 
 (defn insere-compra!
   [nova-compra compras]
-  (if (valida-compra nova-compra)
+  (if (compra-valida? nova-compra)
     (swap! compras insere-compra nova-compra)))
 
-(insere-compra!
-  (->Compra nil, (t/local-date "2022-05-07"), (bigdec 129.90), "Outback", "Alimentação", 1234123412341234)
-  repositorio-de-compras)
 
-(insere-compra!
-  (->Compra nil, (t/local-date "2022-01-02"), (bigdec 260.00), "Dentista", "Saúde", 1234123412341234)
-  repositorio-de-compras)
+(defn carrega-registros! [insere compras repositorio-de-compras]
+  (doseq [registro compras]
+    (insere registro repositorio-de-compras)))
 
-(insere-compra!
-  (->Compra nil, (t/local-date "2022-02-01"), (bigdec 20.00), "Cinema", "Lazer", 1234123412341234)
-  repositorio-de-compras)
+(defn carrega-compras-no-atomo []
+  (carrega-registros! insere-compra! (y.db/lista-compras) repositorio-de-compras))
+
+(carrega-compras-no-atomo)
 
 
 (defn lista-compras!
@@ -54,16 +53,13 @@
 
 (defn pesquisa-compra-por-id
   [id vetor-de-compras]
-  (if-not (empty? vetor-de-compras)
-    (get vetor-de-compras id)
-    nil))
+  (first (filter #(= id (:id %)) vetor-de-compras)))
 
 (defn pesquisa-compra-por-id!
   [id compras]
   (pesquisa-compra-por-id id (deref compras)))
 
-(println "Pesquisa por id 0:" (pesquisa-compra-por-id! 0 repositorio-de-compras))
-;(println "Pesquisa por id 100:" (pesquisa-compra-por-id! 100 repositorio-de-compras))
+(println "Pesquisa por id 2:" (pesquisa-compra-por-id! 2 repositorio-de-compras))
 
 
 (defn exclui-compra
@@ -77,8 +73,6 @@
   (swap! compras exclui-compra id))
 
 (println "Exclui compra de id 1:" (exclui-compra! 1 repositorio-de-compras))
-
-
-
+(println "Pesquisa por id 2:" (pesquisa-compra-por-id! 2 repositorio-de-compras))
 
 
