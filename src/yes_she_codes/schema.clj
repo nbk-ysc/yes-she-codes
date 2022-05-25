@@ -1,5 +1,5 @@
 (ns yes-she-codes.schema
-  (:gen-class)
+  ;(:gen-class)
   (:use [clojure.pprint])
   (:require [schema.core :as s]))
 
@@ -33,6 +33,10 @@
   (def pat (re-pattern "[0-9]{4}-[0-9]{2}-[0-9]{2}"))
   (and (= 10 (count data)) (not (nil? (re-find pat data)))))
 
+(defn valida-categorias? [categoria]
+  (contains? #{"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"} categoria))
+
+
 
 ;DEFINICOES VALIDACAO
 (def Maior-2-caracteres (s/pred maior-2-caracteres?))
@@ -41,9 +45,9 @@
 (def Valida-data-validade (s/pred valida-data-validade?))
 (def Valida-data-compra (s/pred valida-data-compra?))
 (def Numero-inteiro-entre-0-999 (s/constrained s/Int numero-entre-0-999?))
-(def Positivo (s/pred pos?))
 (def BigDecimal-maior-igual-0 (s/pred decimal-maior-igual-0?))
 (def Positivo-e-Inteiro (s/pred pos-int?))
+(def Valida-categorias (s/pred valida-categorias?))
 
 
 ;DEFINIR SCHEMA PARA CLIENTE
@@ -67,33 +71,37 @@
   {:data-da-compra Valida-data-compra
    :valor BigDecimal-maior-igual-0
    :estabelecimento  Maior-2-caracteres
-   :categoria Positivo
-   ;Deve ser uma das opções: Alimentação, Automóvel, Casa, Educação, Lazer ou Saúde.
+   :categoria Valida-categorias
    :cartao Positivo-e-Inteiro
    })
 
-(println (s/validate ClienteSchema {:nome "nome"
-                                    :cpf  "000.000.000-00"
-                                    :email "foobar@gmail.com"}))
 
-(println (s/validate CartaoSchema {:numero 55
-                                   :cvv 910
-                                   :validade "2020-02"
-                                   :limite 0M
-                                   :cliente "000.000.000-00"}))
+(println (s/validate ClienteSchema {:nome "Viúva Negra"
+                                    :cpf  "333.444.555-66"
+                                    :email "viuva.casca.grossa@vingadoras.com.br"}))
 
-(println (s/validate CompraSchema {:data-da-compra "2022-04-12"
-                                   :valor 15M
-                                   :estabelecimento "IFood"
-                                   :categoria 15
-                                   :cartao 55}))
+(println (s/validate CartaoSchema {:numero 4321432143214321
+                                   :cvv 222
+                                   :validade "2024-02"
+                                   :limite 2000M
+                                   :cliente "333.444.555-66"}))
+
+(println (s/validate CompraSchema {:data-da-compra "2022-05-09"
+                                   :valor 100M
+                                   :estabelecimento "Amazon"
+                                   :categoria "Lazer"
+                                   :cartao 4321432143214321}))
 
 
 (s/defn novo-cliente :- ClienteSchema
   [nome :- Maior-2-caracteres
-   cpf :- s/Str
-   email :- s/Str]
+   cpf :- Valida-cpf
+   email :- Valida-email]
   {:nome nome
    :cpf cpf
    :email email})
+
+(pprint (novo-cliente "Viúva Negra"
+               "333.444.555-66"
+               "viuva.casca.grossa@vingadoras.com.br"))
 
