@@ -39,17 +39,17 @@
 
 
 ; ---------- CLIENT SCHEMA ----------
-(def ClienteSchema
+(def ClienteSchema                   ; o schema é um mapa com as validacoes de nome, cpf e email
   "Schema de um cliente"
   {:nome MinDoisCaracteresStr,       ; pelo menos 2 caracteres OK
-   :cpf CpfFormatStr,                ; string com o formato 000.000.000-00
-   :email EmailFormatStr             ; email válido (há expressões regulares prontas na internet para usar).
+   :cpf CpfFormatStr,                ; string com o formato 000.000.000-00 OK
+   :email EmailFormatStr             ; email válido OK
    })
 
 
 
 ; ---------- NEW CLIENT FUNCTION ----------
-(s/defn novo-cliente :- ClienteSchema
+(s/defn novo-cliente :- ClienteSchema ; funcao retorna um novo cliente
   [nome :- MinDoisCaracteresStr
    cpf :- CpfFormatStr
    email :- s/Str]
