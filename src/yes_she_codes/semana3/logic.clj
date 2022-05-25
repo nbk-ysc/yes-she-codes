@@ -44,7 +44,7 @@
 
 
 
-; ---------- INT BETWEEN 0 AND 1 0000 0000 0000 0000 ----------
+; ---------- INT BETWEEN 0 AND 999 ----------
 (defn int-between-0-and-999?
   [x]
   (and (> x 0) (<= x 999)))
