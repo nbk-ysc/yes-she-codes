@@ -7,7 +7,12 @@
 
 (def repositorio-de-cartoes (atom []))
 
-(defrecord Cartao [^Long id, ^Long numero, ^Long cvv, ^YearMonth validade, ^BigDecimal limite, ^String cliente])
+(defrecord Cartao [^Long id,
+                   ^Long numero,
+                   ^Long cvv,
+                   ^YearMonth validade,
+                   ^BigDecimal limite,
+                   ^String cliente])
 
 (defn insere-cartao
   [vetor-cartoes cartao]
