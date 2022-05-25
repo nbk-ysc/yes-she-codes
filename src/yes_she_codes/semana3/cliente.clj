@@ -16,5 +16,5 @@
    :cpf cpf,
    :email email})
 
-(pprint (novo-clinte "Caroline" "12312312312" "caroline@nubank.com.br"))
+(pprint (novo-clinte "Caroline" "123.123.123-12" "caroline@nubank.com.br"))
 

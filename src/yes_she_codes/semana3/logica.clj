@@ -29,8 +29,7 @@
   (s/constrained s/Str email-valido? 'EmailFormatInvalid))
 
 ; Funcao que valida se um numero é >= a 0
-(defn limite-valido? [x]
-  (>= x 0))
+(defn limite-valido? [x] (>= x 0))
 
 (def Limite
   "Schema do limite-valido?"
