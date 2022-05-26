@@ -8,9 +8,24 @@
 
 (deftest validate-cliente-test
   (testing "Teste para Adicionar adicionar um Cliente válido"
-    (is (s/validate ClienteSchema {:nome "Viúva Negra"
+    (is (s/validate
+          ClienteSchema {:nome "Viúva Negra"
                                    :cpf  "333.444.555-66"
-                                   :email "viuva.casca.grossa@vingadoras.com.br"}))))
+                                   :email "viuva.casca.grossa@vingadoras.com.br"})))
+
+  (testing "Teste para Adicionar adicionar um Cliente não válido"
+    (is (thrown? clojure.lang.ExceptionInfo
+                 "Excessão caso cliente não seja válido"
+                 (s/validate ClienteSchema {:nome "Viúva Negra"
+                                            :cpf  "33344455566"
+                                            :email "v"}))))
+
+  (testing "Teste para Adicionar adicionar um Cliente com nome nill"
+    (is (thrown? clojure.lang.ExceptionInfo
+                 "Excessão caso Cliente com nome nill"
+                 (s/validate ClienteSchema {:nome nil
+                                   :cpf  "333.444.555-66"
+                                   :email "viuva.casca.grossa@vingadoras.com.br"})))))
 
 (deftest validate-cartao-test
   (testing "Teste para Adicionar adicionar um Cartão válido"
