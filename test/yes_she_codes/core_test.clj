@@ -16,8 +16,7 @@
                             :cpf "000.111.222-33"
                             :email "feiticeira.poderosa@vingadoras.com.br"}]
       (is (thrown? clojure.lang.ExceptionInfo
-                   (s/validate ClienteSchema cliente-invalido)))))
-  )
+                   (s/validate ClienteSchema cliente-invalido))))))
 
 
 (deftest CartaoSchema-test

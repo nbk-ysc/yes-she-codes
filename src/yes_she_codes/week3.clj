@@ -6,7 +6,7 @@
 
 (def valida-cpf (s/pred #(re-matches #"\d{3}.\d{3}.\d{3}-\d{2}" %)))
 
-(def valida-email (s/pred #(re-matches #"" %)))   ;melhorar
+(def valida-email (s/pred #(re-matches #".+\@.+\..+" %)))   ;melhorar
 
 
 (def de-0-a-999 #(and (>= % 0)
