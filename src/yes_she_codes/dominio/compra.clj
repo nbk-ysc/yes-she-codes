@@ -1,5 +1,5 @@
 (ns yes-she-codes.dominio.compra
-  (:require [yes-she-codes.util :as util]
+  (:require [yes-she-codes.logic.util :as util]
             [java-time :as time]))
 
 

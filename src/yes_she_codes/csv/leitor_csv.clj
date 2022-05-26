@@ -1,6 +1,6 @@
 (ns yes-she-codes.csv.leitor-csv
   (:require [java-time :as time]
-            [yes-she-codes.util :as y.util]
+            [yes-she-codes.logic.util :as y.util]
             [yes-she-codes.dominio.compra :as y.compra]
             [yes-she-codes.dominio.cliente :as y.cliente]
             [yes-she-codes.dominio.cartao :as y.cartao]))
