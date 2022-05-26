@@ -3,17 +3,17 @@
 
 (defn lista-clientes []
   (a/dado-bruto->model
-    "data/clientes.csv"
+    "data/in/clientes.csv"
     a/criar-cliente))
 
 
 (defn lista-cartoes []
   (a/dado-bruto->model
-    "data/cartoes.csv"
+    "data/in/cartoes.csv"
     a/criar-cartao))
 
 
 (defn lista-compras []
   (a/dado-bruto->model
-    "data/compras.csv"
+    "data/in/compras.csv"
     a/criar-compra))

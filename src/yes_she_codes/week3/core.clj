@@ -1,19 +1,16 @@
 (ns yes-she-codes.week3.core
-  (:require [yes-she-codes.week3.logic.cliente :as logic.cliente]
-            [yes-she-codes.week3.logic.cartao :as logic.cartao]
-            [yes-she-codes.week3.logic.compra :as logic.compra]
-            [yes-she-codes.week3.adapter.cliente :as adapter.cliente]
-            [yes-she-codes.week3.adapter.cartao :as adapter.cartao]
-            [yes-she-codes.week3.adapter.compra :as adapter.compra]
-            [yes-she-codes.week3.model.cliente :as model.cliente]
+  (:require [yes-she-codes.week3.model.cliente :as model.cliente]
             [schema.core :as s]))
 
 ;; SEMANA 3
 
+(def cliente1 {:nome  "Fulano"
+               :cpf   "000.000.000-000"
+               :email "fulano@gmail.com"})
 
+(println cliente1)
 
-
-
+(s/validate model.cliente/ClienteSchema cliente1)
 
 
 

@@ -12,7 +12,7 @@
 
 (def repositorio-de-compras (atom []))
 
-(let [lista-records-compra (adapter.compra/csv->compra "data/compras.csv")]
+(let [lista-records-compra (adapter.compra/csv->compra "data/in/compras.csv")]
   (doseq
     [record lista-records-compra]
     (logic.compra/insere-compra! repositorio-de-compras record)))
@@ -24,7 +24,7 @@
 ;;; SIMULANDO CRUD CLIENTES
 
 (def repositorio-de-clientes (atom []))
-(let [lista-records-clientes (adapter.cliente/csv->cliente "data/clientes.csv")]
+(let [lista-records-clientes (adapter.cliente/csv->cliente "data/in/clientes.csv")]
   (doseq
     [record lista-records-clientes]
     (logic.cliente/insere-cliente! repositorio-de-clientes record)))
@@ -36,7 +36,7 @@
 ;;; SIMULANDO CRUD CARTÕES
 
 (def repositorio-de-cartoes (atom []))
-(let [lista-records-cartoes (adapter.cartao/csv->cartao "data/cartoes.csv")]
+(let [lista-records-cartoes (adapter.cartao/csv->cartao "data/in/cartoes.csv")]
   (doseq
     [record lista-records-cartoes]
     (logic.cartao/insere-cartao! repositorio-de-cartoes record)))

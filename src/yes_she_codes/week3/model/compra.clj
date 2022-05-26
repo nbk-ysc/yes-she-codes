@@ -6,7 +6,7 @@
 
 (def Data            (s/constrained LocalDate constrains/data-menor-igual-a-hoje?))
 (def Estabelecimento (s/constrained s/Str constrains/pelo-menos-dois-chars?))
-(def Categoria       (s/constrained s/Str constrains/pertence-as-opcoes-de-categoria?))
+(def Categoria       (s/enum "Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"))
 
 (def CompraSchema
   {:data            Data

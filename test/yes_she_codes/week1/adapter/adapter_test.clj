@@ -39,7 +39,7 @@
 (t/deftest dado-bruto->model-test
 
   (t/testing "adapter dos dados dos clientes"
-    (let [caminho-arquivo    "data/clientes.csv"
+    (let [caminho-arquivo    "data/in/clientes.csv"
           fn-model           a/criar-cliente
           estrutura-esperada [{:nome "Feiticeira Escarlate", :cpf "000.111.222-33", :email "feiticeira.poderosa@vingadoras.com.br"}
                               {:nome "Viúva Negra", :cpf "333.444.555-66", :email "viuva.casca.grossa@vingadoras.com.br"}
@@ -48,7 +48,7 @@
       (t/is (= (a/dado-bruto->model caminho-arquivo fn-model) estrutura-esperada))))
 
   (t/testing "adapter dos dados dos cartões"
-    (let [caminho-arquivo    "data/cartoes.csv"
+    (let [caminho-arquivo    "data/in/cartoes.csv"
           fn-model           a/criar-cartao
           estrutura-esperada [{:numero   1234123412341234, :cvv  111, :validade nil, :limite   1000M, :cliente  "000.111.222-33"}
                               {:numero   4321432143214321, :cvv  222, :validade nil, :limite   2000M, :cliente  "333.444.555-66"}
@@ -60,7 +60,7 @@
       (t/is (= resultado-sem-obj estrutura-esperada))))
 
   (t/testing "adapter dos dados das compras"
-    (let [caminho-arquivo      "data/compras.csv"
+    (let [caminho-arquivo      "data/in/compras.csv"
           fn-model             a/criar-compra
           estrutura-esperada [{:data nil, :valor 129.90M, :estabelecimento "Outback", :categoria "Alimentação", :cartao 1234123412341234}
                               {:data nil, :valor 260.00M, :estabelecimento "Dentista", :categoria "Saúde", :cartao 1234123412341234}

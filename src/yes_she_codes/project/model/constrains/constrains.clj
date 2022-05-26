@@ -1,4 +1,4 @@
-(ns yes-she-codes.week3.model.constrains.constrains
+(ns yes-she-codes.project.model.constrains.constrains
   (:require [java-time :as time]))
 
 (defn data-menor-igual-a-hoje?
@@ -28,3 +28,4 @@
 (defn intervalo-cvv?
   [cvv]
   (<= 0 cvv 999))
+
