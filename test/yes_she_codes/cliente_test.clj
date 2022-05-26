@@ -16,8 +16,8 @@
 
   (testing "Não aceita nome nil"
     (let [cliente-invalido {:nome  nil,
-                          :cpf   "333.444.555-66",
-                          :email "viuva.casca.grossa@vingadoras.com.br"}]
+                            :cpf   "333.444.555-66",
+                            :email "viuva.casca.grossa@vingadoras.com.br"}]
       (is (thrown? clojure.lang.ExceptionInfo
                    (s/validate ClienteSchema cliente-invalido)))
       ))
@@ -32,7 +32,7 @@
 
   (testing "Não aceita formato invalido para o e-mail"
     (let [cliente-invalido {:nome  "Viúva Negra",
-                            :cpf   "33344455566",
+                            :cpf   "333.444.555-66",
                             :email "viuva.casca.grossa#vingadoras.com.br"}]
       (is (thrown? clojure.lang.ExceptionInfo
                    (s/validate ClienteSchema cliente-invalido)))
@@ -50,9 +50,9 @@
 
   (testing "Não aceita cartão com numero negativo"
     (let [cartao-invalido {:numero   -1,
-                         :cvv      222M,
-                         :validade (time/local-date 2024 02),
-                         :limite   2000M, :cliente "333.444.555-66"}]
+                           :cvv      222M,
+                           :validade (time/local-date 2024 02),
+                           :limite   2000M, :cliente "333.444.555-66"}]
       (is (thrown? clojure.lang.ExceptionInfo
                    (s/validate CartaoSchema cartao-invalido))))
     )
@@ -74,6 +74,24 @@
       (is (thrown? clojure.lang.ExceptionInfo
                    (s/validate CartaoSchema cartao-invalido))))
     )
+
+  (testing "Não aceita límite negativo"
+    (let [cartao-invalido {:numero   4321432143214321,
+                           :cvv      222M,
+                           :validade (time/local-date 2024 02),
+                           :limite   -1, :cliente "333.444.555-66"}]
+      (is (thrown? clojure.lang.ExceptionInfo
+                   (s/validate CartaoSchema cartao-invalido))))
+    )
+
+  (testing "Não aceita cliente com CPF no formato invalido"
+    (let [cartao-invalido {:numero   4321432143214321,
+                           :cvv      222M,
+                           :validade (time/local-date 2024 02),
+                           :limite   -1, :cliente "33344455566"}]
+      (is (thrown? clojure.lang.ExceptionInfo
+                   (s/validate CartaoSchema cartao-invalido))))
+    )
   )
 
 (deftest compraSchema-test
@@ -85,6 +103,56 @@
                          :categoria       "Casa"
                          :cartao          1234123412341234}]
       (is (= compra-valida (s/validate CompraSchema compra-valida))))
+    )
+
+  (testing "Não aceita compra com data inválida"
+    (let [compra-invalida {:data            nil
+                         :valor           100M
+                         :estabelecimento "Amazon"
+                         :categoria       "Casa"
+                         :cartao          1234123412341234}]
+      (is (thrown? clojure.lang.ExceptionInfo
+                   (s/validate CompraSchema compra-invalida))))
+    )
+
+  (testing "Não aceita valor negativo"
+    (let [compra-invalida {:data            (time/local-date 2022 06 9)
+                           :valor           -1
+                           :estabelecimento "Amazon"
+                           :categoria       "Casa"
+                           :cartao          1234123412341234}]
+      (is (thrown? clojure.lang.ExceptionInfo
+                   (s/validate CompraSchema compra-invalida))))
+    )
+
+  (testing "Não aceita estabelecimento com string vazia"
+    (let [compra-invalida {:data            (time/local-date 2022 06 9)
+                           :valor           100M
+                           :estabelecimento " "
+                           :categoria       "Casa"
+                           :cartao          1234123412341234}]
+      (is (thrown? clojure.lang.ExceptionInfo
+                   (s/validate CompraSchema compra-invalida))))
+    )
+
+  (testing "Não aceita categoria inválida"
+    (let [compra-invalida {:data            (time/local-date 2022 06 9)
+                           :valor           100M
+                           :estabelecimento "Amazon"
+                           :categoria       "Digital"
+                           :cartao          1234123412341234}]
+      (is (thrown? clojure.lang.ExceptionInfo
+                   (s/validate CompraSchema compra-invalida))))
+    )
+
+  (testing "Não aceita cartão com número inválido"
+    (let [compra-invalida {:data            (time/local-date 2022 06 9)
+                           :valor           100M
+                           :estabelecimento "Amazon"
+                           :categoria       "Casa"
+                           :cartao          12341234123412346}]
+      (is (thrown? clojure.lang.ExceptionInfo
+                   (s/validate CompraSchema compra-invalida))))
     )
   )
 
