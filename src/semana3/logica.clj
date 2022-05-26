@@ -1,4 +1,4 @@
-(ns semana3.logic
+(ns semana3.logica
   (:require [java-time :as t]))
 
 (defn pelo-menos-2-caracteres? [string]

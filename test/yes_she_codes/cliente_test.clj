@@ -26,14 +26,6 @@
                                             :cpf   "333.444.55566"
                                             :email "viuva.casca.grossa@vingadoras.com.br"}))))
 
-  ;(testing "CPF com formato inválido"
-  ;  (is (try (s/validate ClienteSchema {:nome  "Viúva Negra"
-  ;                                      :cpf   "333.444.55566"
-  ;                                      :email "viuva.casca.grossa@vingadoras.com.br"})
-  ;           (catch clojure.lang.ExceptionInfo e
-  ;             (println (ex-data e))
-  ;             (= :cpf-invalido (:tipo (ex-data e)))))))
-
   (testing "Email inválido"
     (is (thrown? clojure.lang.ExceptionInfo
                  (s/validate ClienteSchema {:nome  "Viúva Negra"

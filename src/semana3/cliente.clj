@@ -3,20 +3,25 @@
   (:require [schema.core :as s
              :include-macros true                           ;; cljs only
              ]
-            [semana3.logic :as s.logic]))
+            [semana3.logica :as s.logica]))
 
 (s/set-fn-validation! true)
 
-(def Nome (s/constrained s/Str s.logic/pelo-menos-2-caracteres?))
-(def CPF (s/constrained s/Str s.logic/cpf?))
-(def Email (s/constrained s/Str s.logic/email?))
+(def Nome (s/constrained s/Str s.logica/pelo-menos-2-caracteres?))
+(def CPF (s/constrained s/Str s.logica/cpf?))
+(def Email (s/constrained s/Str s.logica/email?))
 
 (def ClienteSchema
   {:nome  Nome
    :cpf   CPF
    :email Email})
 
-(pprint (s/validate ClienteSchema {:nome  "Viúva Negra"
-                                   :cpf   "333.444.555-66"
-                                   :email "viuva.casca.grossa@vingadoras.com.br"}))
+(s/defn novo-cliente :- ClienteSchema
+  [nome :- Nome, cpf :- CPF, email :- Email]
+  {:nome nome
+   :cpf cpf
+   :email email})
 
+(pprint (novo-cliente "Viúva Negra"
+                      "333.444.555-66"
+                      "viuva.casca.grossa@vingadoras.com.br"))
