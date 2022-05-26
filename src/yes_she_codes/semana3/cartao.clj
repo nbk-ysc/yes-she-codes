@@ -3,27 +3,24 @@
   (:require [schema.core :as s]
             [yes_she_codes.semana3.logica :as y.logica]))
 
-;todo criar validaçao para o campo numero do cartao (inteiro entre 0 e 1 0000 0000 0000 0000)
-;todo criar validaçao para o campo cvv (inteiro entre 0 e 999) ok
-;todo criar validaçao para o campo validade (formato yyyy-mm)
-;todo criar validaçao para o campo limite (BigDecinal maior ou igual a 0) ok
-;todo criar validaçao para o campo cliente (String no formato 000.000.000-00)
-
 ; Força para q sempre valide os dados passados para os esquemas
 (s/set-fn-validation! true)
 
 (def CartaoSchema
   "Schema de um cartao"
-  {:num-cartao s/Num,
-   :cvv        y.logica/CVV,
-   :validade   s/Str,
-   :limite     y.logica/Limite,
-   :cliente    s/Str})
+  {:num-cartao y.logica/ValidaCartao,
+   :cvv        y.logica/ValidaCVV,
+   :validade   y.logica/ValidaValidade,
+   :limite     y.logica/ValidaLimite,
+   :cliente    y.logica/ValidaCpf})
 
 (s/defn novo-cartao :- CartaoSchema
-  [num-cartao :- s/Num,
-   cvv :- y.logica/CVV,
-   validade :- s/Str,
-   limite :- y.logica/Limite,
-   cliente :- s/Str ]
+  [num-cartao :- y.logica/ValidaCartao,
+   cvv :- y.logica/ValidaCVV,
+   validade :- y.logica/ValidaValidade,
+   limite :- y.logica/ValidaLimite,
+   cliente :- y.logica/ValidaCpf ]
   {:num-cartao num-cartao, :cvv cvv, :validade validade, :limite limite, :cliente cliente})
+
+;exemplo de novo cartao
+(pprint (novo-cartao 1234123412341234 206 "2022-03" 100 "123.123.123-12"))
