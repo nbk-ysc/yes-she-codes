@@ -87,3 +87,30 @@
               {:categoria   categoria
                :total-gasto (total-gasto compras-da-categoria)})
             (group-by :categoria compras))))
+
+
+(def repositorio-de-compras (atom []))
+
+(defrecord Compra [^long ID, ^String data, ^BigDecimal valor, ^String estabelecimento, ^String categoria, ^Long cartao])
+
+(defn insere-compra [compra compras]
+  (conj (assoc compra :ID (count compras)) compras))
+
+(defn insere-compra! [compra atomo]
+  (swap! atomo conj compra))
+
+(defn lista-compras! [atomo]
+  (deref atomo))
+
+(defn pesquisa-compra-por-id [id compras]
+  (filter #(= id (:ID %)) compras))
+
+(defn pesquisa-compra-por-id! [id compras]
+  (pesquisa-compra-por-id id compras))
+
+; Colinha
+; Command + Shift + L -> carregarmos esse arquivo e executarmos o conteúdo contido nele no REPL
+; Command + Shift + K -> slurp
+; Command + Shift + J -> barf
+; Command + Shift + P -> executa fórmula específica
+; Option + Command + L -> Formata código
