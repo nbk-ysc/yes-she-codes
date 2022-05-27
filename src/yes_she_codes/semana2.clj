@@ -15,6 +15,7 @@
   (let [id (proximo-id compras)]
   (conj compras (assoc record :id id))))
 
+
 (defn insere-compra! [compra]
     (swap! repositorio-de-compras insere-compra compra))
 
@@ -28,7 +29,7 @@
 
 (defn parametros-compras []
   (let [compras (y.db/param-compras)]
-    (flatten (carrega-compra compras))))
+    (carrega-compra compras)))
 
 (defn lista-compra []
   (parametros-compras))
@@ -37,7 +38,7 @@
   (deref repositorio-de-compras))
 
 (defn pesquisa-compra-por-id [id compras]
-  (y.s1/filtra-data :id id compras))
+  (y.s1/filtra-data :id id (first compras)))
 
 (defn pesquisa-compra-por-id! [id compras]
   (y.s1/filtra-data :id id compras))
@@ -48,7 +49,7 @@
 (defn exclui-compra! [id compras]
   (swap! compras (remove #(= (:id %) id) compras) compras))
 
-(println "Parametros Compras" (parametros-compras))
+;(println "Parametros Compras" (parametros-compras))
 ;(println (Compra. nil "12/12/1221" 121.0 "Extra" "Alimentacao" "218928192819"))
 
 (println "Repositorio de compras" @repositorio-de-compras)
