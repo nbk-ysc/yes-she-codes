@@ -8,16 +8,18 @@
 
 (deftest cliente-schema-test
   (testing "Que o schema do cliente está aceitando um cliente válido"
-    (let [cliente {:nome "Viúva Negra"
+    (let [cliente {:id 1
+                   :nome "Viúva Negra"
                    :cpf "333.444.555-66"
                    :email "viuva.casca.grossa@vingadoras.com.br"}]
-      (s/validate y.schemas/ClienteSchema cliente)))
+      (is (= (s/validate y.schemas/ClienteSchema cliente) cliente))))
 
   (testing "Que o schema do cliente não aceita cliente com o nome nulo"
     (let [cliente {:nome nil
                    :cpf "333.444.555-66"
                    :email "viuva.casca.grossa@vingadoras.com.br"}]
       (is (thrown? clojure.lang.ExceptionInfo (s/validate y.schemas/ClienteSchema cliente)))))
+
 
   (testing "Que o schema do cliente não aceita cliente com cpf em formato inválido"
     (let [cliente {:nome "Viúva Negra"
@@ -39,7 +41,7 @@
                   :validade "2024-02"
                   :limite 2000M
                   :cliente "333.444.555-66"}]
-      (s/validate y.schemas/CartaoSchema cartao)))
+      (is (= (s/validate y.schemas/CartaoSchema cartao) cartao))))
 
   (testing "Que o schema do cartao não aceita cartão com número negativo"
     (let [cartao {:numero -4321432143214321
@@ -90,7 +92,7 @@
                   :estabelecimento "Amazon"
                   :categoria "Casa"
                   :cartao 4321432143214321}]
-      (s/validate y.schemas/CompraSchema compra)))
+      (is (= (s/validate y.schemas/CompraSchema compra) compra))))
 
   (testing "Que o schema da compra não aceita compra com formato inválido"
     (let [compra {:data "05-09-2022"

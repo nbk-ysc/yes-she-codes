@@ -5,15 +5,9 @@
   [x]
   (>= (count x) 2))
 
-(defn cpf-valido?
-  [cpf]
-  (when (re-matches #"\d{3}.\d{3}.\d{3}-\d{2}" cpf)
-    true))
+(def cpf-valido? (partial re-matches #"\d{3}.\d{3}.\d{3}-\d{2}"))
 
-(defn email-valido?
-  [email]
-  (when (re-matches #".+\@.+\..+" email)
-    true))
+(def email-valido? (partial re-matches #"\S+@\S+\.\S+"))
 
 (defn numero-valido?
   [numero-cartao]
@@ -23,19 +17,13 @@
   [cvv]
   (and (>= cvv 0) (<= cvv 999)))
 
-(defn validade-valida?
-  [validade]
-  (when (re-matches #"\d{4}-\d{2}" validade)
-    true))
+(def validade-valida? (partial re-matches #"\d{4}-\d{2}"))
 
 (defn limite-valido?
   [limite]
   (and (>= limite 0) (decimal? limite)))
 
-(defn data-valida?
-  [data]
-  (when (re-matches #"\d{4}-\d{2}-\d{2}" data)
-    true))
+(def data-valida? (partial re-matches #"\d{4}-\d{2}-\d{2}"))
 
 (defn valor-valido?
   [valor]
@@ -44,8 +32,7 @@
 (defn categoria-valida?
   [categoria]
   (let [categorias ["Alimentação" "Automóvel" "Casa" "Educação" "Lazer" "Saúde"]]
-    (when (some #(= categoria %) categorias)
-      true)))
+   (some #(= categoria %) categorias)))
 
 
 
