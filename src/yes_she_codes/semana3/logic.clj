@@ -64,6 +64,16 @@
 
 
 
+; ---------- DATE FORMAT STRING ----------
+(defn date-day-format-string?
+  [x]
+  (re-matches #"\d{4}-\d{2}-\d{2}" x))
+
+(def DateDayFormatString (s/constrained s/Str date-day-format-string? 'DateDayFormatString?))
+;(pprint (date-day-format-string? "2012-02-01"))
+
+
+
 ; ---------- BIGDECIMAL >= 0 ----------
 (defn big-decimal-bigger-or-equal-0?
   [x]
