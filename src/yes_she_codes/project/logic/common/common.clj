@@ -17,6 +17,11 @@
   [entidade registro]
   (conj entidade (registro-com-id-atribuido entidade registro)))
 
+;; todo
+;(defn insere-registros
+;  [entidade registros]
+;  )
+
 (defn pesquisa-registro-por-id
   [entidade id]
   (->> entidade

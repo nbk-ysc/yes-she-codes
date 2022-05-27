@@ -1,4 +1,4 @@
-(ns yes-she-codes.week3.model.constrains.constrains
+(ns yes-she-codes.week3.model.constraints.constraints
   (:require [java-time :as time]))
 
 (defn data-menor-igual-a-hoje?

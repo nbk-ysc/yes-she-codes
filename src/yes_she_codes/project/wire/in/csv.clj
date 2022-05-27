@@ -6,8 +6,6 @@
 ;; lendo de um topico, consumindo de um http, lendo de um arquivo
 
 
-
-;;;; funcao de logica, ver onde colocar
 (s/defn ^:private is-lower-case
   [key :- s/Keyword]
   (= (string/lower-case (str key)) (str key)))

@@ -1,23 +1,23 @@
 (ns yes-she-codes.project.model.cartao
   (:require [schema.core :as s]
-            [yes-she-codes.project.model.constrains.constrains :as constrains]
+            [yes-she-codes.project.model.constraints.constraints :as constraints]
             [yes-she-codes.project.model.cliente :as model.cliente])
   (:import (java.time YearMonth)))
 
 (s/defschema NumeroCartao
   (s/constrained
     Long
-    constrains/intervalo-cartao?))
+    constraints/intervalo-cartao?))
 
 (s/defschema Cvv
   (s/constrained
     Long
-    constrains/intervalo-cvv?))
+    constraints/intervalo-cvv?))
 
 (s/defschema ValorFinanceiro
   (s/constrained
     BigDecimal
-    constrains/maior-igual-zero?))
+    constraints/maior-igual-zero?))
 
 ;; todo
 ;; defschema gera erro!!!
@@ -25,11 +25,12 @@
   YearMonth)
 
 (s/defschema Cartao
-  {:numero   NumeroCartao
-   :cvv      Cvv
-   :validade Validade
-   :limite   ValorFinanceiro
-   :cliente  model.cliente/Cpf})
+  {(s/optional-key :id) (s/pred pos-int?)
+   :numero              NumeroCartao
+   :cvv                 Cvv
+   :validade            Validade
+   :limite              ValorFinanceiro
+   :cliente             model.cliente/Cpf})
 
 (s/defschema Cartoes
   [Cartao])

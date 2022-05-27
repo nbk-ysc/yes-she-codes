@@ -15,12 +15,19 @@
       string/lower-case
       keyword))
 
-(s/defn csv-data->maps :- in.csv/CsvMapas
+(s/defn ^:private csv-data->csv-maps :- in.csv/CsvMapas
   [csv-data :- in.csv/RawCsv]
   (vec (map zipmap
             (->> (first csv-data)
                  (map normalize-keyword)
                  repeat)
             (rest csv-data))))
+
+(s/defn csv->model :- [s/Any]
+  [csv-data :- in.csv/RawCsv
+   csv-map->model :- s/Any]
+  (vec (->> csv-data
+            csv-data->csv-maps
+            (mapv csv-map->model))))
 
 

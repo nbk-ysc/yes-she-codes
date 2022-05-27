@@ -4,13 +4,13 @@
 
 ;; SEMANA 3
 
-(def cliente1 {:nome  "Fulano"
-               :cpf   "000.000.000-000"
-               :email "fulano@gmail.com"})
-
-(println cliente1)
-
-(s/validate model.cliente/ClienteSchema cliente1)
+;(def cliente1 {:nome  "Fulano"
+;               :cpf   "000.000.000-000"
+;               :email "fulano@gmail.com"})
+;
+;(println cliente1)
+;
+;(s/validate model.cliente/ClienteSchema cliente1)
 
 
 
