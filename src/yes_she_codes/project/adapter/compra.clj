@@ -7,16 +7,17 @@
             [java-time :as time]))
 
 (s/defn str->data :- model.compra/Data
-  [data :- s/Str]
+  [data :- (s/pred #(re-matches #"\d{4}-\d{2}-\d{2}" %))]
   (time/local-date data))
 
 (s/defn ^:private csv-map->model :- model.compra/Compra
-  ([{:keys [data valor estabelecimento categoria cartao]} :- in.csv/CsvMapa]
-   {:data            (str->data data)
-    :valor           (adapter.cartao/str->valor-financeiro valor)
-    :estabelecimento estabelecimento
-    :categoria       categoria
-    :cartao          (adapter.cartao/str->num-cartao cartao)}))
+  [{:keys [data valor estabelecimento categoria cartao]} :- in.csv/CsvMapa]
+  (when (not-any? nil? [data valor estabelecimento categoria cartao])
+    #:compra{:data            (str->data data)
+             :valor           (adapter.cartao/str->valor-financeiro valor)
+             :estabelecimento estabelecimento
+             :categoria       categoria
+             :cartao          (adapter.cartao/str->num-cartao cartao)}))
 
 (s/defn csv->compras :- model.compra/Compras
   [csv-data :- in.csv/RawCsv]

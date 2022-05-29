@@ -1,20 +1,28 @@
 (ns yes-she-codes.project.diplomat.compra
-  (:require [yes-she-codes.project.diplomat.csv.csv :as diplomat.csv]
+  (:require [schema.core :as s]
+            [yes-she-codes.project.diplomat.csv.csv :as diplomat.csv]
+            [yes-she-codes.project.adapter.compra :as adapters.compra]
             [yes-she-codes.project.controllers.compra :as controllers.compra]))
 
 
 ;; layer responsible for defining how to interact with external resources
 ;; like adapt of data, error handling...
 
-
+;; only adapters (ou model)
+;; don't use logic layer here!!!!
 
 ;;; verificar no consumo de csv
-;;; se um dado estiver errado, vai recusar todos???
+;;; se um dado estiver errado, vai recusar todos??? resp: VAI
 
 
-;(defn consumir-dados-de-compras
-;  [filepath]
-;  (let [dados-csv ]
-;
-;    )
-;  )
+;;; onde usar o atomo???? ( -_- )
+;;; schema para atom????
+
+
+(s/defn inserir-compras-no-dominio
+  [filepath-dados
+   compras-dominio]
+  (if-let [dados (adapters.compra/csv->compras
+                (diplomat.csv/read-csv filepath-dados))]
+    (controllers.compra/insere-compras! compras-dominio dados)))
+

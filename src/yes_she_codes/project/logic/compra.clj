@@ -6,19 +6,19 @@
 
 (s/defn total-gasto :- model.cartao/ValorFinanceiro
   [lista-compras :- model.compra/Compras]
-  (transduce (map :valor) + 0M lista-compras))
+  (transduce (map :compra/valor) + 0M lista-compras))
 
 (s/defn lista-de-compras-do-mes :- model.compra/Compras
   [mes :- Month
    lista-compras :- model.compra/Compras]
   (->> lista-compras
-       (filter #(= mes (.getMonth (:data %))))))
+       (filter #(= mes (.getMonth (:compra/data %))))))
 
 (s/defn lista-de-compras-do-estabelecimento :- model.compra/Compras
   [estabelecimento :- model.compra/Estabelecimento
    lista-compras :- model.compra/Compras]
   (->> lista-compras
-       (filter #(= estabelecimento (:estabelecimento %)))))
+       (filter #(= estabelecimento (:compra/estabelecimento %)))))
 
 (s/defn total-gasto-no-mes :- model.cartao/ValorFinanceiro
   [mes :- Month
@@ -32,11 +32,11 @@
    valor-min :- model.cartao/ValorFinanceiro
    lista-compras :- model.compra/Compras]
   (->> lista-compras
-       (filter #(<= valor-min (:valor %) valor-max))))
+       (filter #(<= valor-min (:compra/valor %) valor-max))))
 
 (s/defn gasto-por-categoria :- model.compra/GastoCategoria
   [lista-compras :- model.compra/Compras]
   (->> lista-compras
-       (group-by :categoria)
+       (group-by :compra/categoria)
        (map (fn [[key vals]] [key (total-gasto vals)]))
        (reduce conj {})))

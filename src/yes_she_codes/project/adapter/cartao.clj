@@ -19,7 +19,7 @@
   (Long/parseLong (string-sem-espacos cartao)))
 
 (s/defn str->validade :- model.cartao/Validade
-  [year-month :- s/Str]
+  [year-month :- (s/pred #(re-matches #"\d{4}-\d{2}" %))]
   (time/year-month year-month))
 
 (s/defn str->cvv :- model.cartao/Cvv
@@ -28,11 +28,12 @@
 
 (s/defn ^:private csv-map->model :- model.cartao/Cartao
   [{:keys [numero cvv validade limite cliente]} :- in.csv/CsvMapa]
-  {:numero   (str->num-cartao numero)
-   :cvv      (str->cvv cvv)
-   :validade (str->validade validade)
-   :limite   (str->valor-financeiro limite)
-   :cliente  cliente})
+  (when (not-any? nil? [numero cvv validade limite cliente])
+    #:cartao{:numero   (str->num-cartao numero)
+             :cvv      (str->cvv cvv)
+             :validade (str->validade validade)
+             :limite   (str->valor-financeiro limite)
+             :cliente  cliente}))
 
 (s/defn csv->cartoes :- model.cartao/Cartoes
   [csv-data :- in.csv/RawCsv]

@@ -5,8 +5,8 @@
 ;
 ;(s/defn insere-cliente! :- model.cliente/Clientes
 ;  [clientes :- model.cliente/Clientes
-;   record :- model.cliente/Cliente]
-;  (swap! clientes logic.common/insere-record record))
+;   registro :- model.cliente/Cliente]
+;  (swap! clientes logic.common/insere-registro registro))
 ;
 ;(s/defn lista-clientes!
 ;  [clientes :- model.cliente/Clientes]
@@ -15,9 +15,9 @@
 ;(s/defn pesquisa-cliente-por-id! :- model.cliente/Cliente
 ;  [clientes :- model.cliente/Clientes
 ;   id :- s/Num]
-;  (logic.common/pesquisa-record-por-id @clientes id))
+;  (logic.common/pesquisa-registro-por-id @clientes id))
 ;
 ;(s/defn exclui-cliente! :- model.cliente/Clientes
 ;  [clientes :- model.cliente/Clientes
 ;   id :- s/NUm]
-;  (swap! clientes logic.common/exclui-record id))
+;  (swap! clientes logic.common/exclui-registro id))

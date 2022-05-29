@@ -6,9 +6,10 @@
 
 (s/defn ^:private csv-map->model :- model.cliente/Cliente
   [{:keys [nome cpf email]} :- in.csv/CsvMapa]
-  {:nome  nome
-   :cpf   cpf
-   :email email})
+  (when (not-any? nil? [nome cpf email])
+    #:cliente{:nome  nome
+              :cpf   cpf
+              :email email}))
 
 (s/defn csv->clientes :- model.cliente/Clientes
   [csv-data :- in.csv/RawCsv]

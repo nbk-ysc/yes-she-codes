@@ -4,6 +4,11 @@
             [yes-she-codes.project.model.cartao :as model.cartao])
   (:import (java.time LocalDate)))
 
+(s/defschema Id
+  (s/constrained
+    s/Num
+    constraints/maior-igual-zero?))
+
 (s/defschema Data
   (s/constrained
     LocalDate
@@ -21,12 +26,12 @@
   (apply s/enum tipos-categoria))
 
 (s/defschema Compra
-  {(s/optional-key :id) (s/pred pos-int?)
-   :data                Data
-   :valor               model.cartao/ValorFinanceiro
-   :estabelecimento     Estabelecimento
-   :categoria           Categoria
-   :cartao              model.cartao/NumeroCartao})
+  {(s/optional-key :id) Id
+   :compra/data                Data
+   :compra/valor               model.cartao/ValorFinanceiro
+   :compra/estabelecimento     Estabelecimento
+   :compra/categoria           Categoria
+   :compra/cartao              model.cartao/NumeroCartao})
 
 (s/defschema Compras
   [Compra])

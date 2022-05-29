@@ -4,6 +4,14 @@
             [yes-she-codes.project.model.cliente :as model.cliente])
   (:import (java.time YearMonth)))
 
+(def required-keys
+  #{:cartao/numero :cartao/cvv :cartao/validade :cartao/limite :cartao/cliente})
+
+(s/defschema Id
+  (s/constrained
+    s/Num
+    constraints/maior-igual-zero?))
+
 (s/defschema NumeroCartao
   (s/constrained
     Long
@@ -19,18 +27,16 @@
     BigDecimal
     constraints/maior-igual-zero?))
 
-;; todo
-;; defschema gera erro!!!
-(s/def Validade
-  YearMonth)
+(s/defschema Validade
+  (s/pred (partial instance? YearMonth)))
 
 (s/defschema Cartao
-  {(s/optional-key :id) (s/pred pos-int?)
-   :numero              NumeroCartao
-   :cvv                 Cvv
-   :validade            Validade
-   :limite              ValorFinanceiro
-   :cliente             model.cliente/Cpf})
+  {(s/optional-key :id) Id
+   :cartao/numero       NumeroCartao
+   :cartao/cvv          Cvv
+   :cartao/validade     Validade
+   :cartao/limite       ValorFinanceiro
+   :cartao/cliente      model.cliente/Cpf})
 
 (s/defschema Cartoes
   [Cartao])

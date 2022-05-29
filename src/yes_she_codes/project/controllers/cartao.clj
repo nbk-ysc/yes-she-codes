@@ -5,8 +5,8 @@
 ;
 ;(s/defn insere-cartao! :- model.cartao/Cartoes
 ;  [cartoes :- model.cartao/Cartoes
-;   record :- model.cartao/Cartao]
-;  (swap! cartoes logic.common/insere-record record))
+;   registro :- model.cartao/Cartao]
+;  (swap! cartoes logic.common/insere-registro registro))
 ;
 ;(s/defn lista-cartoes!
 ;  [cartoes :- model.cartao/Cartoes]
@@ -15,9 +15,9 @@
 ;(s/defn pesquisa-cartao-por-id! :- model.cartao/Cartao
 ;  [cartoes :- model.cartao/Cartoes
 ;   id :- s/Num]
-;  (logic.common/pesquisa-record-por-id @cartoes id))
+;  (logic.common/pesquisa-registro-por-id @cartoes id))
 ;
 ;(s/defn exclui-cartao! :- model.cartao/Cartoes
 ;  [cartoes :- model.cartao/Cartoes
 ;   id :- s/NUm]
-;  (swap! cartoes logic.common/exclui-record id))
+;  (swap! cartoes logic.common/exclui-registro id))
