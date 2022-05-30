@@ -23,4 +23,10 @@
   {:num-cartao num-cartao, :cvv cvv, :validade validade, :limite limite, :cliente cliente})
 
 ;exemplo de novo cartao
-(pprint (novo-cartao 1234123412341234 206 "2022-03" 100 "123.123.123-12"))
+;(pprint (novo-cartao 1234123412341234 206 "2022-03" 100 "123.123.123-12"))
+
+(pprint (s/validate CartaoSchema {:num-cartao 1234123412341234,
+                                  :cvv 206,
+                                  :validade "2022-03",
+                                  :limite 100,
+                                  :cliente "123.123.123-12"}))

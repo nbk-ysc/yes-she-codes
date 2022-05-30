@@ -74,7 +74,7 @@
 ; Funcao que valida se estabelecimento é um valido
 (defn categoria-valida? [x]
   (let [lowerx (clojure.string/lower-case x)]
-    (some #{lowerx} '("alimentacao" "automovel" "casa" "educação" "lazer" "saude"))))
+    (some #{lowerx} '("alimentação" "automóvel" "casa" "educação" "lazer" "saúde"))))
 
 (def ValidaCateg
   "Schema do estabelecimento-valido?"

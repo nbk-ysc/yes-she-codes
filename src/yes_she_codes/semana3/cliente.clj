@@ -8,7 +8,10 @@
 
 (def ClienteSchema
   "Schema de um cliente"
-  {:nome y.logica/ValidaNome, :cpf y.logica/ValidaCpf, :email y.logica/ValidaEmail})
+  {(s/optional-key :id) (s/pred pos-int?),
+   :nome                y.logica/ValidaNome,
+   :cpf                 y.logica/ValidaCpf,
+   :email               y.logica/ValidaEmail})
 
 (s/defn novo-cliente :- ClienteSchema
   [nome :- y.logica/ValidaNome, cpf :- y.logica/ValidaCpf, email :- y.logica/ValidaEmail]
@@ -17,4 +20,6 @@
    :email email})
 
 ;Exemplo de cliente
-(pprint (novo-cliente "Caroline" "123.123.123-12" "caroline@nubank.com.br"))
+;(pprint (novo-cliente "Caroline" "123.123.123-12" "caroline@nubank.com.br"))
+
+(pprint (s/validate ClienteSchema {:nome "Caroline" :cpf "123.123.123-12" :email "caroline@nubank.com.br"}))
