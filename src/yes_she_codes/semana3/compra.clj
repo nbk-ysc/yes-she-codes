@@ -21,14 +21,14 @@
    valor :- (s/constrained s/Num pos?),
    estabelecimento :- y.logica/ValidaNome,
    categoria :- y.logica/ValidaCateg,
-   cartao :- y.logica/ValidaCartao ]
+   cartao :- y.logica/ValidaCartao]
   {:data data, :valor valor, :estabelecimento estabelecimento, :categoria categoria, :cartao cartao})
 
 ;Exemplo de compra
 ;(pprint (nova-compra "2022-01-02" 345.83 "Outback" "Alimentacao" 1234123412341234))
 
-(pprint (s/validate CompraSchema {:data "2022-01-02",
-                                  :valor 345.83,
+(pprint (s/validate CompraSchema {:data            "2022-01-02",
+                                  :valor           345.83,
                                   :estabelecimento "Outback",
-                                  :categoria"Alimentação",
-                                  :cartao 1234123412341234}))
+                                  :categoria       "Alimentação",
+                                  :cartao          1234123412341234}))
