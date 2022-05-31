@@ -2,7 +2,8 @@
   (:require [yes_she_codes.clientes :as y.clientes]
             [yes_she_codes.cartoes :as y.cartoes]
             [yes_she_codes.compras :as y.compras]
-            [yes_she_codes.logic :as y.logic]))
+            [yes_she_codes.logic :as y.logic])
+  (:use clojure.pprint))
 
 (println "\n=================================")
 (println "LISTA DE CLIENTES")
@@ -60,3 +61,44 @@
 (println "\n=================================")
 (println "TOTAL GASTO POR CATEGORIA")
 (println (y.logic/total-gasto-por-categoria (y.compras/lista-compras)))
+
+; ======================================================
+; ==================== USANDO ATOM =====================
+; ======================================================
+
+(println "\n=================================")
+(println "LISTA DE COMPRAS USANDO ATOM")
+(y.compras/carrega-compras!)
+(pprint (y.compras/lista-compras!))
+
+(println "\n=================================")
+(println "COMPRA COM ID 0")
+(pprint (y.compras/pesquisa-compra-por-id! 0))
+
+(println "\n=================================")
+(println "COMPRA COM ID 18")
+(pprint (y.compras/pesquisa-compra-por-id! 18))
+
+(println "\n=================================")
+(println "COMPRA COM ID 19")
+(pprint (y.compras/pesquisa-compra-por-id! 19))
+
+(println "\n=================================")
+(println "EXCLUINDO COMPRA COM ID 0")
+(pprint (y.compras/exclui-compra! 0))
+
+(println "\n=================================")
+(println "EXCLUINDO COMPRA COM ID 10")
+(pprint (y.compras/exclui-compra! 10))
+
+(println "\n=================================")
+(println "EXCLUINDO COMPRA COM ID 18")
+(pprint (y.compras/exclui-compra! 18))
+
+(println "\n=================================")
+(println "EXCLUINDO COMPRA COM ID 19")
+(pprint (y.compras/exclui-compra! 19))
+
+(println "\n=================================")
+(println "LISTA DE COMPRAS APÓS EXCLUSÕES")
+(pprint (y.compras/lista-compras!))
