@@ -21,6 +21,9 @@
 (defn numero-entre-0-999? [numero]
   (and (>= 999 numero) (<= 0 numero)))
 
+(defn expressao regular? [expressao valor]
+  (re-matches expressao valor))
+
 (defn valida-cpf? [cpf]
   (def pat (re-pattern "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}"))
   (and (= 14 (count cpf)) (not (nil? (re-find pat cpf)))))
