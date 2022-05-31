@@ -1,7 +1,7 @@
 (ns yes_she_codes.compras
   (:require [yes_she_codes.db :as y.db]))
 
-(defn novo-compra [data valor estabelecimento categoria cartao]
+(defn nova-compra [data valor estabelecimento categoria cartao]
   {:data            data,
    :valor           valor,
    :estabelecimento estabelecimento,
@@ -9,7 +9,7 @@
    :cartao          cartao})
 
 (defn transforma-compra [[data valor estabelecimento categoria cartao]]
-  (novo-compra data valor estabelecimento categoria cartao))
+  (nova-compra data valor estabelecimento categoria cartao))
 
 (defn transforma-compras [compras]
   (map transforma-compra compras))
