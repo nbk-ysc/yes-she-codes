@@ -11,15 +11,16 @@
 (def CPF (s/constrained s/Str s.logica/cpf?))
 (def Email (s/constrained s/Str s.logica/email?))
 
-(def ClienteSchema
-  {:nome  Nome
-   :cpf   CPF
-   :email Email})
+(s/defschema ClienteSchema
+  {(s/optional-key :id) (s/pred pos-int?)
+   :nome                Nome
+   :cpf                 CPF
+   :email               Email})
 
 (s/defn novo-cliente :- ClienteSchema
   [nome :- Nome, cpf :- CPF, email :- Email]
-  {:nome nome
-   :cpf cpf
+  {:nome  nome
+   :cpf   cpf
    :email email})
 
 (pprint (novo-cliente "Viúva Negra"
