@@ -8,7 +8,10 @@
   (:import (java.time Month)))
 
 
-(def compra-valida #:compra{:data            (time/local-date "2022-05-09")
+
+(def id (java.util.UUID/randomUUID))
+(def compra-valida #:compra{:id              id
+                            :data            (time/local-date "2022-05-09")
                             :valor           100M
                             :estabelecimento "estabelecimento"
                             :categoria       "Casa"

@@ -23,10 +23,7 @@
     constraints/formato-email?))
 
 (s/defschema Cliente
-  {(s/optional-key :id) Id
-   :cliente/nome        Nome
-   :cliente/cpf         Cpf
-   :cliente/email       Email})
-
-(s/defschema Clientes
-  [Cliente])
+  {:cliente/id    s/Uuid
+   :cliente/nome  Nome
+   :cliente/cpf   Cpf
+   :cliente/email Email})

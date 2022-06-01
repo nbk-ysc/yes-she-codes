@@ -3,7 +3,8 @@
             [schema.core :as s]
             [yes-she-codes.project.model.cartao :as model.cartao]
             [yes-she-codes.project.wire.in.csv :as in.csv]
-            [yes-she-codes.project.adapter.csv.common :as csv.common]
+            [yes-she-codes.project.adapter.common.csv :as common.csv]
+            [yes-she-codes.project.adapter.common.util :as common.util]
             [java-time :as time]))
 
 (s/defn ^:private string-sem-espacos :- s/Str
@@ -29,14 +30,30 @@
 (s/defn ^:private csv-map->model :- model.cartao/Cartao
   [{:keys [numero cvv validade limite cliente]} :- in.csv/CsvMapa]
   (when (not-any? nil? [numero cvv validade limite cliente])
-    #:cartao{:numero   (str->num-cartao numero)
+    #:cartao{:id       (common.util/uuid)
+             :numero   (str->num-cartao numero)
              :cvv      (str->cvv cvv)
              :validade (str->validade validade)
              :limite   (str->valor-financeiro limite)
              :cliente  cliente}))
 
-(s/defn csv->cartoes :- model.cartao/Cartoes
+(s/defn csv->cartoes :- [model.cartao/Cartao]
   [csv-data :- in.csv/RawCsv]
-  (csv.common/csv->model
+  (common.csv/csv->model
     csv-data
     csv-map->model))
+
+(s/defn cartao->datomic
+  [{:cartao/keys [validade] :as cartao} :- model.cartao/Cartao]
+  (-> cartao
+      (assoc :cartao/validade (common.util/year-month->inst validade))))
+
+(s/defn datomic->cartao :- model.cartao/Cartao
+  [{:cartao/keys [validade] :as cartao}]
+  (-> cartao
+      (assoc :cartao/validade (common.util/inst->year-month validade))
+      (dissoc :db/id)))
+
+
+
+

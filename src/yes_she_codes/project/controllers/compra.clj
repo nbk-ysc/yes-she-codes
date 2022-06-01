@@ -8,6 +8,8 @@
 ;;; tentar não importar os adapters
 
 
+;;;;;;; ATOM
+
 (s/defn insere-compra!
   [compras :- Atom
    registro :- model.compra/Compra]
@@ -15,7 +17,7 @@
 
 (s/defn insere-compras!
   [compras :- Atom
-   registros :- model.compra/Compras]
+   registros :- [model.compra/Compra]]
   (swap! compras logic.common/insere-registros registros))
 
 (s/defn lista-compras!
@@ -32,4 +34,6 @@
    id :- model.compra/Id]
   (swap! compras logic.common/exclui-registro id))
 
+
+;;;;;; BASE DE DADOS
 

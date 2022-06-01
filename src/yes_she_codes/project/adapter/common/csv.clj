@@ -1,4 +1,4 @@
-(ns yes-she-codes.project.adapter.csv.common
+(ns yes-she-codes.project.adapter.common.csv
   (:require [clojure.string :as string]
             [schema.core :as s]
             [yes-she-codes.project.wire.in.csv :as in.csv]))

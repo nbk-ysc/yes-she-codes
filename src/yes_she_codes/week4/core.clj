@@ -8,26 +8,13 @@
 (s/set-fn-validation! false)
 
 (db/apagar-db!)
-
 (def conn (db/criar-conexao!))
-
 (db/criar-schema! conn)
-
 (defn snapshot [] (d/db conn))
-
 
 (def compras (adapter.compra/csv->compra "data/in/compras.csv"))
 
-;(db/salva-compra! conn (first compras))
-
-
-
 (db/carrega-compras-no-banco! conn compras)
-
-
 (db/lista-compras! (snapshot))
-
 (db/lista-compras-por-cartao! (snapshot) 3939393939393939 )
-
-
 (db/lista-compras-por-cartao-mes! (snapshot) 3939393939393939 (.getMonth (java-time/local-date "2022-04-10")))

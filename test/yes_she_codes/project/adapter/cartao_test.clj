@@ -4,6 +4,14 @@
             [yes-she-codes.project.adapter.cartao :as adapter.cartao]
             [java-time :as time]))
 
+(defn ^:private dissoc-id
+  [map]
+  (dissoc map :cartao/id))
+
+(defn ^:private dissoc-ids
+  [vec]
+  (map dissoc-id vec))
+
 (s.test/deftest csv->cartoes-test
   (let [cartoes [#:cartao{:numero   1234123412341234,
                           :cvv      111,
@@ -19,13 +27,13 @@
         csv-valor-fora-schema [["CVV" "VALIDADE" "LIMITE" "NÚMERO" "CLIENTE"]
                                ["111" "2023-01" "1000" "1234 1234 1234 1234" "000111222/33"]]]
     (testing "arquivo vazio deve retornar vetor vazio"
-      (is (= (adapter.cartao/csv->cartoes [[]])
+      (is (= (dissoc-ids (adapter.cartao/csv->cartoes [[]]))
              [])))
     (testing "deve se adaptar ao modelo de cartao"
-      (is (= (adapter.cartao/csv->cartoes csv)
+      (is (= (dissoc-ids (adapter.cartao/csv->cartoes csv))
              cartoes)))
     (testing "deve se adaptar ao modelo de cartao mesmo com chaves extras"
-      (is (= (adapter.cartao/csv->cartoes csv-chave-extra)
+      (is (= (dissoc-ids (adapter.cartao/csv->cartoes csv-chave-extra))
              cartoes)))
     (testing "falhando quando algum falta alguma chave de valor"
       (is (thrown-with-msg? clojure.lang.ExceptionInfo
