@@ -10,3 +10,4 @@
 
 (defn apaga-banco []
   (d/delete-database db-uri))
+
