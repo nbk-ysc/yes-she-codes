@@ -1,12 +1,12 @@
-(ns lastweek.model
-  (:require [datomic.api :as d]))
+(ns lastweek.model)
+
+(defn str->long [valor]
+  (Long/parseLong (clojure.string/replace valor #" " "")))
 
 (defn nova-compra [data valor estabelecimento categoria cartao]
   {:compra/data  data
-   :compra/valor  valor
+   :compra/valor  (bigdec valor)
    :compra/estabelecimento estabelecimento
    :compra/categoria categoria
-   :compra/cartao cartao})
+   :compra/cartao (str->long cartao)})
 
-(defn salva-compra! [conn compra]
-  @(d/transact conn [compra]))
