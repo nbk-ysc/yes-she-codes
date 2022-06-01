@@ -30,6 +30,11 @@
     (+ 1 (apply max (map :id entidades)))
     1))
 
+
+(defn entre-valores [min max valor]
+  (and (>= valor min) (<= valor max)))
+
+
 (defn opcional [schema]
   (s/maybe schema))
 
