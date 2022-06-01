@@ -5,8 +5,6 @@
   (:import [java.time YearMonth]
            [java.math BigDecimal]))
 
-(defrecord Cartao [id numero cvv validade limite cliente])
-
 (def NumeroDeCartaoValido (s/constrained s/Int (partial y.util/entre-valores 1 9999999999999999)))
 (def CvvValido (s/constrained s/Int (partial y.util/entre-valores 0 999)))
 (def LimiteValido (s/constrained BigDecimal pos?))
