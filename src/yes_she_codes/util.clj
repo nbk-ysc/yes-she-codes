@@ -21,7 +21,7 @@
 (defn numero-entre-0-999? [numero]
   (and (>= 999 numero) (<= 0 numero)))
 
-(defn expressao regular? [expressao valor]
+(defn expressaoregular? [expressao valor]
   (re-matches expressao valor))
 
 (defn valida-cpf? [cpf]
