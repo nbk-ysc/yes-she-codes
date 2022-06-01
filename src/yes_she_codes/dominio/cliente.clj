@@ -9,7 +9,7 @@
 (def cpf-valido? (partial re-matches #"[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}"))
 (def email-valido? (partial re-matches #"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"))
 
-(def NomeValido (s/constrained s/Str nome-valido?))
+(def NomeValido (y.util/min-caracteres 2))
 (def CpfValido (s/constrained s/Str cpf-valido?))
 (def EmailValido (s/constrained s/Str email-valido?))
 

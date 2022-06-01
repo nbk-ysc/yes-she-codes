@@ -7,13 +7,12 @@
 
 (def NumeroDeCartaoValido (s/constrained s/Int (partial y.util/entre-valores 1 9999999999999999)))
 (def CvvValido (s/constrained s/Int (partial y.util/entre-valores 0 999)))
-(def LimiteValido (s/constrained BigDecimal pos?))
 
 (def CartaoSchema {(s/optional-key :id) y.util/IdOpcional
                    :numero              NumeroDeCartaoValido
                    :cvv                 CvvValido
                    :validade            YearMonth
-                   :limite              LimiteValido
+                   :limite              y.util/ValorPositivo
                    :cliente             y.cliente/CpfValido})
 
 (s/defn ->Cartao :- CartaoSchema
@@ -21,7 +20,7 @@
    numero :- NumeroDeCartaoValido
    cvv :- CvvValido
    validade :- YearMonth
-   limite :- LimiteValido
+   limite :- y.util/ValorPositivo
    cliente :- y.cliente/CpfValido
    ]
 

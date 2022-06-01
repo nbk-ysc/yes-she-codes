@@ -34,12 +34,16 @@
 (defn entre-valores [min max valor]
   (and (>= valor min) (<= valor max)))
 
+(defn min-caracteres [n]
+  (s/constrained s/Str #(>= (count %) n)))
+
 
 (defn opcional [schema]
   (s/maybe schema))
 
 (def InteiroPositivo (s/pred pos-int?))
 (def IdOpcional (opcional InteiroPositivo))
+(def ValorPositivo (s/constrained BigDecimal (comp not neg?)))
 
 
 
