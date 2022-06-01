@@ -9,8 +9,8 @@
     (let [cliente-valido {:nome "Feiticeira Escarlate",
                           :cpf "000.111.222-33"
                           :email "feiticeira.poderosa@vingadoras.com.br"}]
-           (is (= (s/validate ClienteSchema cliente-valido)
-                 cliente-valido))))
+           (is (= cliente-valido)
+               (s/validate ClienteSchema cliente-valido))))
 
   (testing "se cliente com :nome nil é validado"
     (let [cliente-invalido {:nome nil,
@@ -45,8 +45,8 @@
                          :validade "2023-01",
                          :limite   1.000M,
                          :cliente  "000.111.222-33"}]
-      (is (= (s/validate CartaoSchema cartao-valido)
-             cartao-valido))))
+      (is (= cartao-valido
+             (s/validate CartaoSchema cartao-valido)))))
 
   (testing "se o esquema aceita um cartão com número negativo"
     (let [cartao-invalido {:numero   -1234123412341234,
@@ -101,8 +101,8 @@
                          :estabelecimento "Outback",
                          :categoria "Alimentação",
                          :cartao 1234123412341234}]
-      (is (= (s/validate CompraSchema compra-valida)
-             compra-valida))))
+      (is (= compra-valida
+             (s/validate CompraSchema compra-valida)))))
 
   (testing "se o esquema aceita uma compra com data inválida"
     (let [compra-invalida {:data "2e22-01-01",
