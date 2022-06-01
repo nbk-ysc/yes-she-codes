@@ -1,4 +1,4 @@
-(ns lastweek.util
+(ns datomic.util
   (:require [clojure.string :as str]))
 
 (defn processa-csv [arquivo funcao-mapeamento]

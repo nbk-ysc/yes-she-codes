@@ -10,8 +10,8 @@
        :id
        (= id)))
 
-;FUNCOES DE VALIDACAO
 
+;FUNCOES DE VALIDACAO
 (defn maior-2-caracteres? [palavra]
   (< 2 (count palavra)))
 
