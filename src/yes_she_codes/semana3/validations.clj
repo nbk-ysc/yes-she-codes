@@ -11,14 +11,11 @@
   (let [pattern #"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"]
     (re-matches pattern email)))
 
-(defn- quantidade-de-digitos [valor]
-  (int (inc (Math/floor (Math/log10 valor)))))
-
 (defn numero-cartao-valido? [numero]
-  (= 16 (quantidade-de-digitos numero)))
+  (and (>= numero 1) (<= numero 9999999999999999)))
 
 (defn cvv-valido? [cvv]
-  (= 3 (quantidade-de-digitos cvv)))
+  (and (>= cvv 1) (<= cvv 999)))
 
 (defn data-da-compra-valida? [data]
   (time/not-after? data (time/local-date)))

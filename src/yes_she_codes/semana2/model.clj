@@ -12,9 +12,10 @@
 (defrecord Cartao [id numero cvv validade limite cliente]
   Validador
   (valido? [this]
-    (let [quantidade-de-digitos (fn [x] (int (inc (Math/floor (Math/log10 x)))))
-          numero-eh-valido (= 16 (quantidade-de-digitos (get this :numero)))
-          cvv-eh-valido (= 3 (quantidade-de-digitos (get this :cvv)))
+    (let [numero-cartao (get this :numero)
+          numero-eh-valido (and (>= numero-cartao 1) (<= numero-cartao 9999999999999999))
+          cvv (get this :cvv)
+          cvv-eh-valido (and (>= cvv 1) (<= cvv 999))
           limite-eh-valido (> (get this :limite) 0)
           cliente-eh-valido (re-matches #"\d{3}\.\d{3}\.\d{3}\-\d{2}" (get this :cliente))]
       (and numero-eh-valido (and cvv-eh-valido (and limite-eh-valido cliente-eh-valido))))))

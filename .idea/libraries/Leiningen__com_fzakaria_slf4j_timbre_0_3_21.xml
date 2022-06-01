@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: com.fzakaria/slf4j-timbre:0.3.21">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/fzakaria/slf4j-timbre/0.3.21/slf4j-timbre-0.3.21.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
