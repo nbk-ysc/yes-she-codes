@@ -5,8 +5,8 @@
             [semana4.model :as model]
             [semana1.db :as y.db]))
 
-(def conn (db/cria-conexao))
-(db/aplica-schema conn)
+(def conn (db/cria-conexao!))
+(db/aplica-schema! conn)
 
 
 (defn lista-compras []
@@ -27,4 +27,15 @@
 (pprint (db/lista-gastos-por-categorias! (d/db conn) 6655665566556655))
 
 
-;(db/apaga-banco)
+(defn lista-cartoes []
+  (map (fn [[numero cvv validade limite cliente]]
+         (model/novo-cartao numero cvv validade limite cliente)) (y.db/cartoes)))
+
+(pprint @(db/salva-cartao! conn (lista-cartoes)))
+
+
+(def cartoes (db/lista-cartoes! (d/db conn)))
+(pprint cartoes)
+
+
+;(db/apaga-banco!)
