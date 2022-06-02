@@ -6,5 +6,6 @@
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [clojure.java-time "0.3.3"]
                  [org.clojure/data.csv "1.0.1"]
-                 [prismatic/schema "1.1.12"]]
+                 [prismatic/schema "1.1.12"]
+                 [com.datomic/datomic-pro "1.0.6397"]]
   :repl-options {:init-ns yes-she-codes.core})
