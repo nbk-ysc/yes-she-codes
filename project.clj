@@ -7,7 +7,5 @@
                  [org.clojure/data.csv "1.0.1"]
                  [clojure.java-time "0.3.2"]
                  [com.datomic/datomic-pro "1.0.6397"]
-                 [prismatic/schema "1.2.1"]
-                 ;[prismatic/schema-generators "0.1.3"]
-                 ]
-  :repl-options {:init-ns yes-she-codes.core})
+                 [prismatic/schema "1.2.1"]]
+  :repl-options {:init-ns yes-she-codes.project.simulator})

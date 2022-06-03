@@ -5,9 +5,7 @@
             [yes-she-codes.project.wire.in.csv :as in.csv]
             [yes-she-codes.project.adapter.common.csv :as common.csv]
             [yes-she-codes.project.adapter.common.util :as common.util]
-            [java-time :as time]
-            )
-  )
+            [java-time :as time]))
 
 (s/defn str->data :- model.compra/Data
   [data :- (s/pred #(re-matches #"\d{4}-\d{2}-\d{2}" %))]
@@ -23,20 +21,27 @@
              :categoria       categoria
              :cartao          (adapter.cartao/str->num-cartao cartao)}))
 
-(s/defn csv->compras :- [model.compra/Compra]
+(s/defn csv->model :- [model.compra/Compra]
   [csv-data :- in.csv/RawCsv]
   (common.csv/csv->model
     csv-data
     csv-map->model))
 
-(s/defn compra->datomic
+(s/defn model->datomic
   [{:compra/keys [data] :as compra} :- model.compra/Compra]
   (-> compra
       (assoc :compra/data (common.util/local-date->inst data))))
 
-(s/defn datomic->compra :- model.compra/Compra
+(s/defn datomic->model-with-components :- model.compra/CompraComComponentes
   [{:compra/keys [data cartao] :as compra}]
   (-> compra
       (assoc :compra/data (common.util/inst->local-date data))
-      (assoc :compra/cartao (adapter.cartao/datomic->cartao cartao))
+      (assoc :compra/cartao (adapter.cartao/datomic->model-with-components cartao))
+      (dissoc :db/id)))
+
+(s/defn datomic->model :- model.compra/Compra
+  [{:compra/keys [data cartao] :as compra}]
+  (-> compra
+      (assoc :compra/data (common.util/inst->local-date data))
+      (assoc :compra/cartao (:cartao/numero cartao))
       (dissoc :db/id)))

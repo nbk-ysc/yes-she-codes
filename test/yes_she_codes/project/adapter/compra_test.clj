@@ -28,18 +28,18 @@
                                   ["09-05-2021" "100.00" "estabelecimento" "Casa" "4321 4321 4321 4321"]]]
     (testing "arquivo vazio deve retornar vetor vazio"
       (is (= []
-             (dissoc-ids (adapter.compra/csv->compras [[]])))))
+             (dissoc-ids (adapter.compra/csv->model [[]])))))
     (testing "deve se adaptar ao modelo de compra mesmo com informações a mais"
       (is (= compras
-             (dissoc-ids (adapter.compra/csv->compras csv)))))
+             (dissoc-ids (adapter.compra/csv->model csv)))))
     (testing "deve se adaptar ao modelo de compra"
       (is (= compras
-             (dissoc-ids (adapter.compra/csv->compras csv-com-chaves-extras)))))
+             (dissoc-ids (adapter.compra/csv->model csv-com-chaves-extras)))))
     (testing "falhando quando falta a chave de valor"
       (is (thrown-with-msg? clojure.lang.ExceptionInfo
                             #"does not match schema"
-                            (adapter.compra/csv->compras csv-faltando-chave))))
+                            (adapter.compra/csv->model csv-faltando-chave))))
     (testing "falhando quando algum valor não atende a conversao"
       (is (thrown-with-msg? clojure.lang.ExceptionInfo
                             #"does not match schema"
-                            (adapter.compra/csv->compras csv-valor-fora-do-schema))))))
+                            (adapter.compra/csv->model csv-valor-fora-do-schema))))))

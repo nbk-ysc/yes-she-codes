@@ -1,22 +1,35 @@
 (ns yes-she-codes.project.db.cliente
   [:require [datomic.api :as d]
             [schema.core :as s]
-            [yes-she-codes.project.model.cliente :as model.cliente]
-            [yes-she-codes.project.adapter.cliente :as adapter.cliente]])
+            [yes-she-codes.project.model.cliente :as model.cliente]])
 
-(s/defn lista-clientes! :- [model.cliente/Cliente]
+(s/defn lista-clientes
   [db]
-  (let [datomic-obj (d/q '[:find [(pull ?db_id [*]) ...]
-                           :where [?db_id :cliente/id]]
-                         db)]
-    (mapv adapter.cliente/datomic->cliente datomic-obj)))
+  (d/q
+    '[:find [(pull ?db_id [*]) ...]
+      :where [?db_id :cliente/id]]
+    db))
 
 (s/defn salva-cliente!
-        [conn
-         cliente :- model.cliente/Cliente]
-  (d/transact conn [(adapter.cliente/cliente->datomic cliente)]))
+  [conn cliente-datomic]
+  (d/transact conn [cliente-datomic]))
 
-(s/defn carrega-clientes-no-banco!
-        [conn
-         clientes :- [model.cliente/Cliente]]
-        (mapv (partial salva-cliente! conn) clientes))
+(s/defn cliente-por-cpf!
+  [db cpf :- model.cliente/Cpf]
+  (d/q
+    '[:find (pull ?db_id [*]) .
+      :in $ ?cpf
+      :where [?db_id :cliente/cpf ?cpf]] db cpf))
+
+(s/defn cliente-por-id!
+  [db id-cliente]
+  (d/pull db '[*] [:cliente/id id-cliente]))
+
+(s/defn cartoes-por-cliente!
+  [db id-cliente]
+  (d/q
+    '[:find [(pull ?cartao [*]) ...]
+      :in $ ?id-cliente
+      :where [?cartao :cartao/cliente ?cliente]
+             [?cliente :cliente/id ?id-cliente]
+             [?cartao :cartao/numero ?num-cartao]] db id-cliente))

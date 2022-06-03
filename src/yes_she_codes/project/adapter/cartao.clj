@@ -5,6 +5,7 @@
             [yes-she-codes.project.wire.in.csv :as in.csv]
             [yes-she-codes.project.adapter.common.csv :as common.csv]
             [yes-she-codes.project.adapter.common.util :as common.util]
+            [yes-she-codes.project.adapter.cliente :as adapter.cliente]
             [java-time :as time]))
 
 (s/defn ^:private string-sem-espacos :- s/Str
@@ -43,17 +44,21 @@
     csv-data
     csv-map->model))
 
-(s/defn cartao->datomic
+(s/defn model->datomic
   [{:cartao/keys [validade] :as cartao} :- model.cartao/Cartao]
   (-> cartao
       (assoc :cartao/validade (common.util/year-month->inst validade))))
 
-(s/defn datomic->cartao :- model.cartao/Cartao
-  [{:cartao/keys [validade] :as cartao}]
+(s/defn datomic->model-with-components :- model.cartao/CartaoComComponents
+  [{:cartao/keys [validade cliente] :as cartao}]
   (-> cartao
       (assoc :cartao/validade (common.util/inst->year-month validade))
+      (assoc :cartao/cliente (adapter.cliente/datomic->model cliente))
       (dissoc :db/id)))
 
-
-
-
+(s/defn datomic->model :- model.cartao/Cartao
+  [{:cartao/keys [validade cliente] :as cartao}]
+  (-> cartao
+      (assoc :cartao/validade (common.util/inst->year-month validade))
+      (assoc :cartao/cliente (:cliente/cpf cliente))
+      (dissoc :db/id)))

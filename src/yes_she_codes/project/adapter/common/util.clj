@@ -1,5 +1,5 @@
 (ns yes-she-codes.project.adapter.common.util
-  (:import [java.time LocalDate Instant ZoneOffset YearMonth DayOfWeek ZoneId Month MonthDay]
+  (:import [java.time LocalDate Instant ZoneOffset YearMonth]
            [java.util Date UUID]))
 
 (defn uuid [] (UUID/randomUUID))

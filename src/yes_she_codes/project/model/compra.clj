@@ -4,11 +4,6 @@
             [yes-she-codes.project.model.cartao :as model.cartao])
   (:import (java.time LocalDate)))
 
-(s/defschema Id
-  (s/constrained
-    s/Num
-    constraints/maior-igual-zero?))
-
 (s/defschema Data
   (s/constrained
     LocalDate
@@ -31,7 +26,15 @@
    :compra/valor           model.cartao/ValorFinanceiro
    :compra/estabelecimento Estabelecimento
    :compra/categoria       Categoria
-   :compra/cartao          (s/cond-pre model.cartao/NumeroCartao model.cartao/Cartao)})
+   :compra/cartao          model.cartao/NumeroCartao})
 
 (s/defschema GastoCategoria
   {Categoria model.cartao/ValorFinanceiro})
+
+(s/defschema CompraComComponentes
+  {:compra/id              s/Uuid
+   :compra/data            Data
+   :compra/valor           model.cartao/ValorFinanceiro
+   :compra/estabelecimento Estabelecimento
+   :compra/categoria       Categoria
+   :compra/cartao          model.cartao/CartaoComComponents})

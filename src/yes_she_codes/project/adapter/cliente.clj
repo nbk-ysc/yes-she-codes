@@ -19,11 +19,12 @@
     csv-data
     csv-map->model))
 
-(s/defn cliente->datomic
+(s/defn model->datomic
   [cliente :- model.cliente/Cliente]
   cliente)
 
-(s/defn datomic->cliente :- model.cliente/Cliente
+(s/defn datomic->model
   [cliente]
   (-> cliente
       (dissoc :db/id)))
+

@@ -2,11 +2,6 @@
   (:require [schema.core :as s]
             [yes-she-codes.project.model.constraints.constraints :as constraints]))
 
-(s/defschema Id
-  (s/constrained
-    s/Num
-    constraints/maior-igual-zero?))
-
 (s/defschema Nome
   (s/constrained
     s/Str
