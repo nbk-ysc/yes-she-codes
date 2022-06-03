@@ -7,14 +7,16 @@
 
 (s/set-fn-validation! true)
 
-(s/def ClienteSchema
-  {:nome  y.logic/NomeValido,
+(def ClienteSchema
+  {(s/optional-key :id) (s/pred pos-int?)
+   :nome  y.logic/NomeValido,
    :cpf   y.logic/CpfValido,
    :email y.logic/EmailValido})
 
 (s/defn novo-cliente :- ClienteSchema
-  [nome :- y.logic/NomeValido, cpf :- y.logic/CpfValido, email :- y.logic/EmailValido]
-  {:nome  nome,
+  [id nome :- y.logic/NomeValido, cpf :- y.logic/CpfValido, email :- y.logic/EmailValido]
+  {:id id,
+   :nome  nome,
    :cpf   cpf,
    :email email})
 
