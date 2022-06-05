@@ -1,12 +1,41 @@
 (ns yes-she-codes.project.controller.compra
   (:require [schema.core :as s]
             [yes-she-codes.project.diplomat.csv.csv :as diplomat.csv]
+            [yes-she-codes.project.logic.common.common :as logic.common]
             [yes-she-codes.project.model.compra :as model.compra]
             [yes-she-codes.project.model.cartao :as model.cartao]
             [yes-she-codes.project.adapter.compra :as adapter.compra]
             [yes-she-codes.project.db.compra :as db.compra]
             [yes-she-codes.project.db.cartao :as db.cartao]
             [yes-she-codes.project.db.config :refer [snapshot!]]))
+
+;;; ATOM
+
+(defn insere-compra!
+  [compras record]
+  (swap! compras logic.common/insere-record record))
+
+(defn lista-compras-dominio!
+  [compras]
+  (logic.common/lista-entidade @compras))
+
+(defn pesquisa-compra-por-id!
+  [compras id]
+  (logic.common/pesquisa-record-por-id @compras id))
+
+(defn exclui-compra!
+  [compras id]
+  (swap! compras logic.common/exclui-record id))
+
+(s/defn carrega-compras-no-domínio!
+  [filepath-dados :- s/Str
+   atom]
+  (if-let [cartoes (adapter.compra/csv->model
+                     (diplomat.csv/read-csv filepath-dados))]
+    (mapv (partial insere-compra! atom) cartoes)))
+
+
+;;; DATABASE
 
 (s/defn output-datomic :- [model.compra/CompraComComponentes]
   [datomic-vector]
@@ -51,3 +80,10 @@
   (if-let [compras (adapter.compra/csv->model
                      (diplomat.csv/read-csv filepath-dados))]
     (mapv (partial salva-compra! conn) compras)))
+
+(s/defn carrega-relatorio-compras-no-csv!
+  [filepath :- s/Str
+   relatorio :- [model.compra/CompraComComponentes]]
+  (diplomat.csv/write-csv
+    filepath
+    (adapter.compra/model->csv relatorio)))

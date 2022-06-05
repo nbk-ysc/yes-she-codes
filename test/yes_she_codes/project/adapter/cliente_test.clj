@@ -11,7 +11,7 @@
   [vec]
   (map dissoc-id vec))
 
-(s.test/deftest csv->clientes-test
+(s.test/deftest csv->model-test
   (let [clientes [#:cliente{:nome "Feiticeira Escarlate", :cpf "000.111.222-33", :email "feiticeira.poderosa@vingadoras.com.br"}
                   #:cliente{:nome "Viúva Negra", :cpf "333.444.555-66", :email "viuva.casca.grossa@vingadoras.com.br"}
                   #:cliente{:nome "Hermione Granger", :cpf "666.777.888-99", :email "hermione.salvadora@hogwarts.com"}
@@ -27,12 +27,12 @@
                   ["Hermione Granger" "666777888-99" "hermione.salvadora@hogwarts.com"]
                   ["Daenerys Targaryen" "999123456-78" "mae.dos.dragoes@got.com"]]]
     (testing "arquivo vazio deve retornar vetor vazio"
-      (is (= (dissoc-ids (adapter.cliente/csv->clientes [[]]))
+      (is (= (dissoc-ids (adapter.cliente/csv->model [[]]))
              [])))
     (testing "deve se adaptar ao modelo de cliente"
-      (is (= (dissoc-ids (adapter.cliente/csv->clientes csv))
+      (is (= (dissoc-ids (adapter.cliente/csv->model csv))
              clientes)))
     (testing "falhando quando falta a chave de valor"
       (is (thrown-with-msg? clojure.lang.ExceptionInfo
                             #"does not match schema"
-                            (adapter.cliente/csv->clientes csv-erro))))))
+                            (adapter.cliente/csv->model csv-erro))))))

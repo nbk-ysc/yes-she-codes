@@ -12,7 +12,7 @@
   [vec]
   (map dissoc-id vec))
 
-(s.test/deftest csv->compras-test
+(s.test/deftest csv->model-test
   (let [compras [#:compra{:data            (time/local-date "2021-05-09"),
                           :valor           100.00M,
                           :estabelecimento "estabelecimento",

@@ -38,9 +38,9 @@
              :limite   (str->valor-financeiro limite)
              :cliente  cliente}))
 
-(s/defn csv->cartoes :- [model.cartao/Cartao]
+(s/defn csv->model :- [model.cartao/Cartao]
   [csv-data :- in.csv/RawCsv]
-  (common.csv/csv->model
+  (common.csv/csv->maps
     csv-data
     csv-map->model))
 

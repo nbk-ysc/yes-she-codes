@@ -8,4 +8,4 @@
                  [clojure.java-time "0.3.2"]
                  [com.datomic/datomic-pro "1.0.6397"]
                  [prismatic/schema "1.2.1"]]
-  :repl-options {:init-ns yes-she-codes.project.simulator})
+  :repl-options {:init-ns yes-she-codes.project.core})

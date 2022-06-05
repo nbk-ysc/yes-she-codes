@@ -6,8 +6,8 @@
   (not (.isAfter data (time/local-date))))
 
 (defn pelo-menos-dois-chars?
-  [estabelecimento]
-  (>= (count estabelecimento) 2))
+  [string]
+  (>= (count string) 2))
 
 (defn maior-igual-zero?
   [valor]

@@ -1,0 +1,20 @@
+cpf,nome,email,valor,categoria,validade,limite,estabelecimento,cartao,data
+000.111.222-33,Feiticeira Escarlate,feiticeira.poderosa@vingadoras.com.br,129.90,Alimentação,2023-01,1000,Outback,1234123412341234,2022-01-01
+000.111.222-33,Feiticeira Escarlate,feiticeira.poderosa@vingadoras.com.br,260.00,Saúde,2023-01,1000,Dentista,1234123412341234,2022-01-02
+000.111.222-33,Feiticeira Escarlate,feiticeira.poderosa@vingadoras.com.br,20.00,Lazer,2023-01,1000,Cinema,1234123412341234,2022-02-01
+333.444.555-66,Viúva Negra,viuva.casca.grossa@vingadoras.com.br,150.00,Lazer,2024-02,2000,Show,4321432143214321,2022-01-10
+333.444.555-66,Viúva Negra,viuva.casca.grossa@vingadoras.com.br,289.99,Automóvel,2024-02,2000,Posto de gasolina,4321432143214321,2022-02-10
+333.444.555-66,Viúva Negra,viuva.casca.grossa@vingadoras.com.br,79.90,Alimentação,2024-02,2000,iFood,4321432143214321,2022-02-20
+333.444.555-66,Viúva Negra,viuva.casca.grossa@vingadoras.com.br,85.00,Educação,2024-02,2000,Alura,4321432143214321,2022-03-01
+666.777.888-99,Hermione Granger,hermione.salvadora@hogwarts.com,85.00,Educação,2021-03,3000,Alura,1598159815981598,2022-01-30
+666.777.888-99,Hermione Granger,hermione.salvadora@hogwarts.com,350.00,Casa,2021-03,3000,Tok&Stok,1598159815981598,2022-01-31
+666.777.888-99,Hermione Granger,hermione.salvadora@hogwarts.com,400.00,Casa,2021-03,3000,Leroy Merlin,1598159815981598,2022-02-01
+666.777.888-99,Hermione Granger,hermione.salvadora@hogwarts.com,50.00,Alimentação,2025-04,4000,Madero,6655665566556655,2022-03-01
+666.777.888-99,Hermione Granger,hermione.salvadora@hogwarts.com,70.00,Lazer,2025-04,4000,Teatro,6655665566556655,2022-03-01
+666.777.888-99,Hermione Granger,hermione.salvadora@hogwarts.com,250.00,Saúde,2025-04,4000,Hospital,6655665566556655,2022-03-04
+666.777.888-99,Hermione Granger,hermione.salvadora@hogwarts.com,130.00,Saúde,2025-04,4000,Drogaria,6655665566556655,2022-04-10
+999.123.456-78,Daenerys Targaryen,mae.dos.dragoes@got.com,100.00,Lazer,2026-05,5000,Show de pagode,3939393939393939,2022-03-10
+999.123.456-78,Daenerys Targaryen,mae.dos.dragoes@got.com,25.90,Alimentação,2026-05,5000,Dogão,3939393939393939,2022-03-11
+999.123.456-78,Daenerys Targaryen,mae.dos.dragoes@got.com,215.87,Lazer,2026-05,5000,Praia,3939393939393939,2022-03-12
+999.123.456-78,Daenerys Targaryen,mae.dos.dragoes@got.com,976.88,Automóvel,2026-05,5000,Oficina,3939393939393939,2022-04-01
+999.123.456-78,Daenerys Targaryen,mae.dos.dragoes@got.com,85.00,Educação,2026-05,5000,Alura,3939393939393939,2022-04-10

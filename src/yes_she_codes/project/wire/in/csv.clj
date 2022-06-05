@@ -2,9 +2,6 @@
   (:require [schema.core :as s]
             [clojure.string :as string]))
 
-;; define o contrato da informação que está entrando
-;; lendo de um topico, consumindo de um http, lendo de um arquivo
-
 
 (s/defn ^:private is-lower-case
   [key :- s/Keyword]

@@ -12,7 +12,7 @@
   [vec]
   (map dissoc-id vec))
 
-(s.test/deftest csv->cartoes-test
+(s.test/deftest csv->model-test
   (let [cartoes [#:cartao{:numero   1234123412341234,
                           :cvv      111,
                           :validade (time/year-month "2023-01"),
@@ -30,26 +30,26 @@
         csv-valor-fora-schema [["CVV" "VALIDADE" "LIMITE" "NÚMERO" "CLIENTE"]
                                ["111" "2023-01" "1000" "1234 1234 1234 1234" "000111222/33"]]]
     (testing "arquivo vazio deve retornar vetor vazio"
-      (is (= (dissoc-ids (adapter.cartao/csv->cartoes [[]]))
+      (is (= (dissoc-ids (adapter.cartao/csv->model [[]]))
              [])))
     (testing "deve se adaptar ao modelo de cartao"
-      (is (= (dissoc-ids (adapter.cartao/csv->cartoes csv))
+      (is (= (dissoc-ids (adapter.cartao/csv->model csv))
              cartoes)))
     (testing "deve se adaptar ao modelo de cartao mesmo com chaves extras"
-      (is (= (dissoc-ids (adapter.cartao/csv->cartoes csv-chave-extra))
+      (is (= (dissoc-ids (adapter.cartao/csv->model csv-chave-extra))
              cartoes)))
     (testing "falahando quando qualquer linha não atende, mesmo que as outras estejam ok"
       (is (thrown-with-msg? clojure.lang.ExceptionInfo
                             #"does not match schema"
-                            (adapter.cartao/csv->cartoes csv-dados))))
+                            (adapter.cartao/csv->model csv-dados))))
     (testing "falhando quando algum falta alguma chave de valor"
       (is (thrown-with-msg? clojure.lang.ExceptionInfo
                             #"does not match schema"
-                            (adapter.cartao/csv->cartoes csv-faltando-chave))))
+                            (adapter.cartao/csv->model csv-faltando-chave))))
     (testing "falhando quando algum valor não atende o padrão de conversão"
       (is (thrown-with-msg? clojure.lang.ExceptionInfo
                             #"does not match schema"
-                            (adapter.cartao/csv->cartoes csv-valor-fora-schema))))))
+                            (adapter.cartao/csv->model csv-valor-fora-schema))))))
 
 
 (s.test/deftest model->datomic-test

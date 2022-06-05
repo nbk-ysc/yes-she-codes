@@ -23,11 +23,16 @@
                  repeat)
             (rest csv-data))))
 
-(s/defn csv->model :- [s/Any]
+(s/defn csv->maps :- [s/Any]
   [csv-data :- in.csv/RawCsv
    csv-map->model :- s/Any]
   (vec (->> csv-data
             csv-data->csv-maps
             (mapv csv-map->model))))
 
-
+(defn maps->csv-data
+  [maps]
+  (let [columns (-> maps first keys)
+        headers (mapv name columns)
+        rows (mapv #(mapv % columns) maps)]
+    (into [headers] rows)))

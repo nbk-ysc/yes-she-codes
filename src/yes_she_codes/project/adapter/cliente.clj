@@ -13,9 +13,9 @@
               :cpf   cpf
               :email email}))
 
-(s/defn csv->clientes :- [model.cliente/Cliente]
+(s/defn csv->model :- [model.cliente/Cliente]
   [csv-data :- in.csv/RawCsv]
-  (common.csv/csv->model
+  (common.csv/csv->maps
     csv-data
     csv-map->model))
 
