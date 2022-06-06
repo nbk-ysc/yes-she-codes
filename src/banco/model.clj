@@ -1,4 +1,4 @@
-(ns datomic.model)
+(ns banco.model)
 
 (defn str->long [valor]
   (Long/parseLong (clojure.string/replace valor #" " "")))

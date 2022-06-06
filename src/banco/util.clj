@@ -1,4 +1,4 @@
-(ns datomic.util
+(ns banco.util
   (:require [clojure.string :as str]))
 
 (defn processa-csv [arquivo funcao-mapeamento]

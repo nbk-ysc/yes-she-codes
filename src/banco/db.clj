@@ -1,8 +1,8 @@
-(ns datomic.db
+(ns banco.db
   (:use clojure.pprint)
   (:require [datomic.api :as d]
-            [datomic.model :as model]
-            [datomic.util :as util]))
+            [banco.model :as model]
+            [banco.util :as util]))
 
 (def she-codes "datomic:dev://localhost:4334/yes-she-codes")
 
@@ -55,8 +55,8 @@
    (d/q '[:find (pull ?e [*])
           :in $ ?cartao ?mes
           :where [?e :compra/cartao ?cartao]
-          [_ :compra/data ?data]
-          ;[(util/get-moth ?data) ?month]
+          [?e :compra/data ?data]
+          [((fn [dt] (get (clojure.string/split dt #"-") 1)) ?data) ?month]
           [(= ?month ?mes)]] conn cartao mes))
   ([conn cartao]
   (d/q '[:find (pull ?e [*])
@@ -66,6 +66,7 @@
 (defn lista-compras-por-categoria! [conn cartao]
   (d/q '[:find ?categoria (pull ?e [*])
          :in $ ?cartao
+         :keys categoria compras
          :where [?e :compra/cartao ?cartao]
          [?e :compra/categoria ?categoria]] conn cartao))
 
