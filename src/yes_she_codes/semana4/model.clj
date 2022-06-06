@@ -8,3 +8,12 @@
    :compra/estabelecimento  estabelecimento
    :compra/categoria        categoria
    :compra/cartao           cartao})
+
+(defn novo-cartao
+  [[numero cvv validade limite cliente]]
+  {:cartao/numero    numero
+   :cartao/cvv       cvv
+   :cartao/validade  validade
+   :cartao/limite    limite
+   :cartao/cliente   cliente})
+
