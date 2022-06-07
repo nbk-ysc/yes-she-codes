@@ -29,6 +29,23 @@
                         :db/cardinality :db.cardinality/one}
                        {:db/ident       :compra/cartao
                         :db/valueType   :db.type/long
+                        :db/cardinality :db.cardinality/one}
+
+                       {:db/ident       :cartao/numero
+                        :db/valueType   :db.type/long
+                        :db/cardinality :db.cardinality/one
+                        :db/unique      :db.unique/identity}
+                       {:db/ident       :cartao/cvv
+                        :db/valueType   :db.type/long
+                        :db/cardinality :db.cardinality/one}
+                       {:db/ident       :cartao/validade
+                        :db/valueType   :db.type/string
+                        :db/cardinality :db.cardinality/one}
+                       {:db/ident       :cartao/limite
+                        :db/valueType   :db.type/bigdec
+                        :db/cardinality :db.cardinality/one}
+                       {:db/ident       :cartao/cliente
+                        :db/valueType   :db.type/string
                         :db/cardinality :db.cardinality/one}]))
 
 
@@ -49,6 +66,23 @@
   (d/transact conexao [compra-map-ou-record]))
 
 
+(defn novo-cartao
+  ([[numero cvv validade limite cliente]]
+   (novo-cartao numero cvv validade limite cliente))
+
+  ([numero cvv validade limite cliente]
+   {:cartao/numero          (Long/parseLong (str/replace numero #" " ""))
+    :cartao/cvv             (Long/parseLong cvv)
+    :cartao/validade        validade
+    :cartao/limite          (bigdec limite)
+    :cartao/cliente         cliente}))
+
+
+(defn salva-cartao!
+  [conexao cartao-map-ou-record]
+  (d/transact conexao [cartao-map-ou-record]))
+
+
 (defn abre-csv
   [path]
   (->> (slurp path)
@@ -64,38 +98,45 @@
   ([conexao lista-de-listas]
     (map (comp (partial salva-compra! conexao) nova-compra) lista-de-listas)))
 
+
+(defn carrega-cartoes-no-banco!
+  ([conexao]
+   (carrega-cartoes-no-banco! conexao (abre-csv "resources/cartoes.csv")))
+
+  ([conexao lista-de-listas]
+   (map (comp (partial salva-cartao! conexao) novo-cartao) lista-de-listas)))
+
+
 (defn lista-compras!
   [conexao]
-  (let [db (d/db conexao)]
-    (vec (flatten (d/q '[:find (pull ?entidade [:compra/data
-                                                :compra/valor
-                                                :compra/estabelecimento
-                                                :compra/categoria
-                                                :compra/cartao])
-                         :where [?entidade :compra/data]] db)))))
+  (vec (flatten (d/q '[:find (pull ?entidade [:compra/data
+                                              :compra/valor
+                                              :compra/estabelecimento
+                                              :compra/categoria
+                                              :compra/cartao])
+                       :where [?entidade :compra/data]] (d/db conexao)))))
+
+(defn lista-cartoes!
+  [conexao]
+  (vec (flatten (d/q '[:find (pull ?entidade [*])
+                       :where [?entidade :cartao/numero]] (d/db conexao)))))
 
 
 (defn lista-compras-por-cartao!
   [conexao cartao]
-  (let [db (d/db conexao)]
-    (vec (flatten (d/q '[:find (pull ?entidade [*])
-                         :in $ ?cartao-buscado
-                         :where [?entidade :compra/cartao ?cartao-buscado]] db cartao)))))
+  (vec (flatten (d/q '[:find (pull ?entidade [*])
+                       :in $ ?cartao-buscado
+                       :where [?entidade :compra/cartao ?cartao-buscado]
+                       ] (d/db conexao) cartao))))
 
 
 (defn lista-compras-por-cartao-e-mes!
   [conexao cartao mes]
-  (let [db (d/db conexao)]
-    (vec (flatten (d/q '[:find (pull ?entidade [*])         ;(pull ?entidade [*])
-                         :in $ ?cartao-buscado ?mes-buscado
-                         :where [?entidade :compra/cartao ?cartao-buscado]
-                         [?entidade :compra/data ?data-buscada]
-                         [(re-find #"\d{4}-(\d{2})-\d{2}" ?data-buscada) ?matcher]
-                         [(second ?matcher) ?mes]
-                         [(= ?mes ?mes-buscado)]
-                         ] db cartao mes)))))
-
-
-;(defn ista-gastos-por-categoria!
-;  [conexao cartao]
-;  )
+  (vec (flatten (d/q '[:find (pull ?entidade [*])
+                       :in $ ?cartao-buscado ?mes-buscado
+                       :where [?entidade :compra/cartao ?cartao-buscado]
+                       [?entidade :compra/data ?data-buscada]
+                       [(re-find #"\d{4}-(\d{2})-\d{2}" ?data-buscada) ?matcher]
+                       [(second ?matcher) ?mes]
+                       [(= ?mes ?mes-buscado)]
+                       ] (d/db conexao) cartao mes))))
