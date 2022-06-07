@@ -1,8 +1,39 @@
 (ns yes-she-codes.entidades.compra
-  (:require [yes-she-codes.util :as util]
-            [java-time :as time]))
+  (:require [yes-she-codes.util :as y.util]
+            [java-time :as time]
+            [schema.core :as s]
+            [yes-she-codes.entidades.cartao :as y.cartao]))
 
-(defrecord Compra [^Long id ^String data ^BigDecimal valor ^String estabelecimento ^String categoria ^Long cartao])
+(def DataDeCompraValida (s/constrained java.time.LocalDate
+                                       (fn [data]
+                                         (let [data-atual (time/local-date)]
+                                           (or (= data data-atual) (time/before? data data-atual))))))
+
+(def EstabelecimentoValido (y.util/min-caracteres 2))
+(def CategoriaValida (s/enum "Alimentação" "Automóvel" "Casa" "Educação" "Lazer" "Saúde"))
+
+(def CompraSchema {(s/optional-key :id) y.util/IdOpcional
+                   :data                DataDeCompraValida
+                   :valor               y.util/ValorPositivo
+                   :estabelecimento     EstabelecimentoValido
+                   :categoria           CategoriaValida
+                   :cartao              y.cartao/NumeroDeCartaoValido})
+
+
+(s/defn ->Compra :- CompraSchema
+  [id :- y.util/IdOpcional
+   data :- DataDeCompraValida
+   valor :- y.util/ValorPositivo
+   estabelecimento :- EstabelecimentoValido
+   categoria :- CategoriaValida
+   cartao :- y.cartao/NumeroDeCartaoValido]
+
+  {:id              id
+   :data            data
+   :valor           valor
+   :estabelecimento estabelecimento
+   :categoria       categoria
+   :cartao          cartao})
 
 (defn compra-valida? [compra]
   (let [valida-data (time/after? (time/local-date) (get compra :data))
@@ -25,7 +56,7 @@
 
 (defn lista-compras-por-mes
   [mes compras]
-  (filter #(= (util/mes-da-data mes) (util/mes-da-data (:data %))) compras))
+  (filter #(= (y.util/mes-da-data mes) (y.util/mes-da-data (:data %))) compras))
 
 (defn lista-compras-por-cartao
   [cartao compras]

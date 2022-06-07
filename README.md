@@ -5,4 +5,4 @@
 Projeto bancário para mergulhar no mundo da **programação funcional** com Clojure + Datomic!
 
 
-Desenvolvido por *Nelkisa Matias* (*nelkisa.matias@nubank.com.br*).
+Desenvolvido por *Nelkisa Matias* (*gabrielamatias60@gmail.com*).
