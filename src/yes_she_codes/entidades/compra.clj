@@ -1,21 +1,31 @@
-(ns yes-she-codes.compra
-  (:require [yes-she-codes.db :as db]
-            [yes-she-codes.core :as core]))
+(ns yes-she-codes.entidades.compra
+  (:require [yes-she-codes.util :as util]
+            [java-time :as time]))
 
-(defn nova-compra [data valor estabelecimento categoria numero-cartao]
-  {:data            data
-   :valor           (bigdec valor)
-   :estabelecimento estabelecimento
-   :categoria       categoria
-   :cartao          (core/str-to-long numero-cartao)})
+(defrecord Compra [^Long id ^String data ^BigDecimal valor ^String estabelecimento ^String categoria ^Long cartao])
 
-(defn lista-compras []
-  (db/processa-csv "dados/compras.csv" (fn [[data valor estabelecimento categoria numero-cartao]]
-                                         (nova-compra data valor estabelecimento categoria numero-cartao))))
+(defn compra-valida? [compra]
+  (let [valida-data (time/after? (time/local-date) (get compra :data))
+        valida-valor (and (number? (get compra :valor)) (>= (get compra :valor) 0))
+        valida-estabelecimento (>= (count (get compra :estabelecimento)) 2)
+        categoria (get compra :categoria)
+        valida-categoria (or (= "Alimentação" categoria)
+                             (= "Automóvel" categoria)
+                             (= "Casa" categoria)
+                             (= "Educação" categoria)
+                             (= "Lazer" categoria)
+                             (= "Saúde" categoria))]
+
+    (and valida-data valida-valor valida-estabelecimento valida-categoria)))
+
+; quando estava usando a data como string
+(defn lista-compras-por-mes-sub
+  [mes compras]
+  (filter #(if (= (subs (:data %) 5 7) mes) true) compras))
 
 (defn lista-compras-por-mes
   [mes compras]
-  (filter #(if (= (subs (:data %) 5 7) mes) true) compras))
+  (filter #(= (util/mes-da-data mes) (util/mes-da-data (:data %))) compras))
 
 (defn lista-compras-por-cartao
   [cartao compras]
