@@ -1,15 +1,23 @@
 (ns yes-she-codes.semana4.compra
-  (:require [schema.core :as s])
+  (:require [schema.core :as s]
+            [yes-she-codes.semana4.logica])
   (:use [clojure.pprint]))
 
 ; Força para q sempre valide os dados passados para os esquemas
 (s/set-fn-validation! true)
 
-(s/defn nova-compra
-  [slug, data, valor, estabelecimento, categoria, cartao]
-  {:compra/slug            slug
-   :compra/data            data,
-   :compra/valor           valor,
-   :compra/estabelecimento estabelecimento,
-   :compra/categoria       categoria,
-   :compra/cartao          cartao})
+(def CompraSchema
+  "Schema de uma compra"
+  {:data            y.logica/ValidaData,
+   :valor           (s/constrained s/Num pos?),
+   :estabelecimento y.logica/ValidaNome,
+   :categoria       y.logica/ValidaCateg,
+   :cartao          y.logica/ValidaCartao})
+
+(s/defn nova-compra :- CompraSchema
+  [data :- y.logica/ValidaData,
+   valor :- (s/constrained s/Num pos?),
+   estabelecimento :- y.logica/ValidaNome,
+   categoria :- y.logica/ValidaCateg,
+   cartao :- y.logica/ValidaCartao]
+  {:data data, :valor valor, :estabelecimento estabelecimento, :categoria categoria, :cartao cartao})

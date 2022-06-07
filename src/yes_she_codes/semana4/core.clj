@@ -6,22 +6,27 @@
 
 
 ;Chama funçao que cria o banco e faz conexão
-(def conn (db/cria-conexão))
-(pprint conn)
-
-(db/cria-esquema conn)
+(def conn (db/carrega-db!))
 
 ;Funcao salva dados de novas compras no banco
 (defn salva-compra! [conn compra]
-  (let [compra compra]
+  (let [compra (db/compra->registro-datomic compra)]
     (d/transact conn [compra])))
 
-(salva-compra! conn (compra/nova-compra "/compra_dentista" "2022-01-02" 260.00M "Dentista" "Saúde" 1234123412341234))
+;(salva-compra! conn (compra/nova-compra "2022-01-02" 260.00M "Dentista" "Saúde" 1234123412341234))
 
+;Funçao que lista tdas as compras
 (defn lista-compras! [conn]
-  (let [conn conn]
-    (def db (d/db conn))                                    ;Snapshot do banco nesse exato momento
-    (d/q '[:find ?entidade
-           :where [?entidade :compra/data]] db)))           ;Select que tras todas as compras de um estabelecimento
+  (db/cria-snapshot conn)
+  (vec (flatten (d/q '[:find (pull ?compra [*])
+                       :where [?compra :compra/valor]]
+                     db))))
 
-(pprint (lista-compras! conn))
+;(pprint (lista-compras! conn))
+
+;Funçao que lista tdas as compras por cartao
+(defn lista-compras-cartao! [conn]
+  (db/cria-snapshot conn)
+  (vec (flatten (d/q '[:find (pull ?compra [*])
+                       :where [?compra :compra/cartao]]
+                     db))))
