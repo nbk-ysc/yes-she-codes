@@ -1,4 +1,4 @@
-(ns yes-she-codes2.cartao
+(ns yes-she-codes.dominio.cartao
   (:require [yes-she-codes2.db :as y.db])
   (:require [yes-she-codes2.compras :as y.compras]))
 

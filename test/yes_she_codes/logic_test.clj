@@ -1,6 +1,6 @@
-(ns yes-she-codes2.logic-test
+(ns yes-she-codes.logic-test
   (:require [clojure.test :refer :all])
-  (:require [yes-she-codes2.schema :refer :all]))
+  (:require [yes-she-codes.schema :refer :all]))
 
 
 (deftest validaSchemaTest

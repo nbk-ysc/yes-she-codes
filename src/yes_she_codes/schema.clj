@@ -1,4 +1,4 @@
-(ns yes-she-codes2.schema
+(ns yes-she-codes.schema
   (:use [clojure pprint])
   (:require [schema.core :as s]))
 

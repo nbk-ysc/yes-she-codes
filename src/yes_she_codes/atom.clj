@@ -1,4 +1,4 @@
-(ns yes-she-codes2.atom
+(ns yes-she-codes.atom
   (:use [clojure pprint])
   (:require [yes-she-codes2.db :as y.db]))
 
