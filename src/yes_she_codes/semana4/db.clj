@@ -40,18 +40,12 @@
 (defn cria-snapshot [conn]
   (def db (d/db conn)))
 
-
-;Exemplo do Cacio
-#_(defn compras-csv! []
-    (->> (y.csv/processa-arquivo-de-compras!)
-         (map compra->registro-datomic)))
-
 (defn carrega-db! []
   (apaga-banco!)
   (let [conn (cria-conexao)]
     (println "Criou o squema" @(cria-esquema! conn))))
 
-
+;Transforma os dados de entrada em dados compatíveis com o datomic
 (defn compra->registro-datomic [compra]
   (-> compra
       (clojure.set/rename-keys {:data            :compra/data
@@ -59,3 +53,14 @@
                                 :categoria       :compra/categoria
                                 :estabelecimento :compra/estabelecimento
                                 :cartao          :compra/cartao})))
+
+;Funcao salva dados de novas compras no banco
+(defn salva-compra! [conn compra]
+  (let [compra (compra->registro-datomic compra)]
+    (d/transact conn [compra])))
+
+
+;Modelo de carregamento de csv do Cácio
+(defn carrega-compras-no-banco! [conn]
+  (map (partial salva-compra! conn)
+    (y.csv/processa-arquivo-de-compras!)))
