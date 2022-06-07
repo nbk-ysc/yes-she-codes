@@ -1,16 +1,15 @@
 (ns yes-she-codes.core
-  (:require [yes-she-codes.util :as y.util]
-            [yes-she-codes.dados.bd :as y.bd]
+  (:require [yes-she-codes.dados.bd :as y.bd]
             [yes-she-codes.entidades.cliente :as y.cliente]
             [yes-she-codes.entidades.cartao :as y.cartao]
             [yes-she-codes.entidades.compra :as y.compra]
             [java-time :as time])
   (:use [clojure pprint]))
 
-; Faz carga dos CSVs no banco (átomos)
+; carrega o csv
 (y.bd/carrega-banco-de-dados!)
 
-; TESTE DAS LÓGICAS DE CLIENTES
+; clientes
 (println "========= LISTAGEM DE CLIENTES ==========")
 (pprint (y.bd/lista-clientes!))
 
@@ -27,7 +26,7 @@
 (y.bd/exclui-cliente! 5)
 
 
-; TESTE DAS LÓGICAS DE CARTÕES
+; cartões
 (println "\n========= LISTAGEM DE CARTÕES ==========")
 (pprint (y.bd/lista-cartoes!))
 
@@ -47,7 +46,7 @@
 (y.bd/exclui-cartao! 6)
 
 
-; TESTE DAS LÓGICAS DE COMPRAS
+; compras
 (println "\n========= LISTAGEM DE COMPRAS ==========")
 (pprint (y.bd/lista-compras!))
 
@@ -67,14 +66,13 @@
 
 (println "\n========= INSPECIONANDO COMPRAS DA Viúva Negra (cartão 4321432143214321)")
 (def compras-da-viuva (y.compra/lista-compras-por-cartao 4321432143214321
-                                                          (y.bd/lista-compras!)))
+                                                         (y.bd/lista-compras!)))
 
 (println "\n========= TOTAL GASTO EM TODAS AS COMPRAS =========")
 (pprint (y.compra/total-gasto compras-da-viuva))
 
 (println "\n========= TOTAL GASTO EM FEVEREIRO =========")
-(pprint (y.compra/total-gasto-por-mes 2 compras-da-viuva))
-;(pprint (y.compra/filtra-compras-no-mes 2 compras-da-viuva))
+(pprint (y.compra/total-gasto-por-mes (time/local-date "2022-02-05") compras-da-viuva))
 
 (println "\n========= COMPRAS AGRUPADAS POR CATEGORIA =========")
 (pprint (y.compra/agrupa-gastos-por-categoria compras-da-viuva))

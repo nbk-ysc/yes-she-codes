@@ -5,5 +5,6 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [clojure.java-time "0.3.3"]
-                 [commons-validator "1.5.1"]]
+                 [commons-validator "1.5.1"]
+                 [prismatic/schema "1.2.0"]]
   :repl-options {:init-ns yes-she-codes.core})

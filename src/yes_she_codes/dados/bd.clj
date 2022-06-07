@@ -1,10 +1,7 @@
 (ns yes-she-codes.dados.bd
-  (:require [yes-she-codes.entidades.compra :as  y.compra]
-            [yes-she-codes.entidades.cliente :as y.cliente]
-            [yes-she-codes.entidades.cartao :as  y.cartao]
+  (:require [yes-she-codes.entidades.compra :as y.compra]
             [yes-she-codes.util :as y.util]
-            [yes-she-codes.csv.processa-csv :as y.csv]
-            [java-time :as time]))
+            [yes-she-codes.csv.processa-csv :as y.csv]))
 
 (def repositorio-de-clientes (atom []))
 (def repositorio-de-cartoes (atom []))
