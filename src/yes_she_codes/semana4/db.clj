@@ -1,6 +1,8 @@
 (ns yes-she-codes.semana4.db
   (:use clojure.pprint)
-  (:require [datomic.api :as d]))
+  (:require [datomic.api :as d]
+            [yes-she-codes.semana4.logic :as logic]
+            [yes-she-codes.semana4.model :as model]))
 
 
 (def db-uri "datomic:dev://localhost:4334/she-codes")
@@ -53,3 +55,29 @@
 (defn salva-compra!
   [conn compra]
   @(d/transact conn [compra]))
+
+
+(defn carrega-compras-no-banco!
+  [conn]
+  (let [lista-compras (logic/processa-csv "src/yes_she_codes/semana1/csv/compras.csv" (fn [[data valor estabelecimento categoria cartao]]
+                                                                                        (model/nova-compra data valor estabelecimento categoria cartao)))]
+    (doseq [compra lista-compras] (salva-compra! conn compra))
+    ))
+
+(defn lista-compras!
+  [conn]
+  (d/q '[:find ?entidade
+         :where [?entidade :compra/cartao]] conn))
+
+
+(defn apaga-banco
+  []
+  (d/delete-database db-uri)           ; deletando db -> retorna true
+  )
+
+
+(defn lista-compras-por-cartao!
+  [conn cartao]
+  ; operacoes
+  )
+

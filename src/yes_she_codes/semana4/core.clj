@@ -15,3 +15,18 @@
 
 (db/salva-compra! conn (model/nova-compra "02-06-2022" 150.2M "Nucleo Artistico" "Lazer" 1111222233334444))
 
+(db/carrega-compras-no-banco! conn)
+
+;(db/apaga-banco)
+
+; nova snashot do banco
+(def db-snapshot (d/db conn))
+
+(pprint (db/lista-compras! db-snapshot))
+
+
+
+
+
+
+
