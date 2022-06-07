@@ -76,8 +76,8 @@
   )
 
 
-(defn lista-compras-por-cartao!
-  [conn cartao]
-  ; operacoes
-  )
+;(defn lista-compras-por-cartao!
+;  [conn cartao]
+;  ; operacoes
+;  )
 
