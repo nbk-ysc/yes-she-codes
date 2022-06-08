@@ -52,5 +52,4 @@
   (let [numero (long (bigdec (y.utils/limpa-whitespace numero-espaco)))
         cvv (long (bigdec cvv-string))
         limite (bigdec limite-string)]
-    (println (type cvv))
     (novo-cartao numero cvv validade limite cliente)))

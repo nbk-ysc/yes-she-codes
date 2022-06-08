@@ -126,21 +126,6 @@
 
 (def total-gasto-por-ano-mes (comp total-gastos compra-por-ano-mes))
 
-
-;(defn total-gasto-por-mes
-;  [mes lista]
-;  (->> lista
-;       (compra-por-mes mes)
-;       (map :valor)
-;       (reduce +)))
-;
-;(defn total-gasto-por-ano-mes
-;  [mes lista]
-;  (->> lista
-;       (compra-por-ano-mes mes)
-;       (map :valor)
-;       (reduce +)))
-
 (defn total-gasto-por-mes-por-cartao
   [mes numero lista]
   (->> lista

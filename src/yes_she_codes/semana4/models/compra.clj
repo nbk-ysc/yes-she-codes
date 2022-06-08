@@ -16,14 +16,14 @@
   (s/pred y.utils/categoria-pertence?))
 
 (def CompraSchema
-  {:data              y.utils/StrGTE2                       ;STRING
+  {:data              DataCompra                       ;STRING
    :valor             y.utils/BigDecPositivo
    :estabelecimento   y.utils/StrGTE2
    :categoria         Categoria
    :cartao            y.cartao/NumeroCartao})
 
 (s/defn nova-compra :- CompraSchema
-  [data :- y.utils/StrGTE2                                  ;STRING
+  [data :- DataCompra                                 ;STRING
    valor :- y.utils/BigDecPositivo
    estabelecimento :- y.utils/StrGTE2
    categoria :- Categoria
@@ -36,15 +36,9 @@
    :cartao          cartao})
 
 
-(defn transforma-compra-date
+(defn transforma-compra
   [[data-string valor estabelecimento categoria cartao-espaco]]
   (let [data (time/local-date data-string)
         valor (bigdec valor)
         cartao (long (bigdec (y.utils/limpa-whitespace cartao-espaco)))]
     (nova-compra data valor estabelecimento categoria cartao)))
-
-(defn transforma-compra
-  [[data-string valor estabelecimento categoria cartao-espaco]]
-  (let [valor (bigdec valor)
-        cartao (long (bigdec (y.utils/limpa-whitespace cartao-espaco)))]
-    (nova-compra data-string valor estabelecimento categoria cartao)))

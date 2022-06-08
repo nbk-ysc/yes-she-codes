@@ -1,7 +1,8 @@
 (ns yes_she_codes.semana4.db
   (:use clojure.pprint)
   (:require [datomic.api :as d]
-            [yes_she_codes.semana4.utils :as y.utils]))
+            [yes_she_codes.semana4.utils :as y.utils]
+            [java-time :as time]))
 
 (def db-uri "datomic:dev://localhost:4334/she-codes")
 
@@ -15,7 +16,7 @@
 (def schema-datomic [
                      ;COMPRAS
                      {:db/ident       :compra/data
-                      :db/valueType   :db.type/string
+                      :db/valueType   :db.type/instant
                       :db/cardinality :db.cardinality/one
                       :db/doc         "A data de uma compra"}
                      {:db/ident       :compra/valor
@@ -70,7 +71,7 @@
                                 :cartao          :compra/cartao})
       y.utils/ajusta-compra-local-para-java-date))
 
-(defn datomic->compra-instant
+(defn datomic->compra
   [compra]
   (-> compra
       (clojure.set/rename-keys {:db/id                  :id
@@ -80,25 +81,6 @@
                                 :compra/categoria       :categoria
                                 :compra/cartao          :cartao})
       y.utils/ajusta-compra-java-date-para-local))
-
-(defn compra->datomic
-  [compra]
-  (-> compra
-      (clojure.set/rename-keys {:data            :compra/data
-                                :valor           :compra/valor
-                                :estabelecimento :compra/estabelecimento
-                                :categoria       :compra/categoria
-                                :cartao          :compra/cartao})))
-
-(defn datomic->compra
-  [compra]
-  (-> compra
-      (clojure.set/rename-keys {:db/id                  :id
-                                :compra/data            :data
-                                :compra/valor           :valor
-                                :compra/estabelecimento :estabelecimento
-                                :compra/categoria       :categoria
-                                :compra/cartao          :cartao})))
 
 (defn cartao->datomic
   [cartao]
@@ -121,7 +103,7 @@
 
 (defn salva-compras!
   [conn compras]
-  (let [registros (map compra->datomic compras)]
+  (let [registros (map compra->datomic-instant compras)]
     (d/transact conn registros)))
 
 (defn salva-cartoes!
@@ -152,6 +134,8 @@
   (let [entidades (y.utils/processa-csv caminho funcao-mapeamento)]
     (salva-cartoes! conn entidades)))
 
+(def extrai-mes-de-instant (comp java-time/month yes_she_codes.semana4.utils/date->local-date))
+
 (defn lista-compras-por-cartao!
   ([db numero-cartao]
    (let [resultado (d/q '[:find (pull ?compra [*])
@@ -161,14 +145,13 @@
      (->> (vec (flatten resultado))
           (map datomic->compra))))
 
-  ;; SÓ FUNCIONA COM A DATA COMO STRING:
   ([db numero-cartao mes]
    (let [resultado (d/q '[:find (pull ?compra [*])
                           :in $ ?numero-cartao ?mes
                           :where [?compra :compra/cartao ?numero-cartao]
                           [?compra :compra/data ?data]
-                          [((fn [dt] (get (clojure.string/split dt #"-") 1)) ?data) ?month]
-                          [(= ?month ?mes)]]
+                          [((fn [dt] (yes_she_codes.semana4.db/extrai-mes-de-instant dt)) ?data) ?mes-da-data]
+                          [(= ?mes-da-data ?mes)]]
                         db numero-cartao mes)]
      (->> (vec (flatten resultado))
           (map datomic->compra)))))

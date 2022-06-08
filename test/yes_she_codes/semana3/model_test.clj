@@ -78,7 +78,7 @@
 
   (testing "Que o schema não aceita cartao inválido"
     (is (thrown? ExceptionInfo
-                 (s/validate CompraSchema {:data            (time/local-date "yyyy-MM-dd" "2022-07-09")
+                 (s/validate CompraSchema {:data            nil
                                            :valor           100M
                                            :estabelecimento "Amazon"
                                            :categoria       "Casa"

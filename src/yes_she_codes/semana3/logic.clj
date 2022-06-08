@@ -7,13 +7,13 @@
   [string]
   (str/replace string " " ""))
 
-(defn novo-cliente
+(s/defn novo-cliente :- ClienteSchema
   [nome cpf email]
   {:nome nome
    :cpf cpf
    :email email})
 
-(defn novo-cartao :- CartaoSchema
+(s/defn novo-cartao :- CartaoSchema
   [numero_espaco cvv validade limite cliente]
   (let [numero (limpa-whitespace numero_espaco)]
     {:numero    (int numero)
@@ -22,7 +22,7 @@
      :limite    (bigdec limite)
      :cliente   cliente}))
 
-(defn nova-compra
+(s/defn nova-compra
   [data valor estabelecimento categoria cartao_espaco]
   (let [cartao (limpa-whitespace cartao_espaco)]
     {:data data
