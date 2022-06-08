@@ -22,7 +22,6 @@ Com o avanço do bootcamp, foi identificada a necessidade de integrar os escopos
 Dessa forma, o diretório de projeto vem para aplicar padrões focados na [Arquitetura Hexagonal](https://alistair.cockburn.us/hexagonal-architecture/).
 
 
-
 ### 1. STUDY
 
 ##### WEEK 1
