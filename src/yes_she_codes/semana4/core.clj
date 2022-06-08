@@ -27,4 +27,17 @@
          :where [?compra :compra/cartao ?cartao]]
        db cartao))
 
-;(pprint (lista-compras! conn 123123123134))
+;(pprint (lista-compras-cartao! conn 123123123134))
+
+(defn lista-compras-cartao-mes! [conn cartao mes]
+  (db/cria-snapshot conn)
+  (d/q '[:find [(pull ?compra [*])]
+         :in $ ?cartao ?mes
+         :where [?cartao :compra/cartao ?cartao]
+         [?compra :compra/data ?data]
+         [(re-find #"\d{4}-(\d{2})-\d{2}" ?data) ?matcher]
+         [(second ?matcher) ?mes]
+         [(= ?mes ?data)]]
+       db cartao mes))
+
+;(pprint (lista-compras-cartao-mes! conn 123123123134 03))
