@@ -41,13 +41,13 @@
   (Long/parseLong (clojure.string/replace valor #" " "")))
 
 
-(defn novo-cliente [nome cpf email]
+(defn novo-cliente [nome, cpf, email]
   {:nome  nome
    :cpf   cpf
    :email email})
 
 
-(defn novo-cartao [numero cvv validade limite cliente]
+(defn novo-cartao [numero, cvv, validade, limite, cliente]
   {:numero  (str->long numero)
    :cvv     (str->long cvv)
    :email   validade
@@ -55,7 +55,7 @@
    :cliente cliente})
 
 
-(defn nova-compra [data valor estabelecimento categoria cartao]
+(defn nova-compra [data, valor, estabelecimento, categoria, cartao]
   {:data            data
    :valor           (bigdec valor)
    :estabelecimento estabelecimento
@@ -64,25 +64,39 @@
 
 
 (defn lista-clientes []
-  (vec (map (fn [[nome cpf email]]
-              (novo-cliente nome cpf email))
+  (vec (map (fn [[nome, cpf, email]]
+              (novo-cliente nome, cpf, email))
             (lista-registros-clientes))))
 
 (defn lista-cartoes []
-  (vec (map (fn [[numero cvv validade limite cliente]]
-              (novo-cartao numero cvv validade limite cliente))
+  (vec (map (fn [[numero, cvv, validade, limite, cliente]]
+              (novo-cartao numero, cvv, validade, limite, cliente))
             (lista-registros-cartoes))))
 
 
 (defn lista-compras []
-  (vec (map (fn [[data valor estabelecimento categoria cartao]]
-              (nova-compra data valor estabelecimento categoria cartao))
+  (vec (map (fn [[data, valor, estabelecimento, categoria, cartao]]
+              (nova-compra data, valor, estabelecimento, categoria, cartao))
             (lista-registros-compras))))
 
 
 (defn total-gasto [compras]
-  (reduce + (map :valor compras)))
+  (->> compras
+       (map :valor)
+       (reduce +)))
 
+(defn filtra-compras [predicado, compras]
+  (vec (filter predicado compras)))
+
+(defn compras-por-estabelecimento [estabelecimento, compras]
+  (filtra-compras #(= estabelecimento (:estabelecimento %))
+                  compras))
+
+;(println (lista-clientes))
+;(println (lista-cartoes))
+;(println (lista-compras))
+;(println "Total gasto:" (total-gasto (lista-compras)))
+;(println (compras-por-estabelecimento "Alura" (lista-compras)))
 
 
 
