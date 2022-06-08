@@ -1,5 +1,4 @@
-(ns yes-she-codes.semana1.utilities
-  (:require [java-time :as jt]))
+(ns yes-she-codes.utilities.logica)
 
 (defn str->long [valor]
   (Long/parseLong (clojure.string/replace valor #" " "")))
@@ -58,3 +57,22 @@
 ;;(def compra1  "2022-01-01"  ))
 
 
+(defn pelo-menos-2-caracteres? [palavra]
+  (>= (count palavra) 2))
+
+(defn cpf-valido? [cpf]
+  (re-matches #"\d{3}\.\d{3}\.\d{3}\-\d{2}" cpf))
+
+(defn data-no-formato-yyyy-mm? [data]
+  (re-matches #"\S{4}-\S{2}" data))
+
+(defn data-no-formato-yyyy-mm-dd? [data]
+  (re-matches #"\S{4}-\S{2}-\S{2}" data))
+
+
+(defn email-valido? [email]
+  (re-matches #"\S+@\S+\.\S+" email))
+
+(defn valor-esta-no-intervalo?
+  [valor inicio fim]
+  (<= inicio valor fim))

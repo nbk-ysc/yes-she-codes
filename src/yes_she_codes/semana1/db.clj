@@ -1,6 +1,6 @@
 (ns yes-she-codes.semana1.db
   (:require
-    [yes-she-codes.semana1.utilities :as y.utilities]))
+    [yes-she-codes.utilities.logica :as y.utilities ]))
 
 (defn novo-cliente
   [nome cpf email]

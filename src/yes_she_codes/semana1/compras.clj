@@ -1,5 +1,5 @@
 (ns yes-she-codes.semana1.compras
-  (:require [yes-she-codes.semana1.utilities :as y.utilities]
+  (:require [yes-she-codes.utilities.logica :as y.utilities y.utilities]
             [yes-she-codes.semana1.db :as y.db]))
 
 (def lista-compra [y.db/compra3, y.db/compra18, y.db/compra3 ] )
