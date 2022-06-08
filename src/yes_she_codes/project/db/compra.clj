@@ -26,11 +26,11 @@
 (s/defn lista-compras-por-cartao-mes
   [db numero-cartao mes]
   (d/q
-    '[:find [(pull ?db_id [* {:compra/cartao [* {:cartao/cliente [*]}]}]) ...]
+    '[:find [(pull ?compra [* {:compra/cartao [* {:cartao/cliente [*]}]}]) ...]
       :in $ ?num-cartao ?mes-match
       :where [?cartao :cartao/numero ?num-cartao]
-             [?db_id :compra/cartao ?cartao]
-             [?db_id :compra/data ?data]
+             [?compra :compra/cartao ?cartao]
+             [?compra :compra/data ?data]
              [((fn [dt] (inc (.getMonth dt))) ?data) ?mes]
              [(= ?mes ?mes-match)]]
     db numero-cartao mes))

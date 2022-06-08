@@ -4,13 +4,13 @@
             [schema.core :as s]
             [yes-she-codes.project.wire.in.csv :as in.csv]))
 
-(s/defn read-csv :- in.csv/RawCsv
+(s/defn read-csv! :- in.csv/RawCsv
   [filepath :- s/Str]
   (vec (with-open [reader (io/reader filepath)]
          (doall
            (csv/read-csv reader)))))
 
-(s/defn write-csv :- s/Any
+(s/defn write-csv! :- s/Any
   [filepath :- s/Str
    csv-data :- in.csv/RawCsv]
   (with-open [writer (io/writer filepath)]

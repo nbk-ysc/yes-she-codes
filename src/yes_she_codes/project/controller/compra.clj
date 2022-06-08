@@ -31,7 +31,7 @@
   [filepath-dados :- s/Str
    atom]
   (if-let [cartoes (adapter.compra/csv->model
-                     (diplomat.csv/read-csv filepath-dados))]
+                     (diplomat.csv/read-csv! filepath-dados))]
     (mapv (partial insere-compra! atom) cartoes)))
 
 
@@ -78,12 +78,12 @@
   [filepath-dados :- s/Str
    conn]
   (if-let [compras (adapter.compra/csv->model
-                     (diplomat.csv/read-csv filepath-dados))]
+                     (diplomat.csv/read-csv! filepath-dados))]
     (mapv (partial salva-compra! conn) compras)))
 
 (s/defn carrega-relatorio-compras-no-csv!
   [filepath :- s/Str
    relatorio :- [model.compra/CompraComComponentes]]
-  (diplomat.csv/write-csv
+  (diplomat.csv/write-csv!
     filepath
     (adapter.compra/model->csv relatorio)))

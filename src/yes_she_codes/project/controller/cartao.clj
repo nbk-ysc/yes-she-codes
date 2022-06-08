@@ -30,7 +30,7 @@
   [filepath-dados :- s/Str
    atom]
   (if-let [cartoes (adapter.cartao/csv->model
-                     (diplomat.csv/read-csv filepath-dados))]
+                     (diplomat.csv/read-csv! filepath-dados))]
     (mapv (partial insere-cartao! atom) cartoes)))
 
 
@@ -53,5 +53,5 @@
   [filepath-dados :- s/Str
    conn]
   (if-let [cartoes (adapter.cartao/csv->model
-                   (diplomat.csv/read-csv filepath-dados))]
+                     (diplomat.csv/read-csv! filepath-dados))]
     (mapv (partial salva-cartao! conn) cartoes)))

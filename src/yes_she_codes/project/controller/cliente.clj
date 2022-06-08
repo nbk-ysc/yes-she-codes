@@ -28,7 +28,7 @@
   [filepath-dados :- s/Str
    atom]
   (if-let [clientes (adapter.cliente/csv->model
-                     (diplomat.csv/read-csv filepath-dados))]
+                      (diplomat.csv/read-csv! filepath-dados))]
     (mapv (partial insere-cliente! atom) clientes)))
 
 
@@ -55,5 +55,5 @@
   [filepath-dados :- s/Str
    conn]
   (if-let [clientes (adapter.cliente/csv->model
-                   (diplomat.csv/read-csv filepath-dados))]
+                      (diplomat.csv/read-csv! filepath-dados))]
     (mapv (partial salva-cliente! conn) clientes)))

@@ -7,8 +7,6 @@
             [java-time :as time])
   (:import (java.time Month)))
 
-
-
 (def id (java.util.UUID/randomUUID))
 (def compra-valida #:compra{:id              id
                             :data            (time/local-date "2022-05-09")
