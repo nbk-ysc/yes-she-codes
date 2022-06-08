@@ -1,8 +1,8 @@
-(ns yes-she-codes2.core
-  (:require yes-she-codes2.compras :as  y.compras)
-  (:require yes-she-codes2.atom :as y.atom)
-  (:require yes-she-codes2.clientes :as y.clientes)
-  (:require yes-she-codes2.cartao :as y.cartao))
+(ns yes-she-codes.core
+  (:require yes-she-codes.dominio.compras :as  y.compras)
+  (:require yes-she-codes.atom :as y.atom)
+  (:require yes-she-codes.dominio.clientes :as y.clientes)
+  (:require yes-she-codes.dominio.cartao :as y.cartao))
 
 
 (println "Lista de clientes\n" (y.clientes/lista-clientes))

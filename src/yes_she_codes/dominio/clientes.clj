@@ -1,5 +1,5 @@
-(ns yes-she-codes2.clientes
-  (:require [yes-she-codes2.db :as y.db])
+(ns yes-she-codes.dominio.clientes
+  (:require [yes-she-codes.db :as y.db])
   (:require [clojure.string :as str]))
 
 

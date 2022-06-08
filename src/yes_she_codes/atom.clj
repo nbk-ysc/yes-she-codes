@@ -1,6 +1,6 @@
-(ns yes-she-codes2.atom
+(ns yes-she-codes.atom
   (:use [clojure pprint])
-  (:require [yes-she-codes2.db :as y.db]))
+  (:require [yes-she-codes.db :as y.db]))
 
 (def repositorio-de-compras (atom []))
 
