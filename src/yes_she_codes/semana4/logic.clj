@@ -15,10 +15,10 @@
 
 ;(pprint (y.db/carrega-compras-no-banco-com-ref! conn "/Users/carolina.nunes/IdeaProjects/yes-she-codes/files/compras.csv" y.compra/transforma-compra))
 
-(pprint (y.db/lista-cartoes! (d/db conn)))
-
-(pprint (y.db/lista-compras! (d/db conn)))
-
-(pprint (y.db/lista-compras-por-cartao-2! (d/db conn) 4321432143214321))
+;(pprint (y.db/lista-cartoes! (d/db conn)))
+;
+;(pprint (y.db/lista-compras! (d/db conn)))
+;
+;(pprint (y.db/lista-compras-por-cartao-2! (d/db conn) 4321432143214321))
 
 ;(y.db/apaga-banco)
