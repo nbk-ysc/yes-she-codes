@@ -1,5 +1,5 @@
-(ns yes_she_codes.logic_semana1
-  (:require [yes_she_codes.db :as ysc.db]
+(ns yes_she_codes.semana1.logic_semana1
+  (:require [yes_she_codes.semana1.db :as ysc.db]
             [clojure.string :as str]))
 ;[clojure-csv.core :as csv]))
 
@@ -166,3 +166,5 @@
        (map (fn [[categoria compras]]
               {:categoria categoria
                :valor (total-gastos compras)}))))
+
+(processa-csv "/Users/carolina.nunes/IdeaProjects/yes-she-codes/files/compras.csv" transforma-compra)

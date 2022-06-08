@@ -1,6 +1,11 @@
 (ns yes_she_codes.semana3.logic
   (:require [java-time :as time]
+            [clojure.string :as str]
             [yes_she_codes.semana3.model :refer :all]))
+
+(defn limpa-whitespace
+  [string]
+  (str/replace string " " ""))
 
 (defn novo-cliente
   [nome cpf email]

@@ -1,5 +1,5 @@
-(ns yes_she_codes.logic_semana1_w_javatime
-  (:require [yes_she_codes.db :as ysc.db]
+(ns yes_she_codes.semana1.logic_semana1_w_javatime
+  (:require [yes_she_codes.semana1.db :as ysc.db]
             [clojure.string :as str]))
 ;[clojure-csv.core :as csv]))
 
