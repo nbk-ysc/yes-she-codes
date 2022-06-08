@@ -1,6 +1,6 @@
 (ns yes-she-codes.testesem2
   (:require [yes-she-codes.comprasatom :refer :all]
-            [yes-she-codes.model :as y.model])
+            [yes-she-codes.solucoes.model :as y.model])
   (:use [clojure.pprint])
   )
 

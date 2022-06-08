@@ -1,7 +1,6 @@
 (ns yes-she-codes.logic.logic
   (:require [schema.core :as s]
-            [yes-she-codes.logic.util :as y.util]
-            [java-time :as time]))
+            [yes-she-codes.logic.util :as y.util]))
 
 (defn proximo-id [entidades]
   (if-not (empty? entidades)

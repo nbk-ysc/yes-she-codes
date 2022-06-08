@@ -1,8 +1,7 @@
 (ns yes-she-codes.dominio.compra-schema
   (:use clojure.pprint)
   (:require [schema.core :as s]
-            [yes-she-codes.logic.logic :as y.logic]
-            [java-time :as time])
+            [yes-she-codes.logic.logic :as y.logic])
   )
 
 (s/set-fn-validation! true)
@@ -25,5 +24,3 @@
    :estabelecimento estabelecimento
    :categoria       categoria
    :cartao          cartao})
-
-;(pprint (nova-compra (time/local-date 2022 06 01), 129.90M, "Outback", "Alimentação", 1234123412341234))

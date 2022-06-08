@@ -1,6 +1,6 @@
-(ns yes-she-codes.testesem2
+(ns yes-she-codes.teste_sem2
   (:require [yes-she-codes.comprasatom :refer :all]
-            [yes-she-codes.model :as y.model])
+            [ :as y.model])
   (:use [clojure.pprint])
   )
 

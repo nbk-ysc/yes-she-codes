@@ -4,6 +4,36 @@
 (defn str->long [valor]
   (Long/parseLong (clojure.string/replace valor #" " "")))
 
+(defn local-date-time-a-date [data]
+  (if (time/local-date-time? data)
+    (->> (.atZone data (time/zone-id))
+          .toInstant
+         java.util.Date/from)
+    data))
+
+(defn local-date-a-date [data]
+  (if (time/local-date? data)
+    (->> (time/zone-id)
+         (.atStartOfDay data)
+         (.toLocalDateTime)
+         (local-date-time-a-date))
+    data ))
+
+(defn date-a-local-date-time [data]
+  (if (= java.util.Date (class data))
+    (-> (.toInstant data)
+        (java.time.LocalDateTime/ofInstant (time/zone-id)))
+    data ))
+
+(defn- converte-valores-de-um-mapa [fn mapa]
+  (clojure.walk/postwalk fn mapa))
+
+(def converte-java-time-a-date
+  (partial converte-valores-de-um-mapa (comp local-date-a-date local-date-time-a-date))
+  )
+
+(def converte-date-a-java-time
+  (partial converte-valores-de-um-mapa date-a-local-date-time))
 
 (defprotocol ExtratorDeMes
   (mes-da-data [data]
