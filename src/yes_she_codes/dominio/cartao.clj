@@ -1,6 +1,6 @@
 (ns yes-she-codes.dominio.cartao
-  (:require [yes-she-codes2.db :as y.db])
-  (:require [yes-she-codes2.compras :as y.compras]))
+  (:require [yes-she-codes.db :as y.db])
+  (:require [yes-she-codes.dominio.compras :as y.compras]))
 
 (defn novo-cartao [numero, cvv, validade, limite, cliente]
   {:numero   numero,
@@ -29,6 +29,9 @@
 (comprei-no-cartao? 1234123412341234 (y.compras/lista-compras))
 
 ;fiz essa etapa para somar valores de um o cartão na lista
+
+(defn compra [x y]
+  (+ x (:valor y)))
 
 (defn total-gasto [lista-de-compras]
   (reduce compra 0 lista-de-compras))

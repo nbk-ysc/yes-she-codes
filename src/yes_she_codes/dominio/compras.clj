@@ -1,5 +1,5 @@
 (ns yes-she-codes.dominio.compras
-  (:require [yes-she-codes2.db :as y.db])
+  (:require [yes-she-codes.db :as y.db])
   (:require [clojure.string :as str]))
 
 (defn nova-compra [data, valor, estabelecimento, categoria, cartao]
