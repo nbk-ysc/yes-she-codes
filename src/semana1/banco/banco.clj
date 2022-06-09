@@ -1,6 +1,6 @@
-(ns banco.banco
-  (:require [banco.recupera-dados :as b.recupera-dados]
-            [banco.logic :as b.logic]
+(ns semana1.banco.banco
+  (:require [semana1.banco.recupera-dados :as b.recupera-dados]
+            [semana1.banco.logic :as b.logic]
             [java-time :as t])
   (:use [clojure pprint]))
 
@@ -10,7 +10,7 @@
 (def lista-de-compras b.recupera-dados/lista-compras)
 
 (def lista-de-compras-vetorizada (vec lista-de-compras))
-;(pprint lista-de-compras)
+(pprint lista-de-compras-vetorizada)
 
 ;(pprint (b.logic/novo-cliente lista-de-clientes
 ;                              {:nome  "Feiticeira2"

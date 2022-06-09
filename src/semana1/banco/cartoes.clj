@@ -1,4 +1,4 @@
-(ns banco.cartoes)
+(ns semana1.banco.cartoes)
 
 (def cartao1 {:numero   1234 1234 1234 1234
               :cvv      111

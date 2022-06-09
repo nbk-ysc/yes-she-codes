@@ -1,4 +1,4 @@
-(ns banco.clientes)
+(ns semana1.banco.clientes)
 
 (def cliente1 {:nome "Feiticeira Escarlate"
               :cpf "000.111.222-33"
