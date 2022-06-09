@@ -16,14 +16,14 @@
   (s/pred y.utils/categoria-pertence?))
 
 (def CompraSchema
-  {:data              DataCompra                       ;STRING
+  {:data              DataCompra
    :valor             y.utils/BigDecPositivo
    :estabelecimento   y.utils/StrGTE2
    :categoria         Categoria
    :cartao            y.cartao/NumeroCartao})
 
 (s/defn nova-compra :- CompraSchema
-  [data :- DataCompra                                 ;STRING
+  [data :- DataCompra
    valor :- y.utils/BigDecPositivo
    estabelecimento :- y.utils/StrGTE2
    categoria :- Categoria
