@@ -50,3 +50,33 @@
 (def InteiroPositivo (s/pred pos-int?))
 (def IdOpcional (opcional InteiroPositivo))
 (def ValorPositivo (s/constrained BigDecimal (comp not neg?)))
+
+(defn local-date-time->date [data]
+  (if (time/local-date-time? data)
+    (->> (.atZone data (time/zone-id))
+         .toInstant
+         java.util.Date/from)
+    data))
+
+(defn local-date->date [data]
+  (if (time/local-date? data)
+    (->> (time/zone-id)
+         (.atStartOfDay data)
+         (.toLocalDateTime)
+         (local-date-time->date))
+    data))
+
+(defn date->local-date-time [data]
+  (if (= java.util.Date (class data))
+    (-> (.toInstant data)
+        (java.time.LocalDateTime/ofInstant (time/zone-id)))
+    data))
+
+(defn converte-valores-de-um-mapa [fn mapa]
+  (clojure.walk/postwalk fn mapa))
+
+(def converte-java-time-para-date
+  (partial converte-valores-de-um-mapa (comp local-date->date local-date-time->date)))
+
+(def converte-date-para-java-time
+  (partial converte-valores-de-um-mapa date->local-date-time))
