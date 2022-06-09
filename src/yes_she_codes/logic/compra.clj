@@ -1,6 +1,7 @@
 (ns yes-she-codes.logic.compra
-  (:require [yes-she-codes.db.db :as y.db]
-            [yes-she-codes.util :as y.util])
+  (:require [yes-she-codes.csv.dados_csv :as y.dados]
+            [yes-she-codes.util :as y.util]
+            [datomic.api :as d])
   (:use [clojure pprint]))
 
 ;;;;; Semana 1
@@ -13,7 +14,7 @@
          (nova-compra id data, valor, estabelecimento, categoria, cartao))
        registros))
 
-(def compras (transforma-compras (y.db/lista-compras)))
+(def compras (transforma-compras (y.dados/lista-compras)))
 
 (defn total-gasto
   [compras]
@@ -62,3 +63,22 @@
 (defn exclui-compra!
   [compras id-compra]
   (remove (pesquisa-compra-por-id compras id-compra)))
+
+;;;;; Semana 4
+(defn salva-compra!
+  [conn compra]
+  (d/transact conn [compra]))
+
+(defn carrega-compras-no-banco!
+  [conn]
+  (salva-compra! conn compras))
+
+(defn lista-compras-datomic!
+  [conn]
+  (let [db (d/db conn)]
+    (d/q '[:find [?data ?valor ?estabelecimento ?cartao]
+           :where [_ :compra/data ?data]
+                  [_ :compra/valor ?valor]
+                  [_ :compra/estabelecimento ?estabelecimento]
+                  [_ :compra/cartao ?cartao]] db)))
+

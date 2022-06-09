@@ -1,6 +1,6 @@
 (ns yes-she-codes.logic.cartao
   (:require
-    [yes-she-codes.db.db :as y.db]))
+    [yes-she-codes.csv.dados_csv :as y.dados]))
 
 (defn novo-cartao
   [numero cvv validade limite cliente]
@@ -11,7 +11,7 @@
          (novo-cartao numero, cvv, validade, limite, cliente))
        registros))
 
-(def cartoes (transforma-cartoes (y.db/lista-cartoes)))
+(def cartoes (transforma-cartoes (y.dados/lista-cartoes)))
 
 (defn compras-de-um-cartao
   [compras cartao]

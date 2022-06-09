@@ -13,15 +13,13 @@
 
 
 (s/defn ->Compra :- CompraSchema
-  [id              :- y.util/IdOpcional
-   data            :- y.util/DataDeCompraValida
+  [data            :- y.util/DataDeCompraValida
    valor           :- y.util/ValorPositivo
    estabelecimento :- y.util/EstabelecimentoValido
    categoria       :- y.util/CategoriaValida
    cartao          :- y.util/NumeroDeCartaoValido]
-  {:id              id
-   :data            data
-   :valor           valor
-   :estabelecimento estabelecimento
-   :categoria       categoria
-   :cartao          cartao})
+  {:compra/data            data
+   :compra/valor           valor
+   :compra/estabelecimento estabelecimento
+   :compra/categoria       categoria
+   :compra/cartao          cartao})

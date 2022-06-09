@@ -1,10 +1,17 @@
 (ns yes-she-codes.util
   (:require [java-time :as time]
-            [schema.core :as s]))
+            [schema.core :as s])
+  (:import java.util.Date
+           (java.text SimpleDateFormat)))
 
 (defn transforma-datas
   [data]
   (time/local-date data))
+
+(defn transforma-datas-inst
+  [data]
+  (let [x1 (SimpleDateFormat. "yyyy-MM-dd")]
+    (.parse x1 data)))
 
 (defn mes-da-data [data]
   (.getValue (time/month data)))

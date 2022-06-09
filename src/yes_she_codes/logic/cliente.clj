@@ -1,6 +1,6 @@
 (ns yes-she-codes.logic.cliente
   (:require
-    [yes-she-codes.db.db :as y.db]))
+    [yes-she-codes.csv.dados_csv :as y.dados]))
 
 (defn novo-cliente
   [nome cpf email]
@@ -11,7 +11,7 @@
          (novo-cliente nome, cpf, email))
        registros))
 
-(def clientes (transforma-clientes (y.db/lista-clientes)))
+(def clientes (transforma-clientes (y.dados/lista-clientes)))
 
 
 

@@ -1,4 +1,4 @@
-(ns yes-she-codes.db.db)
+(ns yes-she-codes.csv.dados_csv)
 
 (defn lista-clientes []
   [["Feiticeira Escarlate", "000.111.222-33", "feiticeira.poderosa@vingadoras.com.br"]
