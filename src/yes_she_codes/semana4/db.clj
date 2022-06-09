@@ -14,6 +14,10 @@
 
 (def schema-datomic [
                      ;Compras
+                     {:db/ident       :compra/id
+                      :db/valueType   :db.type/uuid
+                      :db/cardinality :db.cardinality/one
+                      :db/unique      :db.unique/identity}
                      {:db/ident       :compra/data
                       :db/valueType   :db.type/string
                       :db/cardinality :db.cardinality/one
@@ -56,6 +60,10 @@
                       :db/valueType   :db.type/string
                       :db/cardinality :db.cardinality/one
                       :db/doc         "O cliente dono do cartao"}
+                     {:db/ident       :cartao/compra
+                      :db/valueType   :db.type/string
+                      :db/cardinality :db.cardinality/many
+                      :db/doc         "Compras efetuadas pelo cartao"}
                      ])
 
 
@@ -100,7 +108,7 @@
 
 (defn carrega-compras-no-banco! [conn]
   (let [compras (->> (processa-csv "/Users/marta.lima/Desktop/YSC/yes-she-codes/src/yes_she_codes/semana1/compras.csv")
-       (map #(converte-valores-na-linha csv->compra %))
+                (map #(converte-valores-na-linha csv->compra %))
                      (map y.model/nova-compra ))]
     (d/transact conn compras)))
 
@@ -123,6 +131,8 @@
 (defn lista-cartoes! [banco]
   (d/q '[:find  (pull ?entidade [*])
          :where [?entidade :cartao/numero]] banco))
+
+
 
 
 

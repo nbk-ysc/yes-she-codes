@@ -1,9 +1,12 @@
 (ns yes-she-codes.semana4.model
   (:use [clojure pprint]))
 
+(defn uuid [] (java.util.UUID/randomUUID))
+
 (defn nova-compra
   [[data valor estabelecimento categoria cartao]]
-  {:compra/data             data
+  {:compra/id               (uuid)
+   :compra/data             data
    :compra/valor            valor
    :compra/estabelecimento  estabelecimento
    :compra/categoria        categoria
