@@ -1,4 +1,4 @@
-(ns banco.recupera-dados
+(ns semana1.banco.recupera-dados
   (:require [clojure.java.io :as io]
             [clojure.data.csv :as csv]
             [java-time :as t]))
