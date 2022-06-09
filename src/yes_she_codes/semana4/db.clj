@@ -1,5 +1,6 @@
 (ns yes_she_codes.semana4.db
-  (:require [datomic.api :as d])
+  (:require [datomic.api :as d]
+            [yes_she_codes.semana4.processa_csv :as y.csv])
   (:use [clojure.pprint]))
 
 
@@ -60,7 +61,6 @@
     (d/transact conn [compra])))
 
 
-;Modelo de carregamento de csv do Cácio
 (defn carrega-compras-no-banco! [conn]
   (map (partial salva-compra! conn)
     (y.csv/processa-arquivo-de-compras!)))
