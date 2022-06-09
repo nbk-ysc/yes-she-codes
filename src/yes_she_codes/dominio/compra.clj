@@ -1,14 +1,39 @@
 (ns yes-she-codes.dominio.compra
-  (:require [yes-she-codes.util :as util]
-            [java-time :as time]))
+  (:require [yes-she-codes.util :as y.util]
+            [java-time :as time]
+            [schema.core :as s]
+            [yes-she-codes.dominio.cartao :as y.cartao]))
+
+(def DataDeCompraValida (s/constrained java.time.LocalDate
+                                       (fn [data]
+                                         (let [data-atual (time/local-date)]
+                                           (or (= data data-atual) (time/before? data data-atual))))))
+
+(def EstabelecimentoValido (y.util/min-caracteres 2))
+(def CategoriaValida (s/enum "Alimentação" "Automóvel" "Casa" "Educação" "Lazer" "Saúde"))
+
+(def CompraSchema {(s/optional-key :id) y.util/IdOpcional
+                   :data                DataDeCompraValida
+                   :valor               y.util/ValorPositivo
+                   :estabelecimento     EstabelecimentoValido
+                   :categoria           CategoriaValida
+                   :cartao              y.cartao/NumeroDeCartaoValido})
 
 
-(defrecord Compra [id
-                   data
-                   valor
-                   estabelecimento
-                   categoria
-                   cartao])
+(s/defn ->Compra :- CompraSchema
+  [id :- y.util/IdOpcional
+   data :- DataDeCompraValida
+   valor :- y.util/ValorPositivo
+   estabelecimento :- EstabelecimentoValido
+   categoria :- CategoriaValida
+   cartao :- y.cartao/NumeroDeCartaoValido]
+
+  {:id              id
+   :data            data
+   :valor           valor
+   :estabelecimento estabelecimento
+   :categoria       categoria
+   :cartao          cartao})
 
 
 (defn compra-valida? [compra]
@@ -31,11 +56,11 @@
 
 
 (defn filtra-compras-no-mes [mes compras]
-  (filtra-compras #(= mes (util/mes-da-data (:data %))) compras))
+  (filtra-compras #(= mes (y.util/mes-da-data (:data %))) compras))
 
 
 (defn filtra-compras-no-estabelecimento [estabelecimento compras]
-  (filtra-compras #(= estabelecimento (:estabelecimento %))  compras))
+  (filtra-compras #(= estabelecimento (:estabelecimento %)) compras))
 
 
 (defn filtra-compras-por-valor [minimo maximo compras]

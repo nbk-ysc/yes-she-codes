@@ -1,5 +1,6 @@
 (ns yes-she-codes.util
-  (:require [java-time :as time]))
+  (:require [java-time :as time]
+            [schema.core :as s]))
 
 (defn str->long [valor]
   (Long/parseLong (clojure.string/replace valor #" " "")))
@@ -28,6 +29,19 @@
   (if-not (empty? entidades)
     (+ 1 (apply max (map :id entidades)))
     1))
+
+(defn entre-valores [min max valor]
+  (and (>= valor min) (<= valor max)))
+
+(defn opcional [schema]
+  (s/maybe schema))
+
+(defn min-caracteres [n]
+  (s/constrained s/Str #(>= (count %) n)))
+
+(def InteiroPositivo (s/pred pos-int?))
+(def IdOpcional (opcional InteiroPositivo))
+(def ValorPositivo (s/constrained BigDecimal (comp not neg?)))
 
 
 
