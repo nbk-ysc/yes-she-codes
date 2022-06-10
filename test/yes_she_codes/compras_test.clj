@@ -1,7 +1,7 @@
 (ns yes-she-codes.compras-test
   (:require [clojure.test :refer :all]
             [schema.core :as s]
-            [yes_she_codes.compras :refer :all]))
+            [yes-she-codes.models.compras :refer :all]))
 
 (deftest compra-schema-test
   (let [compra-sem-id-test {:data            "2022-05-09"

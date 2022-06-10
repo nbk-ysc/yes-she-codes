@@ -1,7 +1,7 @@
 (ns yes-she-codes.cartoes-test
   (:require [clojure.test :refer :all]
             [schema.core :as s]
-            [yes_she_codes.cartoes :refer :all]))
+            [yes-she-codes.models.cartoes :refer :all]))
 
 (deftest cartao-schema-test
   (let [cartao-test {:numero   4321432143214321

@@ -1,7 +1,7 @@
 (ns yes-she-codes.clientes-test
   (:require [clojure.test :refer :all]
             [schema.core :as s]
-            [yes_she_codes.clientes :refer :all]))
+            [yes-she-codes.models.clientes :refer :all]))
 
 (deftest cliente-schema-test
   (let [cliente-test {:nome  "Viúva Negra"

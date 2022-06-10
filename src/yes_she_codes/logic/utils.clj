@@ -1,4 +1,4 @@
-(ns yes_she_codes.logic
+(ns yes-she-codes.logic.utils
   (:require [clojure.string :as str]))
 
 ; ======================================================
