@@ -66,7 +66,6 @@
                 [?produto :compra/categoria ?categoria]
                 [?produto :compra/cartao ?cartao]] db))
 
-
 (defn carrega-compras-no-banco! [conn]
   (let [compras (s/processa-arquivo-de-compras!)]
     (->> compras
@@ -106,26 +105,14 @@
   (-> (get-mes data)
       (= mes)))
 
-;(defn lista-compras-por-cartao-e-mes! [db cartao mes ]
-;  (-> '[:find (pull ?produto [*])
-;         :in $ ?cartao ?mes
-;         :where [?produto :compra/cartao ?cartao]
-;                [?produto :compra/data ?data]
-;                [(yes-she-codes.semana4.db/filtro-mes ?data ?mes)]]
-;      (d/q db cartao mes)
-;      flatten
-;      (#(mapv compra->compra-datomic %))))
-
-
-
-;(defn lista-compras-por-cartao-e-mes [snapshot cartao mes]
-;  (-> '[:find (pull ?id-compra [*])
-;        :in $ ?cartao ?mes
-;        :where [?id-compra :compra/cartao ?cartao]
-;        [?id-compra :compra/data ?data]
-;        [(captura-mes ?data )]]
-;      (d/q snapshot [:cartao/numero cartao] mes)
-;      flatten
-;      (#(mapv s/->Compra %))))
+(defn lista-compras-por-cartao-e-mes! [db cartao mes ]
+  (-> '[:find (pull ?produto [*])
+         :in $ ?cartao ?mes
+         :where [?produto :compra/cartao ?cartao]
+                [?produto :compra/data ?data]
+                [(yes-she-codes.semana4.db/filtro-mes ?data ?mes)]]
+      (d/q db cartao mes)
+      flatten
+      (#(mapv compra->compra-datomic %))))
 
 
