@@ -5,4 +5,4 @@
 Projeto bancário para mergulhar no mundo da **programação funcional** com Clojure + Datomic!
 
 
-Desenvolvido por *[COLOCAR NOME AQUI]* (*[COLOCAR SEU EMAIL AQUI]*).
+Desenvolvido por *Ana Paula Souza* (*ana.souza@nubank.com.br*).
