@@ -1,4 +1,6 @@
-(ns yes-she-codes.utilities.logica)
+(ns yes-she-codes.utilities.logica
+  (:use clojure.pprint)
+  (:require [schema.core :as s]))
 
 (defn str->long [valor]
   (Long/parseLong (clojure.string/replace valor #" " "")))
@@ -15,6 +17,10 @@
   [data]
   (subs data 5 7))
 
+(defn filtro-mes [data mes]
+  (-> (get-mes data)
+      (= mes)))
+
 (defn valor-esta-no-intervalo?
   [inicio fim compra]
   (<= inicio  (get compra :valor 0) fim ))
@@ -30,31 +36,6 @@
   { :categoria categoria
    :total-gasto (valor-gasto-por-categoria compras)})
 
-(defn processa-csv
-  [caminho-arquivo ]
-  (->> (slurp caminho-arquivo)
-       ;clojure.string/split-lines
-       ;rest
-       println )
-  )
-
-;(processa-csv "")
-
-;(use 'java-time)
-;
-;(println (local-date 2015 10))
-;
-;(def dia1 (local-date 2000 04 01))
-;
-;(format "yyyy-MM" (zoned-date-time 2015 9 28))
-;(format "yyyy-MM" (zoned-date-time 2026 05))
-;
-;(defn data-formatada=para-cartao
-;  [data])
-;(format "yyyy-MM-dd" (zoned-date-time 2022 01 01))
-;
-;;(def cartao5  "2026-05"
-;;(def compra1  "2022-01-01"  ))
 
 
 (defn pelo-menos-2-caracteres? [palavra]
@@ -76,3 +57,50 @@
 (defn valor-esta-no-intervalo?
   [valor inicio fim]
   (<= inicio valor fim))
+
+
+(defn processa-csv [caminho-arquivo]
+  (->> (slurp caminho-arquivo)
+       clojure.string/split-lines
+       rest
+       (map #(clojure.string/split % #","))))
+
+(defn converte-valores-na-linha [funcoes-de-conversao linha]
+  (map #(%1 %2) funcoes-de-conversao linha))
+
+(def csv->compra [identity
+                  bigdec
+                  identity
+                  identity
+                  str->long])
+
+(s/set-fn-validation! true)
+(def categorias-validas  #{"Alimentação","Automóvel","Casa","Educação","Lazer","Saúde"} )
+
+(defn categoria-valida? [categoria]
+  (contains? categorias-validas categoria))
+
+
+(def valida-caracteres (s/constrained s/Str pelo-menos-2-caracteres? 'pelo-menos-2-caracteres))
+
+(def valida-cpf (s/constrained s/Str cpf-valido? 'cpf-valido))
+
+(def valida-email (s/constrained s/Str email-valido? 'email-valido))
+
+(def valida-numero-cartao (s/constrained s/Int #(valor-esta-no-intervalo? % 0 10000000000000001) 'numero-valido))
+
+(def valida-cvv (s/constrained s/Int #(valor-esta-no-intervalo? % 0 1000) 'cvv-valido))
+
+(def valida-validade (s/constrained s/Str #(data-no-formato-yyyy-mm? %) 'validade-valida))
+
+(def valida-limite (s/constrained BigDecimal #(>= % 0)))
+
+(def valida-valor(s/constrained BigDecimal #(> % 0)))
+
+(def valida-cliente (s/constrained s/Str #(cpf-valido? %) 'cliente-valido))
+
+(def valida-data-compra (s/constrained s/Str #(data-no-formato-yyyy-mm-dd? %) 'data-valida))
+
+(def valida-categoria (s/pred categoria-valida? ))
+
+
