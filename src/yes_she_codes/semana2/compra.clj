@@ -1,5 +1,4 @@
 (ns yes-she-codes.semana2.compra
-  (:import (java.time LocalDate))
   (:use clojure.pprint))
 
 (def repositorio-de-compras (atom []))
@@ -14,7 +13,7 @@
                    ^Long cartao])
 
 
-(def vetor [(Compra. 1 LocalDate 1000.00 "outback" "comida" 1235468459) (Compra. 2 LocalDate 1000.00 "outback" "comida" 1235468459)])
+(def vetor [(Compra. 1 "2000-03-20" 1000.00 "outback" "comida" 1235468459) (Compra. 2 "2000-03-20" 1000.00 "outback" "comida" 1235468459)])
 
 (defn proximo-id
   [compras]
@@ -27,8 +26,8 @@
              compra-com-id (assoc nova-compra :id id)]
          (conj compras compra-com-id))))
 
-(def compra1 (Compra. nil LocalDate 1000.00 "outback" "comida" 1235468459))
-(def compra2 (Compra. nil LocalDate 100.00 "cobasi" "pet" 1235468459))
+(def compra1 (Compra. nil "2000-03-20" 1000.00 "outback" "comida" 1235468459))
+(def compra2 (Compra. nil "2000-03-20" 100.00 "cobasi" "pet" 1235468459))
 
 (defn insere-compra! [compra atomo-compras]
   ; swap passa o atomo como primeiro parametro para a função insere-compra
