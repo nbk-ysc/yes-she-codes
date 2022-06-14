@@ -1,5 +1,7 @@
 (ns yes-she-codes.core)
 
+;Código não utilizado mais, deixado apenas para facilitar minha consulta do histórico
+
 (defn novo-cliente [nome cpf email]
   {:nome  nome
    :cpf   cpf
