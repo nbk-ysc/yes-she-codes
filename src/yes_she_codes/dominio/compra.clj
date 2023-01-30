@@ -35,7 +35,6 @@
    :categoria       categoria
    :cartao          cartao})
 
-
 (defn compra-valida? [compra]
   (let [valida-data (time/after? (time/local-date) (get compra :data))
         valida-valor (and (number? (get compra :valor)) (>= (get compra :valor) 0))

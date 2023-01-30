@@ -140,7 +140,6 @@
            (d/transact conn)
            deref))
 
-
 (defn lista-compras! [snapshot]
   (vec (map registro-datomic->compra
             (flatten (d/q '[:find (pull ?compra [*])
@@ -210,3 +209,4 @@
     (cria-schema! conexao)
     (carrega-cartoes-no-banco! conexao)
     (carrega-compras-no-banco! conexao)))
+

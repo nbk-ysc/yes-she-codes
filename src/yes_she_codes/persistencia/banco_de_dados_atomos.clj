@@ -39,7 +39,6 @@
     (insere registro)))
 
 
-
 ;;;;; Lógicas de persistência de COMPRAS
 (defn insere-compra! [compra]
   (if (y.compra/compra-valida? compra)
